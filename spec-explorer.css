@@ -64,8 +64,7 @@
 .hara-explorer-file-row { justify-content: space-between; gap: 1rem; }
 .hara-explorer-file-title { margin: 0; font-size: clamp(1.1rem, 2vw, 1.4rem); }
 .hara-explorer-actions { flex-wrap: wrap; gap: .45rem; }
-.hara-explorer-link { color: var(--hara-muted); font-size: .8rem; text-decoration: none; }
-.hara-explorer-link:hover { color: var(--hara-cyan); }
+.hara-explorer-icon-link { color: var(--hara-muted); text-decoration: none; }
 .hara-explorer-document { flex: 1; min-width: 0; padding: clamp(1rem, 4vw, 3rem); }
 .hara-explorer-welcome { max-width: 42rem; margin: 12vh auto; color: var(--hara-muted); text-align: center; }
 .hara-explorer-welcome h2 { color: var(--hara-text); }
