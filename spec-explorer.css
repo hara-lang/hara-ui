@@ -25,9 +25,14 @@
 .hara-explorer-sidebar-title { margin: 0; color: var(--hara-muted); font-size: .85rem; letter-spacing: .12em; }
 .hara-explorer-count { color: var(--hara-faint); font-size: .78rem; }
 .hara-explorer-tree { margin-top: 1rem; font-size: .9rem; }
-.hara-explorer-tree details { margin-left: .1rem; }
-.hara-explorer-tree summary { padding: .22rem .25rem; color: var(--hara-muted); cursor: pointer; user-select: none; }
+.hara-tree-directory { position: relative; margin-left: .15rem; padding-left: .72rem; border-left: 1px solid var(--hara-line); }
+.hara-tree-directory:last-child { border-left-color: transparent; }
+.hara-tree-directory > summary { position: relative; padding: .22rem .25rem; color: var(--hara-muted); cursor: pointer; user-select: none; }
+.hara-tree-directory > summary::before { content: ""; position: absolute; top: 50%; right: 100%; width: .72rem; border-top: 1px solid var(--hara-line); }
 .hara-explorer-tree summary:hover { color: var(--hara-text); }
+.hara-tree-directory[aria-disabled="true"] { border-left-color: rgba(76, 97, 116, .32); }
+.hara-tree-directory[aria-disabled="true"] > summary { color: var(--hara-faint); cursor: not-allowed; }
+.hara-tree-directory[aria-disabled="true"] > summary:hover { color: var(--hara-faint); }
 
 .hara-tree-file {
   width: 100%;
@@ -45,6 +50,8 @@
 }
 .hara-tree-file:hover,
 .hara-tree-file[aria-current="true"] { background: rgba(65, 245, 228, .1); color: var(--hara-cyan-bright); }
+.hara-tree-directory > .hara-tree-file { position: relative; }
+.hara-tree-directory > .hara-tree-file::before { content: ""; position: absolute; top: 50%; left: -.72rem; width: .72rem; border-top: 1px solid var(--hara-line); }
 .hara-file-dot { width: .48rem; height: .48rem; border-radius: 50%; flex: 0 0 auto; background: var(--hara-muted); }
 .hara-file-dot.edn { background: var(--hara-amber); }
 .hara-file-dot.markdown { background: var(--hara-green); }
