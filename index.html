@@ -60,6 +60,33 @@
         <pre class="hara-source sample-code"><code data-edn></code></pre>
       </article>
       <article class="card wide">
+        <h2>WINDOW, MENUS &amp; TOOLBAR</h2>
+        <div class="hara-window">
+          <div class="hara-window-bar">
+            <span class="hara-window-title">main.hal — hara editor</span>
+            <div class="hara-window-controls" aria-label="Window controls">
+              <button class="hara-window-control close" type="button" aria-label="Close"></button>
+              <button class="hara-window-control minimize" type="button" aria-label="Minimize"></button>
+              <button class="hara-window-control zoom" type="button" aria-label="Maximize"></button>
+            </div>
+          </div>
+          <nav class="hara-menu-bar" aria-label="Application menu">
+            <details class="hara-menu"><summary>file</summary><div class="hara-menu-popover"><button class="hara-menu-item" type="button">new file <span class="hara-menu-shortcut">⌘N</span></button><button class="hara-menu-item" type="button">save <span class="hara-menu-shortcut">⌘S</span></button></div></details>
+            <details class="hara-menu"><summary>edit</summary><div class="hara-menu-popover"><button class="hara-menu-item" type="button">format form <span class="hara-menu-shortcut">⌘I</span></button><button class="hara-menu-item" type="button">find symbol <span class="hara-menu-shortcut">⌘F</span></button></div></details>
+            <details class="hara-menu"><summary>run</summary><div class="hara-menu-popover"><button class="hara-menu-item" type="button">evaluate form <span class="hara-menu-shortcut">⌃E</span></button><button class="hara-menu-item" type="button">run file <span class="hara-menu-shortcut">⌃⌃E</span></button></div></details>
+          </nav>
+          <div class="hara-toolbar" aria-label="Editor toolbar">
+            <div class="hara-toolbar-group"><button class="hara-icon-button" type="button" aria-label="New file" title="New file">＋</button><button class="hara-icon-button" type="button" aria-label="Save" title="Save">↓</button></div>
+            <span class="hara-toolbar-separator" aria-hidden="true"></span>
+            <div class="hara-toolbar-group"><button class="hara-icon-button" type="button" aria-label="Undo" title="Undo">↶</button><button class="hara-icon-button" type="button" aria-label="Redo" title="Redo">↷</button></div>
+            <span class="hara-toolbar-separator" aria-hidden="true"></span>
+            <div class="hara-toolbar-group"><button class="hara-icon-button" type="button" aria-label="Search" title="Search">⌕</button><button class="hara-icon-button" type="button" aria-label="Run file" title="Run file">▶</button></div>
+          </div>
+          <div class="hara-window-body"><span class="hara-tok-heading">(defn</span> <span class="hara-tok-atom">greeting</span> [<span class="hara-tok-atom">name</span>]<br>&nbsp;&nbsp;(<span class="hara-tok-atom">str</span> <span class="hara-tok-string">&quot;hello &quot;</span> name))</div>
+          <div class="hara-status-bar"><span>HARA L0 // READY</span><span>UTF-8 · 2 SPACES · 1:1</span></div>
+        </div>
+      </article>
+      <article class="card wide">
         <h2>SPECIFICATION EXPLORER</h2>
         <div id="explorer"></div>
       </article>

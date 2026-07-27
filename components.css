@@ -66,3 +66,133 @@
 .hara-tok-heading { color: var(--hara-cyan-bright); font-weight: 700; }
 .hara-tok-mark { color: var(--hara-faint); }
 .hara-tok-link { color: var(--hara-green); }
+
+/* Desktop-surface primitives: compose these into editors, inspectors, and tools. */
+.hara-window {
+  overflow: hidden;
+  border: 1px solid var(--hara-line-strong);
+  border-radius: 7px 2px;
+  background: var(--hara-panel);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .34), var(--hara-glow-cyan);
+}
+
+.hara-window-bar,
+.hara-menu-bar,
+.hara-toolbar,
+.hara-status-bar,
+.hara-window-controls,
+.hara-toolbar-group {
+  display: flex;
+  align-items: center;
+}
+
+.hara-window-bar {
+  min-height: 34px;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: 0 .65rem;
+  border-bottom: 1px solid var(--hara-line);
+  background: linear-gradient(90deg, rgba(65, 245, 228, .1), transparent 45%);
+}
+
+.hara-window-title {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--hara-cyan-bright);
+  font: 700 .7rem var(--hara-mono);
+  letter-spacing: .1em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.hara-window-controls { gap: .35rem; }
+.hara-window-control {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--hara-faint);
+  cursor: pointer;
+}
+.hara-window-control.close { background: var(--hara-magenta); }
+.hara-window-control.minimize { background: var(--hara-amber); }
+.hara-window-control.zoom { background: var(--hara-green); }
+
+.hara-menu-bar {
+  min-height: 30px;
+  gap: .15rem;
+  padding: 0 .38rem;
+  border-bottom: 1px solid var(--hara-line);
+  background: rgba(2, 4, 8, .48);
+}
+
+.hara-menu { position: relative; }
+.hara-menu > summary {
+  padding: .34rem .5rem;
+  color: var(--hara-muted);
+  font-size: .72rem;
+  cursor: pointer;
+  list-style: none;
+}
+.hara-menu > summary::-webkit-details-marker { display: none; }
+.hara-menu[open] > summary,
+.hara-menu > summary:hover { color: var(--hara-cyan-bright); background: rgba(65, 245, 228, .1); }
+.hara-menu-popover {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 3px);
+  left: 0;
+  min-width: 11rem;
+  padding: .3rem;
+  border: 1px solid var(--hara-line-strong);
+  background: var(--hara-overlay);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, .42);
+}
+.hara-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.4rem;
+  width: 100%;
+  padding: .42rem .5rem;
+  border: 0;
+  color: var(--hara-text);
+  background: transparent;
+  font: .72rem var(--hara-mono);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.hara-menu-item:hover { color: var(--hara-cyan-bright); background: rgba(65, 245, 228, .1); }
+.hara-menu-shortcut { color: var(--hara-faint); }
+
+.hara-toolbar {
+  min-height: 38px;
+  gap: .45rem;
+  padding: .35rem .5rem;
+  border-bottom: 1px solid var(--hara-line);
+  background: rgba(2, 4, 8, .3);
+}
+.hara-toolbar-group { gap: .26rem; }
+.hara-toolbar-separator { width: 1px; align-self: stretch; margin: 0 .15rem; background: var(--hara-line); }
+.hara-icon-button {
+  width: 27px;
+  height: 27px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: var(--hara-muted);
+  background: transparent;
+  font: 1rem/1 var(--hara-mono);
+  cursor: pointer;
+}
+.hara-icon-button:hover,
+.hara-icon-button[aria-pressed="true"] { border-color: var(--hara-line-strong); color: var(--hara-cyan-bright); background: rgba(65, 245, 228, .1); }
+.hara-icon-button:focus-visible { outline: 1px solid var(--hara-cyan); outline-offset: 2px; }
+
+.hara-window-body { min-height: 9rem; padding: 1rem; color: var(--hara-muted); font: .8rem/1.6 var(--hara-mono); }
+.hara-status-bar { min-height: 27px; justify-content: space-between; gap: .75rem; padding: 0 .6rem; border-top: 1px solid var(--hara-line); color: var(--hara-faint); background: rgba(2, 4, 8, .6); font: .65rem var(--hara-mono); letter-spacing: .05em; }
