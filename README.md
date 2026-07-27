@@ -3,6 +3,8 @@
 Framework-free, versioned UI primitives for Hara properties. It is the shared
 source for the website, the static specification explorer, and browser tools.
 
+Open `preview.html` to see the component system in use.
+
 ## Contents
 
 - `tokens.css` — canonical editor palette, with both `--hara-*` and legacy

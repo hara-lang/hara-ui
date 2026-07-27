@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#020408">
+  <meta name="description" content="Hara UI shared component preview">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./tokens.css">
+  <link rel="stylesheet" href="./components.css">
+  <link rel="stylesheet" href="./spec-explorer.css">
+  <title>Hara UI — Component preview</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--hara-text); background: var(--hara-abyss); font-family: var(--hara-mono); }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem clamp(1rem, 4vw, 3rem); border-bottom: 1px solid var(--hara-line-strong); background: rgba(2, 4, 8, .88); }
+    .identity { display: flex; align-items: center; gap: .7rem; letter-spacing: .13em; font-size: .72rem; }
+    .mark { width: 26px; height: 26px; border-radius: 6px 1px; display: grid; place-items: center; color: var(--hara-abyss); background: linear-gradient(135deg, var(--hara-cyan-bright), var(--hara-cyan)); font-weight: 900; box-shadow: 0 0 16px rgba(65, 245, 228, .4); }
+    .topbar a { color: var(--hara-muted); font-size: .78rem; text-decoration: none; }
+    .topbar a:hover { color: var(--hara-cyan); }
+    main { width: min(1120px, calc(100% - 2rem)); margin: 0 auto; padding: clamp(2rem, 6vw, 5rem) 0; }
+    .eyebrow { color: var(--hara-cyan); font-size: .72rem; letter-spacing: .15em; }
+    h1 { margin: .7rem 0; font: 800 clamp(2rem, 6vw, 4.5rem)/.95 var(--hara-display); letter-spacing: -.05em; }
+    .lede { max-width: 48rem; color: var(--hara-muted); font: 1rem/1.7 system-ui, sans-serif; }
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1rem; margin-top: 3rem; }
+    .card { grid-column: span 6; min-width: 0; padding: 1.25rem; border: 1px solid var(--hara-line); background: var(--hara-panel); }
+    .card.wide { grid-column: span 12; }
+    .card h2 { margin: 0 0 1rem; color: var(--hara-cyan-bright); font-size: .8rem; letter-spacing: .11em; }
+    .swatches { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .6rem; }
+    .swatch { min-height: 92px; padding: .6rem; display: flex; align-items: end; border: 1px solid var(--hara-line); color: var(--hara-abyss); font-size: .66rem; }
+    .swatch.cyan { background: var(--hara-cyan); } .swatch.magenta { background: var(--hara-magenta); } .swatch.violet { background: var(--hara-violet); } .swatch.amber { background: var(--hara-amber); }
+    .sample-row { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; }
+    .sample-code { min-height: 190px; }
+    #explorer { min-height: 530px; border: 1px solid var(--hara-line); }
+    @media (max-width: 720px) { .card { grid-column: span 12; } .swatches { grid-template-columns: repeat(2, 1fr); } main { width: min(100% - 1.25rem, 1120px); } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="identity"><span class="mark">H</span><span>HARA UI / 0.1</span></div>
+    <a href="https://github.com/hara-lang/hara-ui">source ↗</a>
+  </header>
+  <main>
+    <div class="eyebrow">SHARED INTERFACE SYSTEM</div>
+    <h1>One palette.<br>Every Hara surface.</h1>
+    <p class="lede">The canonical editor theme and small framework-free components used by Hara’s website, specification explorer, and browser tools.</p>
+    <section class="grid" aria-label="Component samples">
+      <article class="card">
+        <h2>PALETTE</h2>
+        <div class="swatches"><div class="swatch cyan">CYAN<br>#41F5E4</div><div class="swatch magenta">MAGENTA<br>#FF2E88</div><div class="swatch violet">VIOLET<br>#9C7BFF</div><div class="swatch amber">AMBER<br>#F5D742</div></div>
+      </article>
+      <article class="card">
+        <h2>CONTROLS</h2>
+        <div class="sample-row"><button class="hara-button" type="button">compile</button><button class="hara-button" type="button" aria-pressed="true">running</button><span class="hara-badge">draft authority</span></div>
+        <p class="lede">Shared primitives use the same focus, border, and active-state language in each property.</p>
+        <input class="hara-input" value="(defn hello [] :hara)" aria-label="Example Hara source">
+      </article>
+      <article class="card wide">
+        <h2>EDN SOURCE</h2>
+        <pre class="hara-source sample-code"><code data-edn></code></pre>
+      </article>
+      <article class="card wide">
+        <h2>SPECIFICATION EXPLORER</h2>
+        <div id="explorer"></div>
+      </article>
+    </section>
+  </main>
+  <script type="module">
+    import { createSpecExplorer, highlightSource } from "./spec-explorer.js";
+    document.querySelector("[data-edn]").innerHTML = highlightSource(`{:spec/id :hal/language\n :spec/status :draft\n :spec/sections [:syntax :semantics :evidence]\n :example \"(defn greeting [name] (str \\\"hello \\\" name))\"}`, "edn");
+    createSpecExplorer(document.querySelector("#explorer"), {
+      manifestUrl: "https://specs.hara-lang.org/spec-manifest.json",
+      fileUrl: (path) => `https://specs.hara-lang.org/${path}`,
+      repositoryUrl: "https://github.com/hara-lang/hara-specs/blob/main"
+    });
+  </script>
+</body>
+</html>

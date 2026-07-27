@@ -15,6 +15,8 @@
     "components.css",
     "spec-explorer.css",
     "spec-explorer.js",
+    "favicon.svg",
+    "preview.html",
     "README.md",
     "LICENSE"
   ],
