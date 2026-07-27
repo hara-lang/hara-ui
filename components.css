@@ -1,0 +1,68 @@
+/* Small primitives intentionally usable without the explorer. */
+.hara-button {
+  border: 1px solid var(--hara-line);
+  border-radius: 3px;
+  padding: .38rem .56rem;
+  color: var(--hara-muted);
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.hara-button:hover,
+.hara-button[aria-pressed="true"] {
+  border-color: var(--hara-cyan);
+  color: var(--hara-cyan-bright);
+  background: rgba(65, 245, 228, .08);
+}
+
+.hara-button:focus-visible,
+.hara-input:focus-visible,
+.hara-tree-file:focus-visible {
+  outline: 1px solid var(--hara-cyan);
+  outline-offset: 2px;
+}
+
+.hara-input {
+  width: 100%;
+  border: 1px solid var(--hara-line);
+  border-radius: 3px;
+  padding: .6rem .7rem;
+  color: var(--hara-text);
+  background: rgba(2, 4, 8, .72);
+  font: inherit;
+}
+
+.hara-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: .18rem .55rem;
+  border: 1px solid var(--hara-line);
+  border-radius: 999px;
+  color: var(--hara-cyan);
+  font: 650 .73rem var(--hara-mono);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.hara-source {
+  margin: 0;
+  padding: 1.25rem;
+  overflow: auto;
+  border: 1px solid var(--hara-line);
+  border-radius: 4px;
+  background: rgba(2, 4, 8, .72);
+  color: var(--hara-text);
+  font: .88rem/1.65 var(--hara-mono);
+  tab-size: 2;
+}
+
+.hara-tok-comment { color: var(--hara-faint); }
+.hara-tok-string { color: var(--hara-green); }
+.hara-tok-keyword { color: var(--hara-amber); }
+.hara-tok-number { color: var(--hara-cyan-bright); }
+.hara-tok-atom { color: var(--hara-violet); }
+.hara-tok-heading { color: var(--hara-cyan-bright); font-weight: 700; }
+.hara-tok-mark { color: var(--hara-faint); }
+.hara-tok-link { color: var(--hara-green); }

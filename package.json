@@ -1,0 +1,22 @@
+{
+  "name": "@hara-lang/ui",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Shared framework-free UI components and editor theme for Hara",
+  "exports": {
+    "./tokens.css": "./tokens.css",
+    "./components.css": "./components.css",
+    "./spec-explorer.css": "./spec-explorer.css",
+    "./spec-explorer": "./spec-explorer.js"
+  },
+  "files": [
+    "tokens.css",
+    "components.css",
+    "spec-explorer.css",
+    "spec-explorer.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT"
+}
