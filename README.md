@@ -12,6 +12,7 @@ Open `index.html` to see the component system in use.
 - `components.css` — buttons, inputs, badges, source blocks, and syntax tokens.
 - `spec-explorer.css` and `spec-explorer.js` — a static manifest-driven viewer
   for Markdown, EDN, and JSON specifications.
+- `menu-bar.js` — desktop menu-bar disclosure behavior for `.hara-menu-bar`.
 
 ## Static use
 

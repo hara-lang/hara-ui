@@ -8,13 +8,15 @@
     "./tokens.css": "./tokens.css",
     "./components.css": "./components.css",
     "./spec-explorer.css": "./spec-explorer.css",
-    "./spec-explorer": "./spec-explorer.js"
+    "./spec-explorer": "./spec-explorer.js",
+    "./menu-bar": "./menu-bar.js"
   },
   "files": [
     "tokens.css",
     "components.css",
     "spec-explorer.css",
     "spec-explorer.js",
+    "menu-bar.js",
     "favicon.svg",
     "index.html",
     "README.md",

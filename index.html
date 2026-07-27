@@ -94,12 +94,14 @@
   </main>
   <script type="module">
     import { createSpecExplorer, highlightSource } from "./spec-explorer.js";
+    import { bindMenuBar } from "./menu-bar.js";
     document.querySelector("[data-edn]").innerHTML = highlightSource(`{:spec/id :hal/language\n :spec/status :draft\n :spec/sections [:syntax :semantics :evidence]\n :example \"(defn greeting [name] (str \\\"hello \\\" name))\"}`, "edn");
     createSpecExplorer(document.querySelector("#explorer"), {
       manifestUrl: "https://specs.hara-lang.org/spec-manifest.json",
       fileUrl: (path) => `https://specs.hara-lang.org/${path}`,
       repositoryUrl: "https://github.com/hara-lang/hara-specs/blob/main"
     });
+    bindMenuBar(document.querySelector(".hara-menu-bar"));
   </script>
 </body>
 </html>
