@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none"><defs><linearGradient id="spectrum" x1="72" y1="82" x2="440" y2="430" gradientUnits="userSpaceOnUse"><stop stop-color="#43F6D7"/><stop offset=".45" stop-color="#17B9EF"/><stop offset="1" stop-color="#B42BFA"/></linearGradient><filter id="glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d="M104 68v150l304 184V294L182 158v-48l226 136v-88L256 68 104 158" stroke="url(#spectrum)" stroke-width="34" stroke-linejoin="miter" filter="url(#glow)"/><path d="M104 354v90l152-90 152 90V354L256 264 104 354Z" stroke="url(#spectrum)" stroke-width="34" stroke-linejoin="miter" filter="url(#glow)"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs><linearGradient id="ribbon" x1="92" y1="68" x2="420" y2="444" gradientUnits="userSpaceOnUse"><stop stop-color="#42F5D7"/><stop offset=".47" stop-color="#16B8EE"/><stop offset="1" stop-color="#B52AF9"/></linearGradient></defs>
+  <path d="M104 72v112l304 180v76L104 260" stroke="url(#ribbon)" stroke-width="36" stroke-linejoin="miter"/>
+  <path d="M408 72v112L104 364v76l304-180" stroke="url(#ribbon)" stroke-width="36" stroke-linejoin="miter"/>
+</svg>
