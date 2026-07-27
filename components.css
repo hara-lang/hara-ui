@@ -92,7 +92,7 @@
   gap: .75rem;
   padding: 0 .65rem;
   border-bottom: 1px solid var(--hara-line);
-  background: linear-gradient(90deg, rgba(65, 245, 228, .1), transparent 45%);
+  background: var(--hara-spectrum-soft);
 }
 
 .hara-window-title {
