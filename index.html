@@ -87,6 +87,30 @@
         </div>
       </article>
       <article class="card wide">
+        <h2>WORKSPACE TABS, SECTIONS &amp; LINKS</h2>
+        <div data-workspace-tabs>
+          <div class="hara-tabs" role="tablist" aria-label="Studio areas">
+            <button class="hara-tab" role="tab" aria-selected="true" aria-controls="code-panel">main.hal</button>
+            <button class="hara-tab" role="tab" aria-selected="false" aria-controls="patch-panel">patch</button>
+            <button class="hara-tab" role="tab" aria-selected="false" aria-controls="inspect-panel">inspector</button>
+          </div>
+          <section class="hara-tab-panel" id="code-panel" role="tabpanel">Source-first area: select a form, evaluate it, or link it to a visual anchor.</section>
+          <section class="hara-tab-panel" id="patch-panel" role="tabpanel" hidden>Canvas-first area: nodes and cables project the same structured program.</section>
+          <section class="hara-tab-panel" id="inspect-panel" role="tabpanel" hidden>
+            <details class="hara-section" open><summary>Provenance</summary><div class="hara-section-body">source/main.hal · form/greeting · scene/greeting-card</div></details>
+            <details class="hara-section"><summary>Diagnostics</summary><div class="hara-section-body">No diagnostics.</div></details>
+          </section>
+        </div>
+        <div class="hara-code-visual-actions" data-code-visual-actions aria-label="Code visual actions">
+          <button class="hara-icon-button" data-code-visual-action="link-create" title="Link selection" aria-label="Link code and visual selection">⛓</button>
+          <button class="hara-icon-button" data-code-visual-action="reveal-visual" title="Reveal visual" aria-label="Reveal visual peer">◉</button>
+          <button class="hara-icon-button" data-code-visual-action="reveal-code" title="Reveal code" aria-label="Reveal code peer">&lt;/&gt;</button>
+          <button class="hara-icon-button" data-code-visual-action="evaluate-link" title="Evaluate link" aria-label="Evaluate link">▶</button>
+          <button class="hara-icon-button" data-code-visual-action="inspect-link" title="Inspect link" aria-label="Inspect link">ⓘ</button>
+          <span class="hara-link-status" data-link-status data-state="current">LINK // CURRENT</span>
+        </div>
+      </article>
+      <article class="card wide">
         <h2>SPECIFICATION EXPLORER</h2>
         <div id="explorer"></div>
       </article>
@@ -95,6 +119,7 @@
   <script type="module">
     import { createSpecExplorer, highlightSource } from "./spec-explorer.js";
     import { bindMenuBar } from "./menu-bar.js";
+    import { bindTabs, bindCodeVisualActions } from "./workspace.js";
     document.querySelector("[data-edn]").innerHTML = highlightSource(`{:spec/id :hal/language\n :spec/status :draft\n :spec/sections [:syntax :semantics :evidence]\n :example \"(defn greeting [name] (str \\\"hello \\\" name))\"}`, "edn");
     createSpecExplorer(document.querySelector("#explorer"), {
       manifestUrl: "https://specs.hara-lang.org/spec-manifest.json",
@@ -102,6 +127,13 @@
       repositoryUrl: "https://github.com/hara-lang/hara-specs/blob/main"
     });
     bindMenuBar(document.querySelector(".hara-menu-bar"));
+    bindTabs(document.querySelector("[data-workspace-tabs]"));
+    const actions = document.querySelector("[data-code-visual-actions]");
+    bindCodeVisualActions(actions);
+    actions.addEventListener("hara:code-visual-action", (event) => {
+      const status = actions.querySelector("[data-link-status]");
+      status.textContent = `${event.detail.action.toUpperCase().replace("-", " ")} // READY`;
+    });
   </script>
 </body>
 </html>

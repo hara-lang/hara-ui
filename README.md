@@ -13,6 +13,7 @@ Open `index.html` to see the component system in use.
 - `spec-explorer.css` and `spec-explorer.js` — a static manifest-driven viewer
   for Markdown, EDN, and JSON specifications.
 - `menu-bar.js` — desktop menu-bar disclosure behavior for `.hara-menu-bar`.
+- `workspace.js` — accessible tabs and code↔visual action event bindings.
 - `docs/workspace-interface.md` — VS Code/Blender/Max-style workspace spec.
 - `docs/code-visual-links.md` — code ↔ visual link controls and states.
 
