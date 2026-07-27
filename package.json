@@ -10,7 +10,8 @@
     "./spec-explorer.css": "./spec-explorer.css",
     "./spec-explorer": "./spec-explorer.js",
     "./menu-bar": "./menu-bar.js",
-    "./workspace": "./workspace.js"
+    "./workspace": "./workspace.js",
+    "./workbench": "./workbench.js"
   },
   "files": [
     "tokens.css",
@@ -19,6 +20,7 @@
     "spec-explorer.js",
     "menu-bar.js",
     "workspace.js",
+    "workbench.js",
     "favicon.svg",
     "index.html",
     "docs",

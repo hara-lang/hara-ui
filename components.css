@@ -221,3 +221,29 @@
 .hara-link-status[data-state="current"] { color: var(--hara-green); }
 .hara-link-status[data-state="stale"] { color: var(--hara-amber); }
 .hara-link-status[data-state="error"] { color: var(--hara-magenta); }
+
+.hara-workbench { min-height: 440px; display: grid; grid-template-columns: 36px minmax(10rem, 15rem) minmax(22rem, 1fr) minmax(11rem, 16rem); overflow: hidden; border: 1px solid var(--hara-line-strong); background: var(--hara-abyss); }
+.hara-activity-rail { display: flex; flex-direction: column; align-items: center; gap: .3rem; padding: .35rem; border-right: 1px solid var(--hara-line); background: rgba(2,4,8,.78); }
+.hara-dock { min-width: 0; border-right: 1px solid var(--hara-line); background: var(--hara-panel); }
+.hara-dock-right { border-right: 0; border-left: 1px solid var(--hara-line); }
+.hara-dock-header { display: flex; align-items: center; justify-content: space-between; min-height: 34px; padding: 0 .5rem; border-bottom: 1px solid var(--hara-line); color: var(--hara-cyan-bright); font: .67rem var(--hara-mono); letter-spacing: .09em; }
+.hara-dock-body { padding: .45rem; }
+.hara-workbench-main { min-width: 0; display: flex; flex-direction: column; }
+.hara-patch-canvas { position: relative; flex: 1; min-height: 360px; overflow: hidden; background-image: radial-gradient(var(--hara-line) 1px, transparent 1px); background-size: 14px 14px; }
+.hara-cable-layer, .hara-node-layer { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hara-cable-layer { pointer-events: none; overflow: visible; }
+.hara-cable { fill: none; stroke: var(--hara-violet); stroke-width: 2; opacity: .88; }
+.hara-cable.provisional { stroke: var(--hara-cyan); stroke-dasharray: 5 4; }
+.hara-patch-node { position: absolute; width: 145px; min-height: 66px; border: 1px solid var(--hara-line-strong); background: var(--hara-raised); box-shadow: 0 8px 18px rgba(0,0,0,.3); cursor: pointer; }
+.hara-patch-node.is-selected { border-color: var(--hara-cyan); box-shadow: var(--hara-glow-cyan); }
+.hara-patch-node header { display: flex; justify-content: space-between; padding: .35rem .45rem; color: var(--hara-cyan-bright); background: rgba(65,245,228,.08); font: .68rem var(--hara-mono); text-transform: uppercase; }
+.hara-patch-node small { color: var(--hara-faint); font-size: .58rem; }
+.hara-node-ports { position: absolute; top: 31px; bottom: .35rem; display: flex; flex-direction: column; justify-content: space-around; }
+.hara-node-ports.in { left: -6px; } .hara-node-ports.out { right: -6px; }
+.hara-port { width: 11px; height: 11px; padding: 0; border: 1px solid var(--hara-abyss); border-radius: 50%; background: var(--hara-cyan); cursor: crosshair; }
+.hara-port.event { background: var(--hara-amber); } .hara-port.state { background: var(--hara-violet); } .hara-port.capability { background: var(--hara-magenta); }
+.hara-palette-popout { position: absolute; z-index: 5; top: .6rem; left: .6rem; width: min(15rem, calc(100% - 1.2rem)); padding: .45rem; border: 1px solid var(--hara-line-strong); background: var(--hara-overlay); box-shadow: 0 12px 28px rgba(0,0,0,.48); }
+.hara-palette-item { display: block; width: 100%; padding: .48rem; border: 0; color: var(--hara-text); background: transparent; text-align: left; font: .72rem var(--hara-mono); cursor: pointer; }
+.hara-palette-item:hover { color: var(--hara-cyan-bright); background: rgba(65,245,228,.1); }
+.hara-workbench-source { flex: 1; margin: 0; white-space: pre-wrap; }
+@media (max-width: 800px) { .hara-workbench { grid-template-columns: 36px minmax(0,1fr); } .hara-dock { display: none; } .hara-dock-right { display: none; } }
