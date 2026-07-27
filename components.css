@@ -236,7 +236,8 @@
 .hara-cable.provisional { stroke: var(--hara-cyan); stroke-dasharray: 5 4; }
 .hara-patch-node { position: absolute; width: 145px; min-height: 66px; border: 1px solid var(--hara-line-strong); background: var(--hara-raised); box-shadow: 0 8px 18px rgba(0,0,0,.3); cursor: pointer; }
 .hara-patch-node.is-selected { border-color: var(--hara-cyan); box-shadow: var(--hara-glow-cyan); }
-.hara-patch-node header { display: flex; justify-content: space-between; padding: .35rem .45rem; color: var(--hara-cyan-bright); background: rgba(65,245,228,.08); font: .68rem var(--hara-mono); text-transform: uppercase; }
+.hara-patch-node header { display: flex; justify-content: space-between; padding: .35rem .45rem; color: var(--hara-cyan-bright); background: rgba(65,245,228,.08); font: .68rem var(--hara-mono); text-transform: uppercase; cursor: grab; touch-action: none; }
+.hara-patch-node header:active { cursor: grabbing; }
 .hara-patch-node small { color: var(--hara-faint); font-size: .58rem; }
 .hara-node-ports { position: absolute; top: 31px; bottom: .35rem; display: flex; flex-direction: column; justify-content: space-around; }
 .hara-node-ports.in { left: -6px; } .hara-node-ports.out { right: -6px; }
