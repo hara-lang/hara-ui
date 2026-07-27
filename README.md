@@ -5,6 +5,8 @@ source for the website, the static specification explorer, and browser tools.
 
 Open `index.html` to see the component system in use.
 
+![Hara UI](og-hara-ui.png)
+
 ## Contents
 
 - `tokens.css` — canonical editor palette, with both `--hara-*` and legacy
