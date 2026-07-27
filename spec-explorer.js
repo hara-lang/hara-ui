@@ -4,13 +4,17 @@ const fileName = (path) => path.split("/").at(-1);
 export function highlightSource(source, kind) {
   if (kind === "edn" || kind === "json") {
     const token = /(;[^\n]*|"(?:\\.|[^"\\])*"|:[A-Za-z0-9_.*+!$%&=<>?/-]+|\b(?:true|false|null|nil)\b|[-+]?\d+(?:\.\d+)?(?:[NM])?)/g;
-    let cursor = 0;
-    return source.replace(token, (match, _ignored, offset) => {
-      const before = escapeHtml(source.slice(cursor, offset));
-      cursor = offset + match.length;
-      const type = match.startsWith(";") ? "comment" : match.startsWith('"') ? "string" : match.startsWith(":") ? "keyword" : /^[+-]?\d/.test(match) ? "number" : "atom";
-      return `${before}<span class="hara-tok-${type}">${escapeHtml(match)}</span>`;
-    }) + escapeHtml(source.slice(cursor));
+    const output = [];
+    let cursor = 0, match;
+    while ((match = token.exec(source))) {
+      const value = match[0];
+      output.push(escapeHtml(source.slice(cursor, match.index)));
+      cursor = match.index + value.length;
+      const type = value.startsWith(";") ? "comment" : value.startsWith('"') ? "string" : value.startsWith(":") ? "keyword" : /^[+-]?\d/.test(value) ? "number" : "atom";
+      output.push(`<span class="hara-tok-${type}">${escapeHtml(value)}</span>`);
+    }
+    output.push(escapeHtml(source.slice(cursor)));
+    return output.join("");
   }
   return source.split("\n").map((line) => escapeHtml(line)
     .replace(/^(#{1,6})(\s+.*)$/, '<span class="hara-tok-heading">$1$2</span>')
