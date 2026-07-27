@@ -1,3 +1,5 @@
+import { bindTabs } from "./workspace.js";
+
 const NS = "http://www.w3.org/2000/svg";
 const CORE = {
   input: { label: "input", in: [], out: ["signal"] },
@@ -40,6 +42,7 @@ export function createWorkbench(root, { model = coreFlowModel() } = {}) {
   root.classList.add("hara-workbench");
   root.innerHTML = `<nav class="hara-activity-rail" aria-label="Workbench views"><button data-view="files" class="hara-icon-button" aria-pressed="true" title="Files">▤</button><button data-view="palette" class="hara-icon-button" title="Node palette">⊞</button><button data-view="search" class="hara-icon-button" title="Search">⌕</button></nav><aside class="hara-dock hara-dock-left"><header class="hara-dock-header"><b data-dock-title>FILES</b><button data-palette class="hara-icon-button" title="Add node" aria-label="Open node palette">＋</button></header><div class="hara-dock-body" data-left-dock></div></aside><main class="hara-workbench-main"><div class="hara-tabs" role="tablist"><button class="hara-tab" role="tab" aria-selected="true" aria-controls="workbench-canvas">patch</button><button class="hara-tab" role="tab" aria-selected="false" aria-controls="workbench-source">source</button></div><section id="workbench-canvas" class="hara-patch-canvas" role="tabpanel" data-canvas><svg class="hara-cable-layer" data-cables aria-hidden="true"></svg><div class="hara-node-layer" data-nodes></div><div class="hara-palette-popout" data-palette-popout hidden><input class="hara-input" data-palette-search placeholder="filter nodes" aria-label="Filter node palette"><div data-palette-list></div></div></section><section id="workbench-source" class="hara-source hara-workbench-source" role="tabpanel" hidden data-source></section></main><aside class="hara-dock hara-dock-right"><header class="hara-dock-header"><b>INSPECTOR</b><span class="hara-link-status" data-status data-state="current">READY</span></header><div class="hara-dock-body" data-inspector></div></aside>`;
   const $ = (s) => root.querySelector(s);
+  bindTabs(root.querySelector(".hara-workbench-main"));
   const el = { left: $("[data-left-dock]"), canvas: $("[data-canvas]"), nodes: $("[data-nodes]"), cables: $("[data-cables]"), source: $("[data-source]"), inspector: $("[data-inspector]"), status: $("[data-status]"), palette: $("[data-palette-popout]"), paletteList: $("[data-palette-list]"), paletteSearch: $("[data-palette-search]") };
   const emit = (type, detail) => root.dispatchEvent(new CustomEvent(`hara:workbench-${type}`, { bubbles: true, detail }));
   const setStatus = (text, kind = "current") => { el.status.textContent = text; el.status.dataset.state = kind; };
