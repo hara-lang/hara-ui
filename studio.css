@@ -1,0 +1,94 @@
+/*
+ * Hara Studio surface contract.
+ *
+ * Hosts provide the content and runtime.  This sheet owns only the responsive
+ * workbench geometry so browser Studio, Chrome and VS Code present the same
+ * areas: Explorer, Source, Visual Output and Console.
+ */
+
+.hara-studio {
+  width: min(1680px, calc(100vw - 32px));
+  margin-inline: auto;
+  padding-bottom: clamp(24px, 5vh, 64px);
+}
+
+.hara-studio-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin: 1.2rem 0 1rem;
+}
+
+/* The website workspace: Explorer | Source, with Visual Output below Source.
+   The console is an on-demand bottom panel so it never steals the primary
+   source/output space. */
+.hara-studio-main {
+  display: grid;
+  grid-template-columns: minmax(220px, .28fr) minmax(0, 1fr);
+  grid-template-rows: minmax(360px, 1fr) minmax(220px, .68fr);
+  gap: 14px;
+  min-height: min(760px, calc(100vh - 210px));
+}
+
+.hara-studio-main > * { min-width: 0; min-height: 0; }
+
+.hara-studio-tree {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.hara-studio-editor-wrap {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.hara-studio-repl {
+  display: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.hara-studio-canvas-panel {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.hara-studio-canvas { display: block; width: 100%; height: 100%; min-height: 0; touch-action: none; }
+.hara-studio-canvas-panel[hidden], .hara-studio-amp[hidden] { display: none; }
+.hara-studio-amp { display: block; width: 100%; height: 100%; min-height: 0; border: 0; background: var(--hara-abyss); }
+
+.hara-studio-main:not(.has-canvas) .hara-studio-editor-wrap { grid-row: 1 / span 2; }
+.hara-studio-main.is-console-open { grid-template-rows: minmax(250px, 1fr) minmax(190px, .58fr); }
+.hara-studio-main.is-console-open .hara-studio-canvas-panel { display: none; }
+.hara-studio-main.is-console-open .hara-studio-repl { grid-column: 2; grid-row: 2; display: flex; flex-direction: column; overflow: hidden; }
+
+@media (max-width: 1120px) {
+  .hara-studio-main {
+    grid-template-columns: minmax(204px, 250px) minmax(0, 1fr);
+    grid-template-rows: minmax(300px, 1fr) minmax(210px, .62fr);
+  }
+  .hara-studio-tree { grid-column: 1; grid-row: 1 / span 2; }
+  .hara-studio-editor-wrap { grid-column: 2; grid-row: 1; }
+  .hara-studio-canvas-panel { grid-column: 2; grid-row: 2; min-height: 320px; }
+}
+
+@media (max-width: 760px) {
+  .hara-studio { width: 100%; padding-inline: 12px; }
+  .hara-studio-head { margin-top: .8rem; }
+  .hara-studio-main { display: flex; flex-direction: column; min-height: 0; }
+  .hara-studio-tree { max-height: 180px; flex: 0 0 auto; }
+  .hara-studio-editor-wrap { min-height: 360px; }
+  .hara-studio-main.is-console-open .hara-studio-repl { min-height: 230px; }
+  .hara-studio-canvas-panel { min-height: 340px; }
+}
