@@ -68,7 +68,7 @@
 .hara-studio-canvas-panel[hidden], .hara-studio-amp[hidden] { display: none; }
 .hara-studio-amp { display: block; width: 100%; height: 100%; min-height: 0; border: 0; background: var(--hara-abyss); }
 
-.hara-studio-main:not(.has-canvas) .hara-studio-editor-wrap { grid-row: 1 / span 2; }
+.hara-studio-main:not(:has(.hara-studio-canvas-panel:not([hidden]))) .hara-studio-editor-wrap { grid-row: 1 / span 2; }
 .hara-studio-main.is-console-open { grid-template-rows: minmax(250px, 1fr) minmax(190px, .58fr); }
 .hara-studio-main.is-console-open .hara-studio-canvas-panel { display: none; }
 .hara-studio-main.is-console-open .hara-studio-repl { grid-column: 2; grid-row: 2; display: flex; flex-direction: column; overflow: hidden; }
