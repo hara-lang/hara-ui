@@ -41,7 +41,7 @@
   grid-template-columns: minmax(220px, .28fr) minmax(0, 1fr);
   grid-template-rows: minmax(360px, 1fr) minmax(220px, .68fr);
   gap: 14px;
-  min-height: min(760px, calc(100vh - 210px));
+  min-height: min(820px, calc(100vh - 150px));
 }
 
 .hara-studio-main > * { min-width: 0; min-height: 0; }

@@ -140,6 +140,7 @@ export function createStudioShell(root) {
       popover.hidden = true;
       healthButton.setAttribute("aria-expanded", "false");
     },
+    setProject(name) { projectTitle.textContent = name || "Choose project"; },
     destroy() { shell.remove(); }
   };
 }
