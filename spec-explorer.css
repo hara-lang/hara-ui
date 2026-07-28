@@ -14,6 +14,12 @@
   background: var(--hara-panel);
 }
 
+.hara-spec-brand { display: flex; align-items: center; gap: .65rem; margin: .1rem 0 1.3rem; padding-bottom: 1rem; border-bottom: 1px solid var(--hara-line); color: var(--hara-text); text-decoration: none; }
+.hara-spec-brand img { width: 2.15rem; height: 2.15rem; object-fit: contain; filter: drop-shadow(0 0 7px rgba(48, 193, 242, .42)); }
+.hara-spec-brand span { display: grid; gap: .12rem; font: .7rem var(--hara-mono); letter-spacing: .16em; }
+.hara-spec-brand b { color: var(--hara-text); }
+.hara-spec-brand small { color: var(--hara-violet); font-size: .53rem; letter-spacing: .12em; }
+
 .hara-explorer-sidebar-header,
 .hara-explorer-file-row,
 .hara-explorer-actions {
@@ -59,7 +65,7 @@
 .hara-explorer-empty { padding: .7rem; color: var(--hara-muted); }
 
 .hara-explorer-viewer { min-width: 0; display: flex; flex-direction: column; }
-.hara-explorer-header { display: grid; gap: .65rem; padding: 1.4rem clamp(1rem, 4vw, 3rem) 1rem; border-bottom: 1px solid var(--hara-line); background: linear-gradient(120deg, var(--hara-panel), var(--hara-abyss)); }
+.hara-explorer-header { display: grid; gap: .65rem; padding: 1.4rem clamp(1rem, 4vw, 3rem) 1rem; border-bottom: 1px solid var(--hara-line); background: var(--hara-spectrum-soft); }
 .hara-explorer-crumb { color: var(--hara-muted); font: .8rem var(--hara-mono); overflow-wrap: anywhere; }
 .hara-explorer-file-row { justify-content: space-between; gap: 1rem; }
 .hara-explorer-file-title { margin: 0; font-size: clamp(1.1rem, 2vw, 1.4rem); }
@@ -68,6 +74,7 @@
 .hara-explorer-document { flex: 1; min-width: 0; padding: clamp(1rem, 4vw, 3rem); }
 .hara-explorer-welcome { max-width: 42rem; margin: 12vh auto; color: var(--hara-muted); text-align: center; }
 .hara-explorer-welcome h2 { color: var(--hara-text); }
+.hara-explorer-welcome-mark { width: 7rem; height: 7rem; object-fit: contain; margin-bottom: 1rem; filter: drop-shadow(0 0 20px rgba(48, 193, 242, .32)); }
 .hara-markdown { max-width: 58rem; margin: 0 auto; color: var(--hara-text); line-height: 1.7; font-family: system-ui, sans-serif; }
 .hara-markdown h1, .hara-markdown h2, .hara-markdown h3 { line-height: 1.2; margin: 1.8rem 0 .75rem; }
 .hara-markdown h1 { font-size: 2rem; }

@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#020408">
   <meta name="description" content="Hara UI shared component preview">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Hara UI — Shared Interface System">
+  <meta property="og:description" content="The canonical components, palette, and editor language used across Hara.">
+  <meta property="og:image" content="https://ui.hara-lang.org/og-hara-ui.png">
+  <meta property="og:image:width" content="1730">
+  <meta property="og:image:height" content="909">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Hara UI — Shared Interface System">
+  <meta name="twitter:description" content="The canonical components, palette, and editor language used across Hara.">
+  <meta name="twitter:image" content="https://ui.hara-lang.org/og-hara-ui.png">
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./tokens.css">
   <link rel="stylesheet" href="./components.css">
@@ -15,7 +25,7 @@
     body { margin: 0; color: var(--hara-text); background: var(--hara-abyss); font-family: var(--hara-mono); }
     .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem clamp(1rem, 4vw, 3rem); border-bottom: 1px solid var(--hara-line-strong); background: rgba(2, 4, 8, .88); }
     .identity { display: flex; align-items: center; gap: .7rem; letter-spacing: .13em; font-size: .72rem; }
-    .mark { width: 26px; height: 26px; border-radius: 6px 1px; display: grid; place-items: center; color: var(--hara-abyss); background: linear-gradient(135deg, var(--hara-cyan-bright), var(--hara-cyan)); font-weight: 900; box-shadow: 0 0 16px rgba(65, 245, 228, .4); }
+    .mark { width: 26px; height: 26px; object-fit: contain; filter: drop-shadow(0 0 7px rgba(49, 207, 234, .45)); }
     .topbar a { color: var(--hara-muted); font-size: .78rem; text-decoration: none; }
     .topbar a:hover { color: var(--hara-cyan); }
     main { width: min(1120px, calc(100% - 2rem)); margin: 0 auto; padding: clamp(2rem, 6vw, 5rem) 0; }
@@ -37,7 +47,7 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="identity"><span class="mark">H</span><span>HARA UI / 0.1</span></div>
+    <div class="identity"><img class="mark" src="./hara-mark.svg" alt=""><span>HARA UI / 0.1</span></div>
     <a href="https://github.com/hara-lang/hara-ui">source ↗</a>
   </header>
   <main>
