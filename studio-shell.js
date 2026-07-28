@@ -14,10 +14,11 @@ const iconButton = (icon, label, action) => {
   return button;
 };
 
-const detail = (label) => {
+const detail = (label, key) => {
   const row = el("div", "hara-studio-health-row");
   const term = el("span", "hara-studio-health-label", label);
   const value = el("strong", "hara-studio-health-value", "—");
+  value.dataset.haraStudio = key;
   row.append(term, value);
   return { row, value };
 };
@@ -32,6 +33,7 @@ export function createStudioShell(root) {
   const shell = el("div", "hara-studio");
   shell.dataset.haraStudio = "shell";
   const bar = el("header", "hara-studio-project-bar");
+  bar.dataset.haraStudio = "project-bar";
   const project = el("button", "hara-studio-project-button");
   project.type = "button";
   project.title = "Choose project";
@@ -47,17 +49,19 @@ export function createStudioShell(root) {
   consoleToggle.setAttribute("aria-pressed", "false");
   const healthButton = iconButton("", "Runtime details", "runtime/details");
   healthButton.classList.add("hara-studio-health-button");
+  healthButton.dataset.haraStudio = "runtime-status";
   healthButton.setAttribute("aria-expanded", "false");
 
   const popover = el("section", "hara-studio-health-popover");
+  popover.dataset.haraStudio = "runtime-details";
   popover.hidden = true;
   popover.setAttribute("role", "dialog");
   popover.setAttribute("aria-label", "Runtime details");
-  const runtime = detail("Runtime");
-  const kernel = detail("Kernel");
-  const space = detail("Space");
-  const files = detail("Files");
-  const state = detail("State");
+  const runtime = detail("Runtime", "runtime");
+  const kernel = detail("Kernel", "kernel");
+  const space = detail("Space", "space");
+  const files = detail("Files", "file-count");
+  const state = detail("State", "state");
   const kernelActions = el("div", "hara-studio-health-actions");
   const kernelNew = iconButton("＋", "Create kernel", "kernel/new");
   const kernelClose = iconButton("×", "Close kernel", "kernel/close");
