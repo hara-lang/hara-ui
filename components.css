@@ -177,6 +177,61 @@
 }
 .hara-toolbar-group { gap: .26rem; }
 .hara-toolbar-separator { width: 1px; align-self: stretch; margin: 0 .15rem; background: var(--hara-line); }
+
+/* Compact editor command row. Keep persistent commands visible, move
+   explanatory copy into the contextual help popover, and represent modes
+   with aria-pressed rather than a second status row. */
+.hara-editor-menubar {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  min-height: 42px;
+  color: var(--hara-muted);
+  background: rgba(2, 4, 8, .72);
+  font: 700 .64rem var(--hara-mono);
+  letter-spacing: .1em;
+}
+.hara-editor-menubar__group { display: flex; align-items: stretch; min-width: 0; }
+.hara-editor-menubar__group > button,
+.hara-editor-menubar__help {
+  min-width: 42px;
+  padding: 0 .8rem;
+  border: 0;
+  border-right: 1px solid var(--hara-line);
+  color: var(--hara-cyan-bright);
+  background: transparent;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+.hara-editor-menubar button:hover,
+.hara-editor-menubar button:focus-visible {
+  color: var(--hara-text);
+  background: rgba(65, 245, 228, .09);
+}
+.hara-editor-menubar button:focus-visible { outline: 1px solid var(--hara-cyan); outline-offset: -2px; }
+.hara-editor-menubar button[aria-pressed="true"] { color: var(--hara-violet); }
+.hara-editor-menubar__help { margin-left: auto; }
+.hara-editor-menubar__close { font-size: 1rem; }
+.hara-editor-menubar__popover {
+  position: absolute;
+  z-index: 2;
+  top: calc(100% + 1px);
+  right: 0;
+  width: min(22rem, calc(100vw - 1rem));
+  display: grid;
+  gap: .5rem;
+  padding: .75rem;
+  border: 1px solid var(--hara-line-strong);
+  color: var(--hara-muted);
+  background: var(--hara-overlay);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .48);
+  font: .68rem/1.5 var(--hara-mono);
+  letter-spacing: .04em;
+}
+.hara-editor-menubar__popover[hidden] { display: none; }
+.hara-editor-menubar__popover strong { color: var(--hara-violet); letter-spacing: .1em; }
+.hara-editor-menubar__popover kbd { color: var(--hara-cyan-bright); font: inherit; }
 .hara-icon-button {
   width: 27px;
   height: 27px;
