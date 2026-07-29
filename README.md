@@ -31,10 +31,14 @@ Open `index.html` to see the component system in use.
   import { createSpecExplorer } from "./vendor/hara-ui/spec-explorer.js";
   createSpecExplorer(document.querySelector("#specs"), {
     manifestUrl: "spec-manifest.json",
-    repositoryUrl: "https://github.com/hara-lang/hara-specs/blob/main"
+    repositoryUrl: "https://github.com/hara-lang/hara-specs/blob/main",
+    titlePrefix: "Hara / Specs"
   });
 </script>
 ```
+
+`titlePrefix` is optional. When provided, the explorer uses it for the initial
+document title and breadcrumb, then appends only the selected filename.
 
 Chrome extension builds must copy these files into the packaged extension;
 Manifest V3 does not permit remotely hosted executable code.
