@@ -7,7 +7,7 @@ Hara document surface.
 Open `index.html` to see the component system. Open `document-demo.html` for a
 local-first word-processing surface with directly embedded Hara artefacts.
 
-![Hara UI](og-hara-ui.png)
+![Hara UI](og-hara-ui.jpg)
 
 ## Contents
 
