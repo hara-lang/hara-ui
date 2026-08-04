@@ -32,6 +32,7 @@ test("the demo contains directly embedded value and table artefacts", async () =
   const demo = await read("document-demo.html");
   assert.match(demo, /kind: "value"/);
   assert.match(demo, /kind: "table"/);
-  assert.match(demo, /onBatch\(batch\)/);
+  assert.match(demo, /onBatch\(batch, nextDocument\)/);
+  assert.match(demo, /prepareHestiaBatch\(nextDocument, batch\)/);
   assert.match(demo, /localStorage\.setItem/);
 });
