@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101318">
+  <title>Hara Documents</title>
+  <link rel="icon" href="./favicon-48.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./document.css">
+  <style>
+    html, body, #document-app { min-height: 100%; margin: 0; }
+  </style>
+</head>
+<body>
+  <div id="document-app"></div>
+  <script type="module">
+    import { createHaraDocumentEditor } from "./document-editor.js";
+    import { createArtefactBlock, createDocument, createTextBlock } from "./document-model.js";
+
+    const stored = localStorage.getItem("hara-document-demo");
+    const document = stored ? JSON.parse(stored) : createDocument({
+      title: "A document with living Hara artefacts",
+      blocks: [
+        createTextBlock("heading", "A document with living Hara artefacts", { level: 1 }),
+        createTextBlock("paragraph", "Hara artefacts are document nodes, not pasted screenshots. Their source participates in Hestia operations, while the kernel projects a live value, table, chart, canvas or interface into the page."),
+        createArtefactBlock({
+          kind: "value",
+          title: "Live calculation",
+          source: "(* 6 7)"
+        }),
+        createTextBlock("heading", "A small data artefact", { level: 2 }),
+        createArtefactBlock({
+          kind: "table",
+          title: "Quarterly forecast",
+          source: "(forecast/table :quarterly)"
+        }),
+        createTextBlock("paragraph", "A committed snapshot records the exact source root and result root in Hestia. Continuing edits create new operations without rewriting the earlier receipt.")
+      ]
+    });
+
+    async function evaluateArtefact({ artefact, source }) {
+      await new Promise((resolve) => setTimeout(resolve, 280));
+      if (artefact.attrs.kind === "table") {
+        return {
+          display: "Quarterly forecast table",
+          table: [
+            ["Quarter", "Revenue", "Variance"],
+            ["Q1", "$1.24m", "+4.2%"],
+            ["Q2", "$1.38m", "+7.1%"],
+            ["Q3", "$1.52m", "+8.8%"]
+          ],
+          value: { source, rows: 4 },
+          mediaType: "application/vnd.hara.table+json",
+          revision: "demo-kernel/3"
+        };
+      }
+      if (source.includes("6 7")) return { display: "42", value: 42, revision: "demo-kernel/3" };
+      return { display: source, value: source, revision: "demo-kernel/3" };
+    }
+
+    createHaraDocumentEditor(document.querySelector("#document-app"), {
+      document,
+      author: "demo/editor",
+      evaluateArtefact,
+      onChange(nextDocument) {
+        localStorage.setItem("hara-document-demo", JSON.stringify(nextDocument));
+      },
+      onBatch(batch) {
+        console.info("Hestia document batch", batch);
+      }
+    });
+  </script>
+</body>
+</html>
