@@ -15,6 +15,7 @@
   <div id="document-app"></div>
   <script type="module">
     import { createHaraDocumentEditor } from "./document-editor.js";
+    import { prepareHestiaBatch } from "./document-hestia.js";
     import { createArtefactBlock, createDocument, createTextBlock } from "./document-model.js";
 
     const stored = localStorage.getItem("hara-document-demo");
@@ -65,8 +66,8 @@
       onChange(nextDocument) {
         localStorage.setItem("hara-document-demo", JSON.stringify(nextDocument));
       },
-      onBatch(batch) {
-        console.info("Hestia document batch", batch);
+      onBatch(batch, nextDocument) {
+        console.info("Hestia document batch", prepareHestiaBatch(nextDocument, batch));
       }
     });
   </script>
