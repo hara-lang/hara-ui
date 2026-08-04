@@ -5,7 +5,7 @@ source for the website, the static specification explorer, and browser tools.
 
 Open `index.html` to see the component system in use.
 
-![Hara UI](og-hara-ui.png)
+![Hara UI](og-hara-ui.jpg)
 
 ## Contents
 
