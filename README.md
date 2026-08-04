@@ -1,9 +1,11 @@
 # Hara UI
 
 Framework-free, versioned UI primitives for Hara properties. It is the shared
-source for the website, the static specification explorer, and browser tools.
+source for the website, the static specification explorer, browser tools and the
+Hara document surface.
 
-Open `index.html` to see the component system in use.
+Open `index.html` to see the component system. Open `document-demo.html` for a
+local-first word-processing surface with directly embedded Hara artefacts.
 
 ![Hara UI](og-hara-ui.png)
 
@@ -17,8 +19,71 @@ Open `index.html` to see the component system in use.
 - `menu-bar.js` — desktop menu-bar disclosure behavior for `.hara-menu-bar`.
 - `workspace.js` — accessible tabs and code↔visual action event bindings.
 - `workbench.js` — dock-first DOM/SVG patch workbench with typed core-flow ports.
+- `document-model.js` — canonical `greenways.rich-text/2` values and
+  Hestia-compatible operations.
+- `document-editor.js` and `document.css` — the browser document surface and
+  embedded Hara artefact node view.
 - `docs/workspace-interface.md` — VS Code/Blender/Max-style workspace spec.
 - `docs/code-visual-links.md` — code ↔ visual link controls and states.
+
+## Hara documents
+
+A Hara document is a stable-ID AST. Prose blocks and embedded artefacts share
+one canonical tree. An artefact contains a normal text child for HAL source, so
+source edits use the same Hestia `text.splice` operation as prose. The kernel's
+live result is ephemeral until the author commits a snapshot operation with the
+exact source and result roots.
+
+```js
+import { createHaraDocumentEditor } from "@hara-lang/ui/document-editor";
+import {
+  createArtefactBlock,
+  createDocument,
+  createTextBlock
+} from "@hara-lang/ui/document-model";
+import "@hara-lang/ui/document.css";
+
+const document = createDocument({
+  title: "Quarterly review",
+  blocks: [
+    createTextBlock("heading", "Quarterly review", { level: 1 }),
+    createTextBlock("paragraph", "The current forecast is embedded below."),
+    createArtefactBlock({
+      kind: "table",
+      title: "Forecast",
+      source: "(forecast/table :quarterly)"
+    })
+  ]
+});
+
+createHaraDocumentEditor(document.querySelector("#document"), {
+  document,
+  async evaluateArtefact({ source, namespace }) {
+    return haraKernel.eval(source, namespace);
+  },
+  onBatch(batch) {
+    hestia.submit(batch);
+  }
+});
+```
+
+The initial artefact kinds are `value`, `view`, `table`, `chart`, `canvas`,
+`query`, `agent`, and `custom`. HTML views are projected in a sandboxed iframe;
+ordinary values and tables remain host-rendered. The surface never makes HTML
+the canonical document representation.
+
+## Hestia collaboration boundary
+
+The editor emits batches compatible with the Greenways Document Operations and
+Provenance Protocol. Hestia owns sequencing, operational transformation,
+conflicts, signed receipts, approvals and delivery. Hara UI performs optimistic
+local projection only. A remote accepted or transformed batch should be applied
+to the canonical document and supplied back through `setDocument()`.
+
+Live artefact results are not automatically signed. `Commit snapshot` emits an
+`artefact.commit` operation containing the source root, result root, media type
+and concise display. Later edits preserve the historical snapshot receipt while
+making the new source a distinct working state.
 
 ## Static use
 
@@ -42,3 +107,10 @@ document title and breadcrumb, then appends only the selected filename.
 
 Chrome extension builds must copy these files into the packaged extension;
 Manifest V3 does not permit remotely hosted executable code.
+
+## Validation
+
+```sh
+npm test
+npm run check
+```
