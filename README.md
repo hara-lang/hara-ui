@@ -23,6 +23,8 @@ local-first word-processing surface with directly embedded Hara artefacts.
   Hestia-compatible operations.
 - `document-editor.js` and `document.css` — the browser document surface and
   embedded Hara artefact node view.
+- `document-hestia.js` — submission adapter that resolves stable artefact node
+  and source-text IDs before a batch enters Hestia OT.
 - `docs/workspace-interface.md` — VS Code/Blender/Max-style workspace spec.
 - `docs/code-visual-links.md` — code ↔ visual link controls and states.
 
@@ -36,6 +38,7 @@ exact source and result roots.
 
 ```js
 import { createHaraDocumentEditor } from "@hara-lang/ui/document-editor";
+import { createHestiaDocumentClient } from "@hara-lang/ui/document-hestia";
 import {
   createArtefactBlock,
   createDocument,
@@ -56,13 +59,18 @@ const document = createDocument({
   ]
 });
 
+const collaboration = createHestiaDocumentClient({
+  submit: (batch) => hestia.post(`/v1/documents/${batch.documentId}/imports`, batch),
+  onConflict: (receipt) => showConflict(receipt)
+});
+
 createHaraDocumentEditor(document.querySelector("#document"), {
   document,
   async evaluateArtefact({ source, namespace }) {
     return haraKernel.eval(source, namespace);
   },
-  onBatch(batch) {
-    hestia.submit(batch);
+  onBatch(batch, nextDocument) {
+    collaboration.submit(nextDocument, batch);
   }
 });
 ```
@@ -79,6 +87,11 @@ Provenance Protocol. Hestia owns sequencing, operational transformation,
 conflicts, signed receipts, approvals and delivery. Hara UI performs optimistic
 local projection only. A remote accepted or transformed batch should be applied
 to the canonical document and supplied back through `setDocument()`.
+
+`prepareHestiaBatch()` enriches each `artefact.commit` with its stable artefact
+node and source text IDs. Hestia can therefore transform against intervening
+source edits and also verify the exact source root at admission. The helper does
+not sign, sequence, hash or submit the batch.
 
 Live artefact results are not automatically signed. `Commit snapshot` emits an
 `artefact.commit` operation containing the source root, result root, media type
