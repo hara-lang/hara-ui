@@ -1,0 +1,32 @@
+{
+  "name": "@hara-lang/web-workspace",
+  "version": "0.1.0",
+  "description": "Browser project descriptors, workspace storage and OPFS adapters for Hara web tools",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hara-lang/hara-ui.git",
+    "directory": "packages/web-workspace"
+  },
+  "exports": {
+    ".": "./src/index.js",
+    "./project": "./src/project.js",
+    "./store": "./src/store.js",
+    "./default-project": "./src/default-project.js"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "check": "node --check src/*.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
