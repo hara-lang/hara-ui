@@ -1,0 +1,31 @@
+{
+  "name": "@hara-lang/web-runtime",
+  "version": "0.1.0",
+  "description": "Browser worker client and Hara kernel boot adapters shared by Hara web surfaces",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hara-lang/hara-ui.git",
+    "directory": "packages/web-runtime"
+  },
+  "exports": {
+    ".": "./src/index.js",
+    "./client": "./src/client.js",
+    "./live-kernel": "./src/live-kernel.js"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "check": "node --check src/*.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
