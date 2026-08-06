@@ -23,5 +23,5 @@ test("InstaREPL selects a complete top-level form", () => {
 
 test("completion merges core and project symbols", () => {
   const items = completionItems({ prefix: "pri", source: "(def print-value 1)" });
-  assert.deepEqual(items.map((item) => item.label), ["prn", "println", "print-value"]);
+  assert.deepEqual(items.map((item) => item.label), ["println", "print-value"]);
 });
