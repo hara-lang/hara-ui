@@ -1,0 +1,35 @@
+{
+  "name": "@hara-lang/web-editor",
+  "version": "0.1.0",
+  "description": "Framework-free Hara structural editing, highlighting, completion and InstaREPL primitives",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hara-lang/hara-ui.git",
+    "directory": "packages/web-editor"
+  },
+  "exports": {
+    ".": "./src/index.js",
+    "./lisp": "./src/lisp.js",
+    "./forms": "./src/forms.js",
+    "./instarepl": "./src/instarepl.js",
+    "./completion": "./src/completion.js",
+    "./textarea": "./src/textarea.js",
+    "./highlight": "./src/highlight.js"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "check": "node --check src/*.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
