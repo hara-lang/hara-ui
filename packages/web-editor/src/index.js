@@ -1,3 +1,6 @@
+export * from "./forms.js";
+export * from "./instarepl.js";
+export * from "./lisp.js";
 export {
   applyCompletion,
   applyParedit,
@@ -9,4 +12,4 @@ export {
   localFormAt,
   slurpForward,
   structuralAlign
-} from "@hara-lang/web-editor/textarea";
+} from "./textarea.js";

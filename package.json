@@ -49,8 +49,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node --test tests/*.test.js && npm test --workspace @hara-lang/live",
-    "check": "node --check document-model.js && node --check document-editor.js && node --check document-hestia.js && npm run check --workspace @hara-lang/live"
+    "test": "node --test tests/*.test.js && npm test --workspaces --if-present",
+    "check": "node --check document-model.js && node --check document-editor.js && node --check document-hestia.js && npm run check --workspaces --if-present"
   },
   "license": "MIT"
 }

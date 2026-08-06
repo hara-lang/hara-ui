@@ -1,5 +1,6 @@
+export { RuntimeClient } from "./client.js";
 export {
   createLiveKernel,
   createProgressFetch,
   resetLiveKernelCache
-} from "@hara-lang/web-runtime/live-kernel";
+} from "./live-kernel.js";

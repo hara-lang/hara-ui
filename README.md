@@ -25,6 +25,9 @@ local-first word-processing surface with directly embedded Hara artefacts.
   embedded Hara artefact node view.
 - `document-hestia.js` — submission adapter that resolves stable artefact node
   and source-text IDs before a batch enters Hestia OT.
+- `packages/web-*` — portable runtime, editor, workspace, preview, and capability
+  components used by Live, Playground, Catalog, and Studio compositions.
+- `docs/web-packages.md` — package ownership, dependency, and migration rules.
 - `docs/workspace-interface.md` — VS Code/Blender/Max-style workspace spec.
 - `docs/code-visual-links.md` — code ↔ visual link controls and states.
 
@@ -124,6 +127,7 @@ Manifest V3 does not permit remotely hosted executable code.
 ## Validation
 
 ```sh
+npm install --ignore-scripts
 npm test
 npm run check
 ```
