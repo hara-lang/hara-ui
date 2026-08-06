@@ -12,7 +12,7 @@ const preview = createPreviewHost({
   viewport: { id: "phone", width: 390, height: 844 }
 });
 
-preview.render({ type: "render", tree: [:main] });
+preview.render({ type: "render", tree: ["main", "Ready"] });
 preview.dispose();
 ```
 
