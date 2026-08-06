@@ -1,0 +1,36 @@
+{
+  "name": "@hara-lang/live",
+  "version": "0.1.0",
+  "description": "Embeddable Hara live-coding card with Paredit, InstaREPL, WASM evaluation, console output, and interruptible canvas demos",
+  "license": "Apache-2.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hara-lang/hara-ui.git",
+    "directory": "packages/live"
+  },
+  "exports": {
+    ".": "./src/live-card.js",
+    "./editor": "./src/editor.js",
+    "./highlight": "./src/highlight.js",
+    "./kernel": "./src/kernel.js",
+    "./snippets": "./src/snippets.js",
+    "./pong": "./src/pong.js",
+    "./style.css": "./src/style.css"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "check": "node --check src/*.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
