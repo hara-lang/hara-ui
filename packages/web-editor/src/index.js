@@ -1,7 +1,6 @@
-export * from "./completion.js";
 export * from "./forms.js";
 export * from "./instarepl.js";
-export * from "./scanner.js";
+export * from "./lisp.js";
 export {
   applyCompletion,
   applyParedit,
