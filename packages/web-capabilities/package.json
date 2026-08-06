@@ -1,0 +1,29 @@
+{
+  "name": "@hara-lang/web-capabilities",
+  "version": "0.1.0",
+  "description": "Capability grants, browser host-operation dispatch and resource revocation for Hara web surfaces",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hara-lang/hara-ui.git",
+    "directory": "packages/web-capabilities"
+  },
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "check": "node --check src/*.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
