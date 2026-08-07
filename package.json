@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": false,
   "type": "module",
-  "description": "Shared framework-free UI components, document surfaces and editor theme for Hara",
+  "description": "Product-neutral browser services, primitives and compatibility UI surfaces for Hara",
   "workspaces": [
     "packages/*"
   ],
@@ -20,7 +20,8 @@
     "./document.css": "./document.css",
     "./document-model": "./document-model.js",
     "./document-editor": "./document-editor.js",
-    "./document-hestia": "./document-hestia.js"
+    "./document-hestia": "./document-hestia.js",
+    "./document-compatibility": "./document-compatibility.js"
   },
   "files": [
     "tokens.css",
@@ -36,6 +37,7 @@
     "document-model.js",
     "document-editor.js",
     "document-hestia.js",
+    "document-compatibility.js",
     "document-demo.html",
     "favicon-48.svg",
     "favicon-128.svg",
@@ -50,7 +52,7 @@
   ],
   "scripts": {
     "test": "node --test tests/*.test.js && npm test --workspaces --if-present",
-    "check": "node --check document-model.js && node --check document-editor.js && node --check document-hestia.js && npm run check --workspaces --if-present"
+    "check": "node --check document-model.js && node --check document-editor.js && node --check document-hestia.js && node --check document-compatibility.js && npm run check --workspaces --if-present"
   },
   "license": "MIT"
 }

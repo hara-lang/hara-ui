@@ -1,11 +1,12 @@
 # Hara UI
 
-Framework-free, versioned UI primitives for Hara properties. It is the shared
-source for the website, the static specification explorer, browser tools and the
-Hara document surface.
+Framework-free, versioned browser services, UI primitives and compatibility
+surfaces for Hara. It is the shared source for the website, the static
+specification explorer and product-neutral browser tooling.
 
-Open `index.html` to see the component system. Open `document-demo.html` for a
-local-first word-processing surface with directly embedded Hara artefacts.
+Open `index.html` to see the component system. Open `document-demo.html` for the
+legacy local-first word-processing surface with directly embedded Hara
+artefacts.
 
 ![Hara UI](og-hara-ui.jpg)
 
@@ -19,15 +20,20 @@ local-first word-processing surface with directly embedded Hara artefacts.
 - `menu-bar.js` — desktop menu-bar disclosure behavior for `.hara-menu-bar`.
 - `workspace.js` — accessible tabs and code↔visual action event bindings.
 - `workbench.js` — dock-first DOM/SVG patch workbench with typed core-flow ports.
-- `document-model.js` — canonical `greenways.rich-text/2` values and
-  Hestia-compatible operations.
-- `document-editor.js` and `document.css` — the browser document surface and
-  embedded Hara artefact node view.
+- `document-model.js` — canonical `greenways.rich-text/2` compatibility values
+  and Hestia-compatible operations.
+- `document-editor.js` and `document.css` — the existing browser document
+  compatibility surface and embedded Hara artefact view.
 - `document-hestia.js` — submission adapter that resolves stable artefact node
   and source-text IDs before a batch enters Hestia OT.
-- `packages/web-*` — portable runtime, editor, workspace, preview, and capability
-  components used by Live, Playground, Catalog, and Studio compositions.
+- `document-compatibility.js` — inert migration metadata for the
+  `hodos.2d/document` boundary, without importing Hodos.
+- `packages/web-*` — portable runtime, editor, workspace, preview, capability
+  and add-on services used by Live, Playground, Catalog, and Studio
+  compositions.
 - `docs/web-packages.md` — package ownership, dependency, and migration rules.
+- `docs/hodos-2d-migration.md` — Hara document compatibility and the Hodos 2D
+  consumer path.
 - `docs/workspace-interface.md` — VS Code/Blender/Max-style workspace spec.
 - `docs/code-visual-links.md` — code ↔ visual link controls and states.
 
@@ -82,6 +88,41 @@ The initial artefact kinds are `value`, `view`, `table`, `chart`, `canvas`,
 `query`, `agent`, and `custom`. HTML views are projected in a sandboxed iframe;
 ordinary values and tables remain host-rendered. The surface never makes HTML
 the canonical document representation.
+
+## Hodos 2D migration boundary
+
+New visible Workspace document integrations belong to:
+
+```text
+@greenways/hodos-2d
+@greenways/hodos-2d-ui
+hodos.2d/document
+hodos.rich-text/2
+```
+
+The current `document-model`, `document-editor`, `document.css` and
+`document-hestia` exports remain stable compatibility entry points. Hara UI does
+not import Hodos. Consumers can discover the target contract through
+`@hara-lang/ui/document-compatibility`, project existing documents through
+`@greenways/hodos-2d/compat/hara-document`, and mount the safe default host from
+`@greenways/hodos-2d-ui/document-dom`.
+
+```js
+import {
+  describeHaraDocumentCompatibility,
+} from "@hara-lang/ui/document-compatibility";
+import {
+  createLegacyHaraDocumentArea,
+} from "@greenways/hodos-2d/compat/hara-document";
+
+const migration = describeHaraDocumentCompatibility(document);
+const area = createLegacyHaraDocumentArea({ document });
+```
+
+Hodos owns the visible component, lifecycle and `document/*` semantic boundary.
+The application still owns operation application, Hara evaluation, persistence,
+collaboration, signatures and privileged capabilities. See
+`docs/hodos-2d-migration.md` for the complete integration path.
 
 ## Hestia collaboration boundary
 
