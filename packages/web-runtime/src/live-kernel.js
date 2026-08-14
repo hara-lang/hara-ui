@@ -6,7 +6,18 @@ function defaultResources(runtimeBase, docsAssetsBase) {
     "studio.fs": `${docsAssetsBase}/rust/studio/hal/fs.hal`,
     "studio.node": `${runtimeBase}/studio/hal/node.hal`,
     "studio.draw": `${runtimeBase}/studio/hal/draw.hal`,
-    "std.lib.substrate.frame": `${runtimeBase}/std/lib/substrate/frame.hal`
+    "std.substrate.core": `${runtimeBase}/std/substrate/core.hal`,
+    "std.substrate.frame": `${runtimeBase}/std/substrate/frame.hal`,
+    "std.substrate.json": `${runtimeBase}/std/substrate/json.hal`,
+    "std.substrate.protocol": `${runtimeBase}/std/substrate/protocol.hal`,
+    "std.substrate.pubsub": `${runtimeBase}/std/substrate/pubsub.hal`,
+    "std.substrate.request": `${runtimeBase}/std/substrate/request.hal`,
+    "std.substrate.router": `${runtimeBase}/std/substrate/router.hal`,
+    "std.substrate.space": `${runtimeBase}/std/substrate/space.hal`,
+    "std.substrate.transport-memory": `${runtimeBase}/std/substrate/transport_memory.hal`,
+    "std.substrate.util": `${runtimeBase}/std/substrate/util.hal`,
+    "std.substrate.util-handlers": `${runtimeBase}/std/substrate/util_handlers.hal`,
+    "std.substrate": `${runtimeBase}/std/substrate.hal`
   };
 }
 

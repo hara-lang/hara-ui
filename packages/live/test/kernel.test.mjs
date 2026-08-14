@@ -30,7 +30,9 @@ test("injected createKernel factory receives the resolved configuration", async 
   assert.equal(kernel.config.resources["studio.node"], "/rt/studio/hal/node.hal");
   assert.equal(kernel.config.resources["studio.draw"], "/rt/studio/hal/draw.hal");
   assert.equal(kernel.config.resources["studio.store"], "/assets/rust/studio/hal/store.hal");
-  assert.equal(kernel.config.resources["std.lib.substrate.frame"], "/rt/std/lib/substrate/frame.hal");
+  assert.equal(kernel.config.resources["std.substrate.frame"], "/rt/std/substrate/frame.hal");
+  assert.equal(kernel.config.resources["std.substrate.json"], "/rt/std/substrate/json.hal");
+  assert.equal(kernel.config.resources["std.substrate"], "/rt/std/substrate.hal");
 });
 
 test("kernelModuleUrl boots are cached per configuration", async () => {
