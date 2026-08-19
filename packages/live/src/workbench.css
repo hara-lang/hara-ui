@@ -1,0 +1,438 @@
+@import "./style.css";
+
+/* @hara-lang/live workbench — precision without armour. */
+.hara-live-workbench {
+  --hara-live-workbench-bg: #0b1017;
+  --hara-live-workbench-panel: #111821;
+  --hara-live-workbench-raised: #171f29;
+  --hara-live-workbench-ink: #e8eef5;
+  --hara-live-workbench-muted: #97a5b5;
+  --hara-live-workbench-line: rgba(222, 232, 242, .12);
+  --hara-live-workbench-line-strong: rgba(222, 232, 242, .2);
+  --hara-live-workbench-signal: #4d9cff;
+  --hara-live-workbench-wash: rgba(77, 156, 255, .11);
+  --hara-live-workbench-radius: 12px;
+  --hara-live-workbench-radius-small: 8px;
+  --hara-live-workbench-motion: 185ms cubic-bezier(.2, .7, .2, 1);
+
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--hara-live-workbench-line-strong);
+  border-radius: var(--hara-live-workbench-radius);
+  color: var(--hara-live-workbench-ink);
+  background: var(--hara-live-workbench-bg);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .18);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+:root[data-theme="light"] .hara-live-workbench,
+[data-theme="light"] .hara-live-workbench {
+  --hara-live-workbench-bg: #f4f6f8;
+  --hara-live-workbench-panel: #ffffff;
+  --hara-live-workbench-raised: #eef2f5;
+  --hara-live-workbench-ink: #18212b;
+  --hara-live-workbench-muted: #627181;
+  --hara-live-workbench-line: rgba(24, 33, 43, .09);
+  --hara-live-workbench-line-strong: rgba(24, 33, 43, .16);
+  --hara-live-workbench-wash: rgba(77, 156, 255, .09);
+  box-shadow: 0 18px 44px rgba(31, 42, 54, .11);
+}
+
+.hara-live-workbench-top {
+  display: flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 8px 6px 10px;
+  border-block-end: 1px solid var(--hara-live-workbench-line);
+  background: color-mix(in srgb, var(--hara-live-workbench-panel) 92%, transparent);
+}
+
+.hara-live-workbench-sections,
+.hara-live-workbench-pane-tabs {
+  display: flex;
+  min-width: 0;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.hara-live-workbench-sections::-webkit-scrollbar,
+.hara-live-workbench-pane-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.hara-live-workbench-sections button,
+.hara-live-workbench-pane-tabs button,
+.hara-live-workbench-pane-toggle {
+  appearance: none;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--hara-live-workbench-muted);
+  background: transparent;
+  font: 600 12px/1.1 Inter, ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    color var(--hara-live-workbench-motion),
+    background-color var(--hara-live-workbench-motion),
+    border-color var(--hara-live-workbench-motion),
+    box-shadow var(--hara-live-workbench-motion);
+}
+
+.hara-live-workbench-sections button:hover,
+.hara-live-workbench-pane-tabs button:hover,
+.hara-live-workbench-pane-toggle:hover {
+  color: var(--hara-live-workbench-ink);
+  background: color-mix(in srgb, var(--hara-live-workbench-raised) 72%, transparent);
+}
+
+.hara-live-workbench-sections button[aria-selected="true"],
+.hara-live-workbench-pane-tabs button[aria-selected="true"],
+.hara-live-workbench-pane-toggle[aria-expanded="true"] {
+  color: var(--hara-live-workbench-ink);
+  border-color: var(--hara-live-workbench-line);
+  background: var(--hara-live-workbench-raised);
+  box-shadow: inset 0 -2px 0 var(--hara-live-workbench-signal);
+}
+
+.hara-live-workbench :where(button, input, select, textarea, a):focus-visible {
+  outline: 2px solid var(--hara-live-workbench-signal);
+  outline-offset: 2px;
+}
+
+.hara-live-workbench-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 0;
+  min-width: 0;
+  transition: grid-template-columns var(--hara-live-workbench-motion);
+}
+
+.hara-live-workbench[data-control-pane="open"] .hara-live-workbench-body {
+  grid-template-columns: minmax(0, 1fr) minmax(248px, 294px);
+}
+
+.hara-live-workbench-main {
+  min-width: 0;
+  background: var(--hara-live-workbench-bg);
+}
+
+.hara-live-workbench-live {
+  min-width: 0;
+}
+
+.hara-live-workbench-context {
+  display: none;
+  min-height: 240px;
+  padding: 18px;
+  background: var(--hara-live-workbench-bg);
+}
+
+.hara-live-workbench[data-section="nav"] [data-context-section="nav"],
+.hara-live-workbench[data-section="frontmatter"] [data-context-section="frontmatter"] {
+  display: block;
+}
+
+.hara-live-workbench[data-section="nav"] .hara-live-workbench-live,
+.hara-live-workbench[data-section="frontmatter"] .hara-live-workbench-live {
+  display: none;
+}
+
+.hara-live-workbench[data-section="code"] .hara-live-card-canvas-panel {
+  display: none !important;
+}
+
+.hara-live-workbench[data-section="graphics"] .hara-live-card-editor,
+.hara-live-workbench[data-section="graphics"] .hara-live-card-output {
+  display: none !important;
+}
+
+.hara-live-workbench-entry-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hara-live-workbench-entry {
+  min-width: 0;
+}
+
+.hara-live-workbench-entry > :where(div, a) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 12px;
+  min-height: 44px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--hara-live-workbench-radius-small);
+  color: inherit;
+  background: color-mix(in srgb, var(--hara-live-workbench-panel) 68%, transparent);
+  text-decoration: none;
+  transition: background-color var(--hara-live-workbench-motion), border-color var(--hara-live-workbench-motion);
+}
+
+.hara-live-workbench-entry > a:hover {
+  border-color: var(--hara-live-workbench-line);
+  background: var(--hara-live-workbench-raised);
+}
+
+.hara-live-workbench-entry strong {
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hara-live-workbench-entry span,
+.hara-live-workbench-entry small {
+  color: var(--hara-live-workbench-muted);
+  font: 500 11px/1.35 ui-monospace, "SFMono-Regular", Consolas, monospace;
+}
+
+.hara-live-workbench-entry span {
+  grid-column: 1 / -1;
+}
+
+.hara-live-workbench-entry small {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.hara-live-workbench-entry small[data-state="ready"],
+.hara-live-workbench-entry small[data-state="connected"] {
+  color: var(--hara-live-workbench-signal);
+}
+
+.hara-live-workbench-pane {
+  min-width: 0;
+  overflow: hidden;
+  border-inline-start: 1px solid var(--hara-live-workbench-line);
+  background: var(--hara-live-workbench-panel);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(12px);
+  transition: opacity var(--hara-live-workbench-motion), transform var(--hara-live-workbench-motion);
+}
+
+.hara-live-workbench[data-control-pane="open"] .hara-live-workbench-pane {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+
+.hara-live-workbench-pane-tabs {
+  padding: 7px;
+  border-block-end: 1px solid var(--hara-live-workbench-line);
+}
+
+.hara-live-workbench-pane-tabs button {
+  min-height: 32px;
+  flex: 1 0 auto;
+  padding-inline: 9px;
+  font-size: 11px;
+}
+
+.hara-live-workbench-pane-content {
+  max-height: 640px;
+  overflow: auto;
+  padding: 10px;
+}
+
+.hara-live-workbench-empty {
+  margin: 0;
+  padding: 18px 10px;
+  color: var(--hara-live-workbench-muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.hara-live-control-list {
+  display: grid;
+  gap: 7px;
+}
+
+.hara-live-control {
+  display: grid;
+  min-height: 42px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 7px 9px;
+  border: 1px solid transparent;
+  border-radius: var(--hara-live-workbench-radius-small);
+  background: color-mix(in srgb, var(--hara-live-workbench-bg) 68%, transparent);
+}
+
+.hara-live-control > span:first-child {
+  color: var(--hara-live-workbench-muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.hara-live-control button,
+.hara-live-control select {
+  min-height: 30px;
+  border: 1px solid var(--hara-live-workbench-line);
+  border-radius: 7px;
+  color: var(--hara-live-workbench-ink);
+  background: var(--hara-live-workbench-raised);
+  font: 600 11px/1.1 Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.hara-live-control button {
+  padding-inline: 10px;
+  cursor: pointer;
+}
+
+.hara-live-control-toggle[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--hara-live-workbench-signal) 42%, var(--hara-live-workbench-line));
+  background: var(--hara-live-workbench-wash);
+}
+
+.hara-live-control-range {
+  display: grid;
+  min-width: 128px;
+  grid-template-columns: minmax(72px, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.hara-live-control-range input {
+  accent-color: var(--hara-live-workbench-signal);
+}
+
+.hara-live-control-range output {
+  min-width: 40px;
+  color: var(--hara-live-workbench-muted);
+  font: 500 10px/1 ui-monospace, "SFMono-Regular", Consolas, monospace;
+  text-align: right;
+}
+
+/* Calm the existing live card when it is hosted in the workbench. */
+.hara-live-workbench .hara-live-card {
+  --hara-live-bg: var(--hara-live-workbench-bg);
+  --hara-live-panel: var(--hara-live-workbench-panel);
+  --hara-live-ink: var(--hara-live-workbench-ink);
+  --hara-live-muted: var(--hara-live-workbench-muted);
+  --hara-live-accent: var(--hara-live-workbench-signal);
+  --hara-live-border: var(--hara-live-workbench-line);
+
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+}
+
+.hara-live-workbench .hara-live-card-header {
+  padding-block-end: 9px;
+  background: var(--hara-live-workbench-panel);
+  border-block-end-color: var(--hara-live-workbench-line);
+}
+
+.hara-live-workbench .hara-live-card-header button,
+.hara-live-workbench .hara-live-card-playground,
+.hara-live-workbench .hara-live-card-tabs button {
+  border-radius: 8px;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0;
+  text-transform: none;
+  transition:
+    color var(--hara-live-workbench-motion),
+    background-color var(--hara-live-workbench-motion),
+    border-color var(--hara-live-workbench-motion),
+    filter var(--hara-live-workbench-motion);
+}
+
+.hara-live-workbench .hara-live-card-tabs {
+  background: color-mix(in srgb, var(--hara-live-workbench-raised) 52%, var(--hara-live-workbench-panel));
+  border-block-end-color: var(--hara-live-workbench-line);
+}
+
+.hara-live-workbench .hara-live-card-tabs button {
+  border-radius: 7px 7px 0 0;
+}
+
+.hara-live-workbench .hara-live-card-tabs button[aria-selected="true"] {
+  background: var(--hara-live-workbench-bg);
+}
+
+.hara-live-workbench .hara-live-card-eval,
+.hara-live-workbench .hara-live-card-playground {
+  border-color: var(--hara-live-workbench-line);
+}
+
+.hara-live-workbench .hara-live-card-editor,
+.hara-live-workbench .hara-live-card-canvas-panel,
+.hara-live-workbench .hara-live-card-output {
+  border-color: var(--hara-live-workbench-line);
+}
+
+.hara-live-workbench .hara-live-card-resizer {
+  background-color: var(--hara-live-workbench-panel);
+  border-color: var(--hara-live-workbench-line);
+}
+
+.hara-live-workbench .hara-live-card-canvas-meta {
+  color: var(--hara-live-workbench-muted);
+  background: var(--hara-live-workbench-panel);
+  letter-spacing: .02em;
+  text-transform: none;
+}
+
+@media (max-width: 900px) {
+  .hara-live-workbench[data-control-pane="open"] .hara-live-workbench-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hara-live-workbench-pane {
+    position: absolute;
+    z-index: 30;
+    inset: 47px 0 0 auto;
+    width: min(320px, calc(100% - 24px));
+    border-block-start: 1px solid var(--hara-live-workbench-line);
+    box-shadow: -18px 20px 42px rgba(0, 0, 0, .22);
+  }
+}
+
+@media (max-width: 560px) {
+  .hara-live-workbench-top {
+    align-items: flex-start;
+    padding-inline: 6px;
+  }
+
+  .hara-live-workbench-sections button {
+    min-height: 36px;
+    padding-inline: 10px;
+  }
+
+  .hara-live-workbench-pane-toggle {
+    flex: 0 0 auto;
+  }
+
+  .hara-live-workbench-context {
+    min-height: 210px;
+    padding: 10px;
+  }
+
+  .hara-live-workbench-pane {
+    width: calc(100% - 12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hara-live-workbench,
+  .hara-live-workbench * {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
