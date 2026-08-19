@@ -1,6 +1,6 @@
 # @hara-lang/live
 
-Framework-free browser component for embedding a Hara editor and kernel session.
+Framework-free browser components for embedding a Hara editor and kernel session.
 
 It provides:
 
@@ -9,10 +9,12 @@ It provides:
 - desktop and mobile InstaREPL evaluation;
 - readable Hara value printing;
 - Eval, Run, Stop, and Reset controls;
-- resizable editor and canvas surfaces; and
-- interruptible `studio.draw` canvas programs.
+- resizable editor and canvas surfaces;
+- interruptible `studio.draw` canvas programs;
+- optional Nav / Frontmatter / Graphics / Code section navigation; and
+- an optional Sessions / Files / Canvas / 3D control pane.
 
-## Use
+## Basic live card
 
 ```js
 import { mountLiveCard } from "@hara-lang/live";
@@ -29,7 +31,57 @@ mountLiveCard(document.querySelector("[data-hara-live]"), {
 });
 ```
 
-Consumers provide either a kernel facade/promise through `kernel`, or the runtime locations needed by `createLiveKernel`. Documentation-specific session registries, filesystems, and course metadata remain adapters owned by the documentation application.
+## Calm workbench shell
+
+`mountLiveWorkbench` wraps the same live card. Existing snippet, kernel, runtime,
+and Playground options are forwarded unchanged. Navigation and controls are
+host-provided, so an embed never advertises a capability that its runtime does
+not support.
+
+```js
+import { mountLiveWorkbench } from "@hara-lang/live/workbench";
+import "@hara-lang/live/workbench.css";
+
+mountLiveWorkbench(document.querySelector("[data-hara-live]"), {
+  snippets,
+  kernel: kernelPromise,
+  activeSection: "code",
+  navigation: [
+    { label: "Overview", href: "#overview" },
+    { label: "Rendering", href: "#rendering" }
+  ],
+  frontmatter: [
+    { label: "Session", value: "isolated" },
+    { label: "File", value: "main.hal" }
+  ],
+  controlPane: {
+    open: false,
+    sessions: [{ label: "Tutorial", value: "isolated", status: "ready" }],
+    files: [{ label: "main.hal", value: "current" }],
+    canvas: [
+      { id: "grid", label: "Grid", type: "toggle", value: true },
+      { id: "scale", label: "Scale", type: "range", min: 25, max: 200, value: 100, unit: "%" }
+    ],
+    threeD: [
+      { id: "camera", label: "Camera", type: "select", value: "orbit", options: ["orbit", "front", "top"] }
+    ],
+    onControl({ group, id, value }) {
+      runtimeControls.update(group, id, value);
+    }
+  }
+});
+```
+
+The workbench follows Hara's calm-surface rule: continuous regions, quiet seams,
+comfortable controls, sentence-case labels, smooth state changes, and one
+functional signal. The four content sections and four control groups use
+accessible tablists with keyboard navigation. The control pane becomes an
+overlay on narrow screens and respects reduced motion.
+
+Consumers provide either a kernel facade/promise through `kernel`, or the runtime
+locations needed by `createLiveKernel`. Documentation-specific session
+registries, filesystems, frontmatter, and course metadata remain adapters owned
+by the documentation application.
 
 ## Development
 
