@@ -104,7 +104,7 @@ test("live card exposes tabs, InstaREPL, resizers, interrupt and reset", async (
   assert.match(source, /Stop or Esc to interrupt/);
   assert.match(source, /interrupt: stopCanvas/);
   assert.match(source, /resetButton\.addEventListener\("click", reset\)/);
-  assert.match(source, /Open in Playground/);
+  assert.match(source, /Open in Play/);
   assert.match(styles, /\.hara-live-card-tabs/);
   assert.match(styles, /\.hara-live-card-resizer/);
   assert.doesNotMatch(source, /setTimeout\(\(\) => evalCurrent/);

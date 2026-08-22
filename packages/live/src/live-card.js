@@ -438,7 +438,7 @@ function formAtEditor(editor, preferLine = false) {
  * @param {string | null} [options.kernelModuleUrl] passed to createLiveKernel
  * @param {Function | null} [options.createKernel] passed to createLiveKernel
  * @param {Function | null} [options.fetchAsset] passed to createLiveKernel
- * @param {string} [options.playgroundUrl] target of the "Open in Playground" link
+ * @param {string} [options.playgroundUrl] target of the "Open in Play" link
  * @returns {{ destroy: () => void, eval: () => Promise<void>, run: () => Promise<void>, interrupt: () => boolean, reset: () => void }}
  */
 export function mountLiveCard(root, {
@@ -450,7 +450,7 @@ export function mountLiveCard(root, {
   kernelModuleUrl = null,
   createKernel = null,
   fetchAsset = null,
-  playgroundUrl = "https://playground.hara-lang.org/"
+  playgroundUrl = "https://play.hara-lang.org/"
 } = {}) {
   const card = document.createElement("section");
   card.className = "hara-live-card";
@@ -466,7 +466,7 @@ export function mountLiveCard(root, {
       <button type="button" class="hara-live-card-run" data-live-run>Run</button>
       <button type="button" class="hara-live-card-eval hara-live-card-reset" data-live-reset hidden>Reset</button>
       <div class="hara-live-card-tabs" role="tablist" aria-label="Examples"></div>
-      <a class="hara-live-card-playground" target="_blank" rel="noopener">Open in Playground</a>
+      <a class="hara-live-card-playground" target="_blank" rel="noopener">Open in Play</a>
     </header>
     <div class="hara-live-card-editor">
       <pre class="code-highlight" aria-hidden="true"><code></code></pre>
