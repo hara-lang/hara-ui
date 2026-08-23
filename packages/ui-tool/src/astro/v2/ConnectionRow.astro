@@ -1,0 +1,51 @@
+---
+import RuntimeSwitch from "./RuntimeSwitch.astro";
+import StatusLamp from "./StatusLamp.astro";
+
+interface Props {
+  id: string;
+  label: string;
+  detail?: string;
+  state?: "off" | "starting" | "ready" | "stopping" | "connecting" | "connected" | "attention" | "warning" | "danger" | "error" | "disabled";
+  stateLabel?: string;
+  desired?: boolean;
+  disabled?: boolean;
+  hidden?: boolean;
+  class?: string;
+}
+
+const {
+  id,
+  label,
+  detail,
+  state = "off",
+  stateLabel = state.toUpperCase(),
+  desired = false,
+  disabled = false,
+  hidden = false,
+  class: className = ""
+} = Astro.props;
+
+const detailId = detail ? `${id}-detail` : undefined;
+---
+
+<div
+  class:list={["hara-runtime-connection", className]}
+  data-state={state}
+  data-desired={desired ? "on" : "off"}
+  hidden={hidden}
+>
+  <StatusLamp label={stateLabel} state={state} iconOnly />
+  <span class="hara-runtime-connection-copy">
+    <span class="hara-runtime-connection-label">{label}</span>
+    {detail && <small class="hara-runtime-connection-detail" id={detailId}>{detail}</small>}
+  </span>
+  <output class="hara-runtime-connection-state" for={id}>{stateLabel}</output>
+  <RuntimeSwitch
+    id={id}
+    label={`Request ${label}`}
+    checked={desired}
+    disabled={disabled}
+    describedBy={detailId}
+  />
+</div>

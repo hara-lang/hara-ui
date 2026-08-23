@@ -1,0 +1,25 @@
+---
+type HeadingLevel = "h1" | "h2";
+
+const {
+  kicker,
+  title,
+  description,
+  meta = [] as string[],
+  heading = "h1" as HeadingLevel
+} = Astro.props;
+
+const Heading = heading;
+const hasActions = Astro.slots.has("actions");
+const hasIllustration = Astro.slots.has("illustration");
+---
+<section class="hara-v2-page-header" data-illustrated={hasIllustration ? "true" : "false"}>
+  <div class="hara-v2-page-copy">
+    {kicker && <p class="hara-v2-kicker">{kicker}</p>}
+    <Heading>{title}</Heading>
+    {description && <p>{description}</p>}
+    {hasActions && <div class="hara-v2-page-actions"><slot name="actions" /></div>}
+    {meta.length > 0 && <div class="hara-v2-page-meta">{meta.map((item: string) => <span>{item}</span>)}</div>}
+  </div>
+  {hasIllustration && <div class="hara-v2-page-illustration"><slot name="illustration" /></div>}
+</section>

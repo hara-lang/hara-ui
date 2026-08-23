@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4096 2304" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="title desc">
+<title id="title">Hara evaluation field</title>
+<desc id="desc">Machined armour plates meet at a calibrated diagonal seam with a single blue execution signal.</desc>
+
+  <defs>
+    <style>
+      :root{
+        --ground:#f6f8fa;
+        --ground2:#ffffff;
+        --plate:#e7ebef;
+        --plate2:#cfd5db;
+        --ink:#11151a;
+        --line:#5e6873;
+        --faint:#8b949e;
+        --recess:#b8c0c8;
+        --signal:#2f7cff;
+        --signalSoft:#8db2ff;
+      }
+      @media(prefers-color-scheme:dark){
+        :root{
+          --ground:#050608;
+          --ground2:#080a0d;
+          --plate:#11151a;
+          --plate2:#20262d;
+          --ink:#f4f6f8;
+          --line:#9aa4af;
+          --faint:#6f7882;
+          --recess:#0b0e12;
+          --signal:#4d8cff;
+          --signalSoft:#8db2ff;
+        }
+      }
+    </style>
+    <linearGradient id="ground" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="var(--ground2)"/>
+      <stop offset=".55" stop-color="var(--ground)"/>
+      <stop offset="1" stop-color="var(--plate)"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="var(--plate2)"/>
+      <stop offset=".34" stop-color="var(--ground2)"/>
+      <stop offset=".62" stop-color="var(--plate)"/>
+      <stop offset="1" stop-color="var(--plate2)"/>
+    </linearGradient>
+    <linearGradient id="darkMetal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="var(--recess)"/>
+      <stop offset=".5" stop-color="var(--plate)"/>
+      <stop offset="1" stop-color="var(--ground)"/>
+    </linearGradient>
+    <pattern id="microgrid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" fill="none" stroke="var(--ink)" stroke-width="2" opacity=".045"/>
+      <circle cx="0" cy="0" r="2.5" fill="var(--ink)" opacity=".07"/>
+    </pattern>
+    <pattern id="brush" width="16" height="16" patternUnits="userSpaceOnUse">
+      <path d="M0 3H16M0 8H16M0 13H16" stroke="var(--ink)" stroke-width="1" opacity=".025"/>
+    </pattern>
+    <filter id="signalGlow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="28" stdDeviation="38" flood-color="#000" flood-opacity=".22"/>
+    </filter>
+    <clipPath id="frameClip"><rect x="128" y="128" width="3840" height="2048" rx="44"/></clipPath>
+  </defs>
+
+<rect width="4096" height="2304" fill="url(#ground)"/>
+<rect width="4096" height="2304" fill="url(#microgrid)"/>
+<g clip-path="url(#frameClip)" filter="url(#softShadow)">
+  <path d="M-240 2420L2580-180H4320V2420Z" fill="url(#metal)"/>
+  <path d="M-320 2420L2498-180" stroke="var(--recess)" stroke-width="130"/>
+  <path d="M-320 2420L2498-180" stroke="var(--ink)" stroke-width="8" opacity=".64"/>
+  <path d="M-260 2420L2558-180" stroke="var(--ground2)" stroke-width="3" opacity=".8"/>
+  <g fill="none" stroke="var(--ink)" opacity=".18">
+    <path d="M2750-40V2360M3020-40V2360M3290-40V2360M3560-40V2360" stroke-width="3"/>
+    <path d="M2460 380H4210M2230 740H4210M1990 1100H4210M1760 1460H4210M1520 1820H4210" stroke-width="3"/>
+  </g>
+  <g fill="var(--ink)" opacity=".36">
+    <rect x="2780" y="280" width="560" height="12" rx="6"/>
+    <rect x="2780" y="320" width="330" height="6" rx="3"/>
+    <rect x="3120" y="1920" width="700" height="12" rx="6"/>
+    <rect x="3380" y="1960" width="440" height="6" rx="3"/>
+  </g>
+</g>
+<rect x="128" y="128" width="3840" height="2048" rx="44" fill="none" stroke="var(--ink)" stroke-width="4" opacity=".2"/>
+<g transform="translate(2520 1050)" filter="url(#signalGlow)">
+  <circle r="76" fill="var(--ground)" stroke="var(--signal)" stroke-width="10"/>
+  <circle r="18" fill="var(--signal)"/>
+  <path d="M-160 0H-92M92 0H160M0-160V-92M0 92V160" stroke="var(--signal)" stroke-width="8"/>
+</g>
+<g fill="none" stroke="var(--ink)" opacity=".25">
+  <path d="M260 190h720M260 224h390M3110 2078h720M3440 2044h390" stroke-width="5"/>
+  <path d="M208 1152H470M3626 1152h262" stroke-width="4"/>
+</g>
+<rect width="4096" height="2304" fill="url(#brush)"/>
+</svg>

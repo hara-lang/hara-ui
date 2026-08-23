@@ -1,0 +1,188 @@
+/* Hara v2 semantic symbols: additive to v2.css. */
+
+.hara-v2-symbol {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
+  overflow: visible;
+  color: currentColor;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.65;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.hara-v2-symbol[data-size="16"] { stroke-width: 1.85; }
+.hara-v2-symbol[data-size="20"] { stroke-width: 1.72; }
+.hara-v2-symbol[data-size="24"] { stroke-width: 1.6; }
+.hara-v2-symbol[data-size="32"] { stroke-width: 1.48; }
+
+.hara-v2-symbol[data-tone="signal"] { color: var(--hara-v2-signal); }
+.hara-v2-symbol[data-tone="success"] { color: var(--hara-v2-success); }
+.hara-v2-symbol[data-tone="warning"] { color: var(--hara-v2-warning); }
+.hara-v2-symbol[data-tone="danger"] { color: var(--hara-v2-danger); }
+.hara-v2-symbol[data-tone="muted"] { color: var(--hara-v2-muted); }
+
+.hara-v2-symbol-label {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  min-width: 0;
+  color: var(--hara-v2-ink);
+}
+
+.hara-v2-symbol-label > span:last-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hara-v2-symbol-state {
+  display: inline-flex;
+  align-items: center;
+  gap: .42rem;
+  min-height: 28px;
+  padding: .25rem .48rem;
+  color: var(--hara-v2-muted);
+  border: 1px solid var(--hara-v2-line);
+  background: var(--hara-v2-panel-recess);
+  font: 680 .64rem var(--hara-v2-font-code);
+  letter-spacing: .025em;
+}
+
+.hara-v2-symbol-state[data-state="ready"],
+.hara-v2-symbol-state[data-state="connected"] { color: var(--hara-v2-success); }
+.hara-v2-symbol-state[data-state="busy"],
+.hara-v2-symbol-state[data-state="connecting"] { color: var(--hara-v2-signal); }
+.hara-v2-symbol-state[data-state="warning"],
+.hara-v2-symbol-state[data-state="stale"],
+.hara-v2-symbol-state[data-state="partial"],
+.hara-v2-symbol-state[data-state="deprecated"] { color: var(--hara-v2-warning); }
+.hara-v2-symbol-state[data-state="error"],
+.hara-v2-symbol-state[data-state="rejected"],
+.hara-v2-symbol-state[data-state="revoked"] { color: var(--hara-v2-danger); }
+
+.hara-v2-symbol-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  min-width: 44px;
+  min-height: 44px;
+  padding: .45rem .65rem;
+  color: var(--hara-v2-ink);
+  border: 1px solid var(--hara-v2-line);
+  background: var(--hara-v2-panel);
+  font: 680 .7rem var(--hara-v2-font-body);
+  cursor: pointer;
+  clip-path: polygon(var(--hara-v2-cut-small) 0, 100% 0, 100% calc(100% - var(--hara-v2-cut-small)), calc(100% - var(--hara-v2-cut-small)) 100%, 0 100%, 0 var(--hara-v2-cut-small));
+}
+
+.hara-v2-symbol-button:hover { border-color: var(--hara-v2-line-strong); background: var(--hara-v2-panel-raised); }
+.hara-v2-symbol-button:focus-visible { outline: 2px solid var(--hara-v2-signal); outline-offset: 2px; }
+.hara-v2-symbol-button[aria-pressed="true"],
+.hara-v2-symbol-button[aria-current="page"] { border-color: var(--hara-v2-signal); background: var(--hara-v2-signal-soft); }
+.hara-v2-symbol-button[disabled] { color: var(--hara-v2-faint); cursor: not-allowed; opacity: .62; }
+.hara-v2-symbol-button[data-consequence="danger"] { color: var(--hara-v2-danger); border-color: color-mix(in srgb, var(--hara-v2-danger) 48%, var(--hara-v2-line)); }
+
+.hara-v2-symbol-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--hara-v2-line);
+  background: var(--hara-v2-line);
+}
+
+.hara-v2-symbol-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: .7rem;
+  align-items: start;
+  min-height: 112px;
+  padding: .8rem;
+  color: var(--hara-v2-ink);
+  background: var(--hara-v2-panel);
+}
+
+.hara-v2-symbol-card > .hara-v2-symbol {
+  width: 24px;
+  height: 24px;
+  margin-top: .08rem;
+}
+
+.hara-v2-symbol-card strong,
+.hara-v2-symbol-card small,
+.hara-v2-symbol-card code { display: block; }
+.hara-v2-symbol-card strong { font-size: .74rem; }
+.hara-v2-symbol-card small { margin-top: .25rem; color: var(--hara-v2-muted); font-size: .62rem; line-height: 1.45; }
+.hara-v2-symbol-card code { margin-top: .45rem; color: var(--hara-v2-faint); font-size: .54rem; overflow-wrap: anywhere; }
+
+.hara-v2-symbol-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  align-items: end;
+}
+
+.hara-v2-symbol-size {
+  display: grid;
+  justify-items: center;
+  gap: .35rem;
+  min-width: 58px;
+  padding: .55rem;
+  color: var(--hara-v2-muted);
+  border: 1px solid var(--hara-v2-line);
+  background: var(--hara-v2-panel-recess);
+  font: 650 .58rem var(--hara-v2-font-code);
+}
+
+.hara-v2-symbol-evidence {
+  display: grid;
+  gap: .35rem;
+  padding: .7rem;
+  color: var(--hara-v2-muted);
+  border: 1px solid var(--hara-v2-line);
+  background: var(--hara-v2-panel-recess);
+  font-size: .66rem;
+  line-height: 1.45;
+}
+.hara-v2-symbol-evidence strong { color: var(--hara-v2-ink); }
+.hara-v2-symbol-evidence code { overflow-wrap: anywhere; }
+
+@media (max-width: 680px) {
+  .hara-v2-symbol-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hara-v2-symbol-card { min-height: 104px; padding: .65rem; }
+}
+
+@media (max-width: 390px) {
+  .hara-v2-symbol-grid { grid-template-columns: 1fr; }
+  .hara-v2-symbol-card { min-height: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hara-v2-symbol-button { transition: none; }
+}
+
+@media (forced-colors: active) {
+  .hara-v2-symbol { color: CanvasText; forced-color-adjust: auto; }
+  .hara-v2-symbol-button,
+  .hara-v2-symbol-state,
+  .hara-v2-symbol-card,
+  .hara-v2-symbol-size,
+  .hara-v2-symbol-evidence { border-color: CanvasText; background: Canvas; color: CanvasText; }
+  .hara-v2-symbol-button[aria-pressed="true"],
+  .hara-v2-symbol-button[aria-current="page"] { outline: 2px solid Highlight; }
+}
+
+@media print {
+  .hara-v2-symbol { color: #000 !important; }
+  .hara-v2-symbol-button,
+  .hara-v2-symbol-state,
+  .hara-v2-symbol-card,
+  .hara-v2-symbol-size,
+  .hara-v2-symbol-evidence { color: #000; border-color: #777; background: transparent; box-shadow: none; clip-path: none; }
+  .hara-v2-symbol-button { min-height: 0; }
+}

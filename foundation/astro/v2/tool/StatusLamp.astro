@@ -1,0 +1,31 @@
+---
+interface Props {
+  label: string;
+  state?: "off" | "starting" | "ready" | "stopping" | "connecting" | "connected" | "attention" | "warning" | "danger" | "error" | "disabled";
+  detail?: string;
+  live?: boolean;
+  iconOnly?: boolean;
+  class?: string;
+}
+
+const {
+  label,
+  state = "off",
+  detail,
+  live = false,
+  iconOnly = false,
+  class: className = ""
+} = Astro.props;
+---
+
+<span
+  class:list={["hara-runtime-status", className]}
+  data-state={state}
+  data-icon-only={iconOnly ? "true" : "false"}
+  role={live ? "status" : undefined}
+  aria-live={live ? "polite" : undefined}
+>
+  <span class="hara-runtime-status-lamp" aria-hidden="true"></span>
+  <span class="hara-runtime-status-label" data-visually-hidden={iconOnly ? "true" : "false"}>{label}</span>
+  {detail && <span class="hara-runtime-status-detail">{detail}</span>}
+</span>

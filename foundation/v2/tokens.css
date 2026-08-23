@@ -1,0 +1,106 @@
+
+:root {
+  --hara-v2-font-heading: var(--hara-font-sans);
+  --hara-v2-font-body: var(--hara-font-sans);
+  --hara-v2-font-code: var(--hara-font-mono);
+  --hara-v2-header-height: 60px;
+  --hara-v2-context-height: 44px;
+  --hara-v2-context-offset: var(--hara-v2-context-height);
+  --hara-v2-rail-width: 248px;
+  --hara-v2-inspector-width: 248px;
+  --hara-v2-page: clamp(16px, 2.6vw, 38px);
+  --hara-v2-column: 1240px;
+  --hara-v2-prose: 760px;
+  --hara-v2-cut: 9px;
+  --hara-v2-cut-small: 5px;
+  --hara-v2-radius: 2px;
+  --hara-v2-row: 38px;
+  --hara-v2-control: 34px;
+  --hara-v2-signal: #4d9cff;
+  --hara-v2-signal-soft: #a9ccff;
+  --hara-v2-warning: #f06a3c;
+  --hara-v2-success: #3e9d6f;
+  --hara-v2-danger: #d84f58;
+  --hara-v2-motion: 140ms;
+}
+
+:root,
+:root[data-theme="light"] {
+  --hara-v2-canvas: #eef0ef;
+  --hara-v2-canvas-clean: #f8f8f5;
+  --hara-v2-panel: #f3f3f0;
+  --hara-v2-panel-raised: #fbfbf8;
+  --hara-v2-panel-recess: #e4e7e6;
+  --hara-v2-ink: #13171c;
+  --hara-v2-muted: #5d656e;
+  --hara-v2-faint: #8a9299;
+  --hara-v2-line: rgba(19, 23, 28, .16);
+  --hara-v2-line-strong: rgba(19, 23, 28, .34);
+  --hara-v2-grid: rgba(19, 23, 28, .035);
+  --hara-v2-sketch: rgba(19, 23, 28, .075);
+  --hara-v2-hover: rgba(19, 23, 28, .045);
+  --hara-v2-shadow: 0 1px 0 rgba(255, 255, 255, .78), 0 20px 48px rgba(37, 43, 49, .08);
+  --hara-v2-paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%2313171c' stroke-opacity='.055' stroke-width='.55'%3E%3Cpath d='M4 23c25-1 48 1 72 0s50-1 96 .2'/%3E%3Cpath d='M12 117c31 .8 58-.7 88 .2s49 .7 70-.2'/%3E%3Cpath d='M38 3c.8 31-.6 57 .2 88s.7 55-.2 84'/%3E%3Cpath d='M144 8c-.7 22 .5 43-.1 64s-.8 52 .2 96'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+:root[data-theme="dark"] {
+  --hara-v2-canvas: #090b0e;
+  --hara-v2-canvas-clean: #06080b;
+  --hara-v2-panel: #101419;
+  --hara-v2-panel-raised: #151a20;
+  --hara-v2-panel-recess: #0b0e12;
+  --hara-v2-ink: #eef1f4;
+  --hara-v2-muted: #a1aab3;
+  --hara-v2-faint: #6e7882;
+  --hara-v2-line: rgba(224, 232, 240, .13);
+  --hara-v2-line-strong: rgba(224, 232, 240, .29);
+  --hara-v2-grid: rgba(224, 232, 240, .026);
+  --hara-v2-sketch: rgba(224, 232, 240, .065);
+  --hara-v2-hover: rgba(224, 232, 240, .052);
+  --hara-v2-shadow: 0 1px 0 rgba(255, 255, 255, .025), 0 26px 58px rgba(0, 0, 0, .28);
+  --hara-v2-paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%23eef1f4' stroke-opacity='.05' stroke-width='.55'%3E%3Cpath d='M4 23c25-1 48 1 72 0s50-1 96 .2'/%3E%3Cpath d='M12 117c31 .8 58-.7 88 .2s49 .7 70-.2'/%3E%3Cpath d='M38 3c.8 31-.6 57 .2 88s.7 55-.2 84'/%3E%3Cpath d='M144 8c-.7 22 .5 43-.1 64s-.8 52 .2 96'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --hara-v2-canvas: #090b0e;
+    --hara-v2-canvas-clean: #06080b;
+    --hara-v2-panel: #101419;
+    --hara-v2-panel-raised: #151a20;
+    --hara-v2-panel-recess: #0b0e12;
+    --hara-v2-ink: #eef1f4;
+    --hara-v2-muted: #a1aab3;
+    --hara-v2-faint: #6e7882;
+    --hara-v2-line: rgba(224, 232, 240, .13);
+    --hara-v2-line-strong: rgba(224, 232, 240, .29);
+    --hara-v2-grid: rgba(224, 232, 240, .026);
+    --hara-v2-sketch: rgba(224, 232, 240, .065);
+    --hara-v2-hover: rgba(224, 232, 240, .052);
+    --hara-v2-shadow: 0 1px 0 rgba(255, 255, 255, .025), 0 26px 58px rgba(0, 0, 0, .28);
+    --hara-v2-paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%23eef1f4' stroke-opacity='.05' stroke-width='.55'%3E%3Cpath d='M4 23c25-1 48 1 72 0s50-1 96 .2'/%3E%3Cpath d='M12 117c31 .8 58-.7 88 .2s49 .7 70-.2'/%3E%3Cpath d='M38 3c.8 31-.6 57 .2 88s.7 55-.2 84'/%3E%3Cpath d='M144 8c-.7 22 .5 43-.1 64s-.8 52 .2 96'/%3E%3C/g%3E%3C/svg%3E");
+  }
+}
+
+.hara-v2 {
+  --hara-bg: var(--hara-v2-canvas);
+  --hara-bg-clean: var(--hara-v2-canvas-clean);
+  --hara-surface: color-mix(in srgb, var(--hara-v2-panel) 92%, transparent);
+  --hara-surface-solid: var(--hara-v2-panel);
+  --hara-surface-raised: var(--hara-v2-panel-raised);
+  --hara-text: var(--hara-v2-ink);
+  --hara-muted: var(--hara-v2-muted);
+  --hara-faint: var(--hara-v2-faint);
+  --hara-line: var(--hara-v2-line);
+  --hara-line-strong: var(--hara-v2-line-strong);
+  --hara-shadow: var(--hara-v2-shadow);
+  --hara-signal: var(--hara-v2-signal);
+  --hara-signal-soft: var(--hara-v2-signal-soft);
+  --hara-success: var(--hara-v2-success);
+  --hara-warning: var(--hara-v2-warning);
+  --hara-danger: var(--hara-v2-danger);
+  min-width: 320px;
+  color: var(--hara-v2-ink);
+  background-color: var(--hara-v2-canvas);
+  font-family: var(--hara-v2-font-body);
+}
+

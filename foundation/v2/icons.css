@@ -1,0 +1,320 @@
+.hara-icon,
+.hara-glyph {
+  display: inline-block;
+  flex: 0 0 auto;
+  overflow: visible;
+  color: inherit;
+  vertical-align: -.14em;
+  pointer-events: none;
+  shape-rendering: geometricPrecision;
+}
+
+.hara-icon {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.hara-glyph {
+  width: 2em;
+  height: 2em;
+  vertical-align: -.28em;
+}
+
+.hara-icon :where(path, circle, rect),
+.hara-glyph :where(path, circle, rect) {
+  vector-effect: non-scaling-stroke;
+}
+
+.hara-glyph-signal {
+  color: var(--hara-v2-signal);
+  stroke: currentColor;
+}
+
+[dir="rtl"] .hara-icon[data-directional="true"] {
+  transform: scaleX(-1);
+}
+
+.hara-icon-label {
+  display: inline-flex;
+  gap: .45rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.hara-icon-label > span:last-child {
+  min-width: 0;
+}
+
+.hara-icon-button {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+  color: var(--hara-v2-muted);
+  border: 1px solid var(--hara-v2-line);
+  border-radius: var(--hara-v2-radius);
+  background: var(--hara-v2-panel);
+  cursor: pointer;
+}
+
+.hara-icon-button:hover {
+  color: var(--hara-v2-ink);
+  background: var(--hara-v2-hover);
+}
+
+.hara-icon-button[aria-pressed="true"],
+.hara-icon-button[aria-current="page"],
+.hara-icon-button[data-selected="true"] {
+  color: var(--hara-v2-ink);
+  border-color: color-mix(in srgb, var(--hara-v2-signal) 48%, var(--hara-v2-line));
+  background: color-mix(in srgb, var(--hara-v2-signal) 10%, var(--hara-v2-panel));
+}
+
+.hara-icon-button:disabled,
+.hara-icon-button[aria-disabled="true"] {
+  opacity: .46;
+  cursor: not-allowed;
+}
+
+.hara-icon-button:focus-visible,
+.hara-product-launcher:focus-visible,
+.hara-capability-card:focus-visible {
+  outline: 2px solid var(--hara-v2-signal);
+  outline-offset: 3px;
+}
+
+.hara-icon-badge {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+}
+
+.hara-icon-badge > [data-badge] {
+  position: absolute;
+  top: -5px;
+  right: -7px;
+  display: grid;
+  place-items: center;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  color: var(--hara-v2-canvas);
+  border: 2px solid var(--hara-v2-panel);
+  border-radius: 999px;
+  background: var(--hara-v2-signal);
+  font: 720 .5rem var(--hara-v2-font-code);
+}
+
+.hara-state-symbol {
+  display: inline-flex;
+  gap: .4rem;
+  align-items: center;
+  min-height: 28px;
+  padding: .22rem .48rem;
+  color: var(--hara-v2-muted);
+  border: 1px solid var(--hara-v2-line);
+  border-radius: 999px;
+  background: var(--hara-v2-panel-recess);
+  font: 650 .58rem var(--hara-v2-font-code);
+}
+
+.hara-state-symbol[data-state="success"],
+.hara-state-symbol[data-state="current"] {
+  color: var(--hara-v2-success);
+  border-color: color-mix(in srgb, var(--hara-v2-success) 42%, var(--hara-v2-line));
+}
+
+.hara-state-symbol[data-state="pending"],
+.hara-state-symbol[data-state="warning"],
+.hara-state-symbol[data-state="partial"],
+.hara-state-symbol[data-state="stale"],
+.hara-state-symbol[data-state="proposed"] {
+  color: var(--hara-v2-warning);
+}
+
+.hara-state-symbol[data-state="proposed"],
+.hara-state-symbol[data-state="partial"] {
+  border-style: dashed;
+}
+
+.hara-state-symbol[data-state="error"],
+.hara-state-symbol[data-state="unavailable"],
+.hara-state-symbol[data-state="unsupported"] {
+  color: var(--hara-v2-danger);
+}
+
+.hara-state-symbol[data-state="external"],
+.hara-state-symbol[data-state="external-state"] {
+  color: var(--hara-v2-signal);
+  border-style: double;
+}
+
+.hara-state-symbol[data-state="historical"] {
+  color: var(--hara-v2-faint);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+.hara-state-symbol[data-state="missing"] {
+  color: var(--hara-v2-faint);
+  border-style: dotted;
+}
+
+.hara-state-symbol[data-state="zero"] {
+  color: var(--hara-v2-ink);
+}
+
+.hara-capability-card,
+.hara-product-launcher {
+  color: var(--hara-v2-ink);
+  border: 1px solid var(--hara-v2-line);
+  border-radius: var(--hara-v2-radius);
+  background: var(--hara-v2-panel);
+  text-decoration: none;
+}
+
+.hara-capability-card {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  gap: .7rem;
+  align-items: center;
+  min-height: 68px;
+  padding: .7rem;
+}
+
+.hara-capability-card > .hara-glyph {
+  width: 40px;
+  height: 40px;
+}
+
+.hara-capability-card > div {
+  min-width: 0;
+}
+
+.hara-capability-card b,
+.hara-product-launcher b {
+  display: block;
+  font-size: .7rem;
+}
+
+.hara-capability-card p,
+.hara-product-launcher p {
+  margin: .18rem 0 0;
+  color: var(--hara-v2-muted);
+  font-size: .59rem;
+  line-height: 1.4;
+}
+
+.hara-capability-card[data-capability-state="requested"] {
+  border-style: dashed;
+}
+
+.hara-capability-card[data-capability-state="attached"],
+.hara-capability-card[data-capability-state="available"] {
+  box-shadow: inset 3px 0 var(--hara-v2-success);
+}
+
+.hara-capability-card[data-capability-state="degraded"] {
+  box-shadow: inset 3px 0 var(--hara-v2-warning);
+}
+
+.hara-capability-card[data-capability-state="denied"],
+.hara-capability-card[data-capability-state="unavailable"] {
+  box-shadow: inset 3px 0 var(--hara-v2-danger);
+}
+
+.hara-capability-card[data-capability-state="unavailable"] {
+  opacity: .68;
+}
+
+.hara-product-launcher {
+  display: grid;
+  align-content: start;
+  gap: .65rem;
+  min-width: 0;
+  min-height: 164px;
+  padding: .9rem;
+  transition: border-color var(--hara-v2-motion) ease, background var(--hara-v2-motion) ease;
+}
+
+.hara-product-launcher:hover {
+  border-color: color-mix(in srgb, var(--hara-v2-signal) 46%, var(--hara-v2-line));
+  background: var(--hara-v2-hover);
+}
+
+.hara-product-launcher > .hara-glyph {
+  width: 48px;
+  height: 48px;
+}
+
+.hara-product-launcher small {
+  align-self: end;
+  color: var(--hara-v2-faint);
+  font: 620 .53rem var(--hara-v2-font-code);
+}
+
+@media (max-width: 560px) {
+  .hara-capability-card {
+    grid-template-columns: 40px minmax(0, 1fr);
+  }
+
+  .hara-capability-card > :last-child:not(div) {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .hara-product-launcher {
+    min-height: 144px;
+  }
+}
+
+@media (forced-colors: active) {
+  .hara-glyph-signal {
+    color: currentColor;
+  }
+
+  .hara-icon-button,
+  .hara-state-symbol,
+  .hara-capability-card,
+  .hara-product-launcher {
+    border-color: ButtonText;
+    background: ButtonFace;
+    color: ButtonText;
+  }
+
+  .hara-icon-button[aria-pressed="true"],
+  .hara-icon-button[aria-current="page"],
+  .hara-icon-button[data-selected="true"],
+  .hara-product-launcher[data-selected="true"] {
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .hara-icon-button:focus-visible,
+  .hara-product-launcher:focus-visible,
+  .hara-capability-card:focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 3px;
+  }
+
+  .hara-state-symbol[data-state="proposed"],
+  .hara-state-symbol[data-state="partial"],
+  .hara-capability-card[data-capability-state="requested"] {
+    border-style: dashed;
+  }
+
+  .hara-state-symbol[data-state="external"],
+  .hara-state-symbol[data-state="external-state"] {
+    border-style: double;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hara-product-launcher {
+    transition: none;
+  }
+}

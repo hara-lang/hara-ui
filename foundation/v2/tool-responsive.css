@@ -1,0 +1,181 @@
+/*
+ * Component-local sizing for embedded v2 tool surfaces.
+ *
+ * Viewport media queries remain as a fallback in the original component
+ * styles. These named containers make the same compositions yield when they
+ * are rendered inside catalogue cards, split panes, and narrow product shells.
+ */
+
+.hara-tool-workbench {
+  container-name: hara-workbench;
+  container-type: inline-size;
+}
+
+.hara-tool-environment {
+  container-name: hara-environment;
+  container-type: inline-size;
+}
+
+.hara-tool-toolbar {
+  container-name: hara-toolbar;
+  container-type: inline-size;
+}
+
+.hara-tool-status-bar {
+  container-name: hara-status;
+  container-type: inline-size;
+}
+
+.hara-tool-toolbar:not([data-orientation="vertical"]) {
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: stretch;
+  overflow: clip;
+}
+
+.hara-tool-toolbar > .hara-tool-group,
+.hara-tool-tab-strip,
+.hara-tool-status-bar,
+.hara-tool-status-primary,
+.hara-tool-status-secondary {
+  max-width: 100%;
+}
+
+.hara-tool-status-bar {
+  height: auto;
+  flex-wrap: wrap;
+  padding-block: 4px;
+  line-height: 1.35;
+}
+
+.hara-tool-status-primary {
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+}
+
+.hara-tool-status-secondary {
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  margin-inline-start: auto;
+}
+
+.hara-tool-status-primary > *,
+.hara-tool-status-secondary > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@container hara-toolbar (max-width: 720px) {
+  .hara-tool-toolbar > .hara-tool-group:not([data-orientation="vertical"]) {
+    flex: 1 1 100%;
+    min-width: 0;
+    max-width: 100%;
+    flex-wrap: wrap;
+    padding-block: 2px;
+    border-inline-end: 0;
+    border-block-end: 1px solid var(--hara-tool-edge);
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--hara-tool-glint) 42%, transparent);
+  }
+
+  .hara-tool-toolbar > .hara-tool-group:last-child {
+    border-block-end: 0;
+    box-shadow: none;
+  }
+
+  .hara-tool-toolbar > .hara-tool-group > :where(.hara-tool-button, .hara-tool-toggle):not([data-icon-only="true"]) {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .hara-tool-toolbar > .hara-tool-group > .hara-tool-field {
+    min-width: 0;
+    flex: 1 1 132px;
+  }
+
+  .hara-tool-toolbar .hara-tool-command-hint {
+    display: none;
+  }
+}
+
+@container hara-toolbar (max-width: 420px) {
+  .hara-tool-toolbar > .hara-tool-group > :where(.hara-tool-button, .hara-tool-toggle):not([data-icon-only="true"]) {
+    flex-basis: calc(50% - 2px);
+  }
+
+  .hara-tool-toolbar > .hara-tool-group > .hara-tool-field {
+    flex-basis: 100%;
+  }
+}
+
+@container hara-status (max-width: 460px) {
+  .hara-tool-status-primary,
+  .hara-tool-status-secondary {
+    flex: 1 1 100%;
+    justify-content: flex-start;
+    gap: 6px 10px;
+  }
+
+  .hara-tool-status-secondary {
+    margin-inline-start: 0;
+  }
+}
+
+@container hara-workbench (max-width: 1120px) {
+  .hara-tool-workbench-right {
+    display: none;
+  }
+}
+
+@container hara-workbench (max-width: 820px) {
+  .hara-tool-workbench-left {
+    display: none;
+  }
+}
+
+@container hara-workbench (max-width: 640px) {
+  .hara-tool-workbench-bottom {
+    display: none;
+  }
+
+  .hara-tool-floating-palette {
+    inset: auto 8px 8px !important;
+    width: calc(100% - 16px);
+    max-height: min(58%, 360px);
+    transform: none !important;
+  }
+}
+
+@container hara-environment (max-width: 760px) {
+  .hara-tool-environment-top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+    gap: 4px;
+  }
+
+  .hara-tool-environment-commands {
+    position: static;
+    width: 100%;
+    min-width: 0;
+    padding: 4px 0 0;
+    border-block-start: 1px solid var(--hara-tool-edge);
+    background: transparent;
+  }
+
+  .hara-tool-environment-commands > * {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .hara-tool-environment-commands .hara-tool-toolbar {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .hara-tool-environment-commands .hara-tool-toolbar > :where(.hara-tool-button, .hara-tool-toggle) {
+    flex: 1 1 auto;
+  }
+}

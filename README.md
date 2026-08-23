@@ -31,6 +31,12 @@ artefacts.
 - `packages/web-*` — portable runtime, editor, workspace, preview, capability
   and add-on services used by Live, Playground, Catalog, and Studio
   compositions.
+- `foundation/` — canonical v2 visual-language tokens, shell styles, icons,
+  symbols, diagrams, data visualisation, media, and the shared theme runtime.
+- `packages/ui-astro` — independently publishable Astro adapters for the Hara
+  shell and presentation primitives.
+- `packages/ui-tool` — independently publishable Astro tool/workbench
+  components and the additive tool stylesheet.
 - `docs/web-packages.md` — package ownership, dependency, and migration rules.
 - `docs/hodos-2d-migration.md` — Hara document compatibility and the Hodos 2D
   consumer path.

@@ -1,0 +1,41 @@
+{
+  "name": "@hara-lang/ui-tool",
+  "version": "0.1.0",
+  "description": "Hara tool and workbench Astro components",
+  "type": "module",
+  "exports": {
+    "./v2-tool.css": "./src/v2-tool.css",
+    "./astro/v2/Toolbar.astro": "./src/astro/v2/Toolbar.astro",
+    "./astro/v2/ToolGroup.astro": "./src/astro/v2/ToolGroup.astro",
+    "./astro/v2/ToolButton.astro": "./src/astro/v2/ToolButton.astro",
+    "./astro/v2/ToolToggle.astro": "./src/astro/v2/ToolToggle.astro",
+    "./astro/v2/ToolSelect.astro": "./src/astro/v2/ToolSelect.astro",
+    "./astro/v2/ToolNumberField.astro": "./src/astro/v2/ToolNumberField.astro",
+    "./astro/v2/TabStrip.astro": "./src/astro/v2/TabStrip.astro",
+    "./astro/v2/IconRail.astro": "./src/astro/v2/IconRail.astro",
+    "./astro/v2/StatusBar.astro": "./src/astro/v2/StatusBar.astro",
+    "./astro/v2/WorkbenchShell.astro": "./src/astro/v2/WorkbenchShell.astro",
+    "./astro/v2/DockPanel.astro": "./src/astro/v2/DockPanel.astro",
+    "./astro/v2/FloatingPalette.astro": "./src/astro/v2/FloatingPalette.astro",
+    "./astro/v2/ViewportOverlay.astro": "./src/astro/v2/ViewportOverlay.astro",
+    "./astro/v2/InspectorSection.astro": "./src/astro/v2/InspectorSection.astro",
+    "./astro/v2/PanelHeader.astro": "./src/astro/v2/PanelHeader.astro",
+    "./astro/v2/SectionNavigator.astro": "./src/astro/v2/SectionNavigator.astro",
+    "./astro/v2/EnvironmentSection.astro": "./src/astro/v2/EnvironmentSection.astro",
+    "./astro/v2/FrontmatterGrid.astro": "./src/astro/v2/FrontmatterGrid.astro",
+    "./astro/v2/ResourceList.astro": "./src/astro/v2/ResourceList.astro",
+    "./astro/v2/CapabilityPane.astro": "./src/astro/v2/CapabilityPane.astro",
+    "./astro/v2/EnvironmentWorkbench.astro": "./src/astro/v2/EnvironmentWorkbench.astro",
+    "./astro/v2/StatusLamp.astro": "./src/astro/v2/StatusLamp.astro",
+    "./astro/v2/RuntimeSwitch.astro": "./src/astro/v2/RuntimeSwitch.astro",
+    "./astro/v2/ConnectionRow.astro": "./src/astro/v2/ConnectionRow.astro",
+    "./astro/v2/CompactRuntimeShell.astro": "./src/astro/v2/CompactRuntimeShell.astro",
+    "./astro/v2/RuntimeAppShell.astro": "./src/astro/v2/RuntimeAppShell.astro"
+  },
+  "files": ["src", "README.md", "LICENSE"],
+  "peerDependencies": {
+    "@hara-lang/ui": "^0.2.0",
+    "astro": ">=4"
+  },
+  "license": "MIT"
+}

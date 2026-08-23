@@ -1,0 +1,35 @@
+{
+  "name": "@hara-lang/ui-astro",
+  "version": "0.1.0",
+  "description": "Astro adapters for the Hara interface language and shared shell",
+  "type": "module",
+  "exports": {
+    "./astro/ThemeToggle.astro": "./src/astro/ThemeToggle.astro",
+    "./astro/HaraMark.astro": "./src/astro/HaraMark.astro",
+    "./astro/HaraIcon.astro": "./src/astro/HaraIcon.astro",
+    "./astro/HaraGlyph.astro": "./src/astro/HaraGlyph.astro",
+    "./astro/Motif.astro": "./src/astro/Motif.astro",
+    "./astro/Backdrop.astro": "./src/astro/Backdrop.astro",
+    "./astro/Surface.astro": "./src/astro/Surface.astro",
+    "./astro/v2/Shell.astro": "./src/astro/v2/Shell.astro",
+    "./astro/v2/Header.astro": "./src/astro/v2/Header.astro",
+    "./astro/v2/ContextNav.astro": "./src/astro/v2/ContextNav.astro",
+    "./astro/v2/Sidebar.astro": "./src/astro/v2/Sidebar.astro",
+    "./astro/v2/PageHeader.astro": "./src/astro/v2/PageHeader.astro",
+    "./astro/v2/DeliveryFrame.astro": "./src/astro/v2/DeliveryFrame.astro",
+    "./astro/v2/ArtifactProvenance.astro": "./src/astro/v2/ArtifactProvenance.astro",
+    "./astro/v2/FleetField.astro": "./src/astro/v2/FleetField.astro",
+    "./astro/v2/ShaderField.astro": "./src/astro/v2/ShaderField.astro",
+    "./astro/v2/Symbol.astro": "./src/astro/v2/Symbol.astro",
+    "./icons.js": "./src/icons.mjs"
+  },
+  "files": ["src", "README.md", "LICENSE"],
+  "scripts": {
+    "check": "node --check src/icons.mjs"
+  },
+  "peerDependencies": {
+    "@hara-lang/ui": "^0.2.0",
+    "astro": ">=4"
+  },
+  "license": "MIT"
+}

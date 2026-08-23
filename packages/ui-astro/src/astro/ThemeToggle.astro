@@ -1,0 +1,107 @@
+---
+const { label = "Theme" } = Astro.props;
+---
+<button
+  class="hara-theme-toggle"
+  type="button"
+  data-hara-theme-toggle
+  data-resolved-theme="light"
+  aria-label={`Use dark ${label.toLowerCase()}`}
+  title={`Use dark ${label.toLowerCase()}`}
+>
+  <span class="hara-theme-toggle__icon" aria-hidden="true">
+    <svg data-hara-theme-icon="light" viewBox="0 0 20 20" focusable="false">
+      <circle cx="10" cy="10" r="3.1"></circle>
+      <path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M15.8 4.2l-1.4 1.4M5.6 14.4l-1.4 1.4"></path>
+    </svg>
+    <svg data-hara-theme-icon="dark" viewBox="0 0 20 20" focusable="false">
+      <path d="M15.9 13.1A6.6 6.6 0 0 1 6.9 4.1a6.6 6.6 0 1 0 9 9Z"></path>
+    </svg>
+  </span>
+  <span data-hara-theme-label>Light</span>
+</button>
+<script>
+  import { getThemePreference, resolvedTheme, toggleTheme } from "../theme.js";
+
+  const syncThemeToggle = (button) => {
+    if (!(button instanceof HTMLButtonElement)) return;
+    const preference = getThemePreference() || "system";
+    const current = resolvedTheme(preference);
+    const next = current === "dark" ? "light" : "dark";
+    const label = button.querySelector("[data-hara-theme-label]");
+    button.dataset.resolvedTheme = current;
+    button.setAttribute("aria-label", `Use ${next} theme`);
+    button.title = `Use ${next} theme`;
+    if (label) label.textContent = current.replace(/^./, (value) => value.toUpperCase());
+  };
+
+  const syncThemeToggles = () => {
+    document.querySelectorAll("[data-hara-theme-toggle]").forEach(syncThemeToggle);
+  };
+
+  const initialiseThemeToggles = () => {
+    document.querySelectorAll("[data-hara-theme-toggle]").forEach((button) => {
+      if (!(button instanceof HTMLButtonElement) || button.dataset.haraThemeReady === "true") return;
+      button.dataset.haraThemeReady = "true";
+      button.addEventListener("click", () => toggleTheme());
+      syncThemeToggle(button);
+    });
+  };
+
+  initialiseThemeToggles();
+  document.addEventListener("astro:page-load", initialiseThemeToggles);
+  addEventListener("hara:theme-change", syncThemeToggles);
+</script>
+<style>
+  .hara-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .42rem;
+    min-width: 74px;
+    min-height: 38px;
+    padding: .35rem .58rem .35rem .42rem;
+    color: var(--hara-text);
+    border: 1px solid var(--hara-line);
+    border-radius: 8px;
+    background: var(--hara-surface);
+    font: 650 .72rem var(--hara-font-sans);
+    cursor: pointer;
+  }
+
+  .hara-theme-toggle__icon {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    flex: none;
+    border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+    border-radius: 6px;
+    background: color-mix(in srgb, currentColor 5%, transparent);
+  }
+
+  .hara-theme-toggle svg {
+    width: 14px;
+    height: 14px;
+    overflow: visible;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.45;
+  }
+
+  .hara-theme-toggle svg[data-hara-theme-icon="dark"] { display: none; fill: currentColor; stroke: none; }
+  .hara-theme-toggle[data-resolved-theme="dark"] svg[data-hara-theme-icon="light"] { display: none; }
+  .hara-theme-toggle[data-resolved-theme="dark"] svg[data-hara-theme-icon="dark"] { display: block; }
+  .hara-theme-toggle:hover { border-color: color-mix(in srgb, var(--hara-signal) 38%, var(--hara-line)); }
+  .hara-theme-toggle:focus-visible { outline: 2px solid var(--hara-signal); outline-offset: 2px; }
+
+  @media (max-width: 560px) {
+    .hara-theme-toggle {
+      min-width: 72px;
+      min-height: 38px;
+      padding-inline: .4rem .5rem;
+    }
+  }
+</style>

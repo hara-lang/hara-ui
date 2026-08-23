@@ -1,0 +1,26 @@
+---
+interface Props {
+  label?: string;
+  placement?: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "center";
+  open?: boolean;
+  class?: string;
+}
+
+const {
+  label = "Floating tool palette",
+  placement = "top-right",
+  open = true,
+  class: className = ""
+} = Astro.props;
+---
+<aside
+  class:list={["hara-tool-floating-palette", "hara-tool-surface", "hara-tool-surface--cut-small", className]}
+  role="dialog"
+  aria-label={label}
+  aria-modal="false"
+  data-placement={placement}
+  data-open={open ? "true" : "false"}
+  hidden={!open}
+>
+  <slot />
+</aside>

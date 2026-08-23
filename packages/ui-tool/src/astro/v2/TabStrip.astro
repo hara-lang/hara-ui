@@ -1,0 +1,61 @@
+---
+type Tab = {
+  id: string;
+  label: string;
+  active?: boolean;
+  disabled?: boolean;
+  command?: string;
+  controls?: string;
+  value?: string;
+  badge?: string | number;
+  description?: string;
+};
+
+interface Props {
+  tabs?: Tab[];
+  label?: string;
+  orientation?: "horizontal" | "vertical";
+  density?: "regular" | "dense";
+  variant?: "tabs" | "sections" | "groups";
+  class?: string;
+}
+
+const {
+  tabs = [] as Tab[],
+  label = "Editor tabs",
+  orientation = "horizontal",
+  density = "regular",
+  variant = "tabs",
+  class: className = ""
+} = Astro.props;
+---
+<div
+  class:list={["hara-tool-tab-strip", className]}
+  role="tablist"
+  aria-label={label}
+  aria-orientation={orientation}
+  data-orientation={orientation}
+  data-density={density}
+  data-variant={variant}
+>
+  {tabs.map((tab: Tab) => (
+    <button
+      class="hara-tool-tab"
+      type="button"
+      id={tab.id}
+      role="tab"
+      aria-selected={tab.active ? "true" : "false"}
+      aria-controls={tab.controls}
+      aria-keyshortcuts={tab.command}
+      tabindex={tab.active ? 0 : -1}
+      disabled={tab.disabled}
+      data-value={tab.value ?? tab.id}
+      data-variant={variant}
+      title={tab.description}
+    >
+      <span class="hara-tool-tab-label">{tab.label}</span>
+      {tab.badge !== undefined && <span class="hara-tool-tab-badge">{tab.badge}</span>}
+      {tab.command && <kbd class="hara-tool-command-hint">{tab.command}</kbd>}
+    </button>
+  ))}
+</div>

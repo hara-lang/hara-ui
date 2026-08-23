@@ -1,0 +1,96 @@
+.diagram-guide-local-nav {
+  top: var(--hara-v2-header-height);
+}
+
+.diagram-guide-hero,
+.diagram-guide-section {
+  scroll-margin-top: calc(var(--hara-v2-header-height) + 58px);
+}
+
+.diagram-guide-hero-actions a,
+.diagram-view-switcher button,
+.diagram-sequence-controls button,
+.diagram-state-controls button {
+  min-height: 44px;
+}
+
+.diagram-guide-hero-actions a:first-child {
+  color: var(--hara-v2-ink);
+}
+
+@media (forced-colors: active) {
+  .diagram-guide-local-nav,
+  .diagram-guide-fixture-notice,
+  .diagram-guide-hero-ledger,
+  .diagram-figure,
+  .diagram-node,
+  .diagram-graph-node,
+  .diagram-selection-inspector,
+  .diagram-flow-stage,
+  .diagram-sequence-event > div,
+  .diagram-state-node,
+  .diagram-legend-card,
+  .diagram-annotation-card,
+  .diagram-delivery-contract {
+    border-color: CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  .diagram-guide-local-nav a,
+  .diagram-guide-hero-actions a,
+  .diagram-view-switcher button,
+  .diagram-sequence-controls button,
+  .diagram-state-controls button {
+    border: 1px solid ButtonText;
+    background: ButtonFace;
+    color: ButtonText;
+  }
+
+  .diagram-guide-local-nav a:focus-visible,
+  .diagram-guide-hero-actions a:focus-visible,
+  .diagram-view-switcher button:focus-visible,
+  .diagram-sequence-controls button:focus-visible,
+  .diagram-state-controls button:focus-visible,
+  .diagram-node:focus-visible,
+  .diagram-graph-node:focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 3px;
+  }
+
+  .diagram-node[aria-pressed="true"],
+  .diagram-graph-node[aria-pressed="true"],
+  .diagram-view-switcher button[aria-pressed="true"],
+  .diagram-sequence-controls button[aria-pressed="true"] {
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .diagram-legend-line,
+  .diagram-flow-legend i,
+  .diagram-sequence-message,
+  .diagram-architecture-connectors span {
+    border-color: CanvasText;
+    background: CanvasText;
+  }
+
+  .diagram-legend-line[data-line="dashed"],
+  .diagram-legend-line[data-line="broken"],
+  .diagram-sequence-event[data-kind="message"] .diagram-sequence-message,
+  .diagram-sequence-event[data-kind="timeout"] .diagram-sequence-message,
+  .diagram-node[data-status="proposed"] {
+    border-style: dashed;
+  }
+
+  .diagram-legend-line[data-line="double"],
+  .diagram-sequence-event[data-kind="receipt"] .diagram-sequence-message,
+  .diagram-node[data-status="external"] {
+    border-style: double;
+  }
+
+  .diagram-status-word {
+    border-color: CanvasText;
+    color: CanvasText;
+  }
+}

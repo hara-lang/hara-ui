@@ -1,0 +1,41 @@
+---
+import HaraMark from "../HaraMark.astro";
+
+type NavItem = {
+  href: string;
+  label: string;
+  current?: boolean;
+  external?: boolean;
+};
+
+const {
+  homeHref = "/",
+  section,
+  nav = [] as NavItem[],
+  activePath = "",
+  label = section ? `Hara ${section}` : "Hara"
+} = Astro.props;
+
+const current = (item: NavItem) => item.current ?? (
+  item.href === "/" ? activePath === "/" : Boolean(activePath && activePath.startsWith(item.href))
+);
+---
+<header class="hara-v2-header">
+  <a class="hara-v2-brand" href={homeHref} aria-label={label}>
+    <HaraMark size={28} title="Hara" />
+    <span class="hara-v2-wordmark">Hara</span>
+    {section && <span class="hara-v2-brand-divider" aria-hidden="true">/</span>}
+    {section && <span class="hara-v2-brand-section">{section}</span>}
+  </a>
+  <nav class="hara-v2-ecosystem-nav" aria-label="Hara ecosystem navigation">
+    {nav.map((item: NavItem) => (
+      <a
+        href={item.href}
+        aria-current={current(item) ? "page" : undefined}
+        target={item.external ? "_blank" : undefined}
+        rel={item.external ? "noreferrer" : undefined}
+      >{item.label}</a>
+    ))}
+  </nav>
+  <div class="hara-v2-header-actions"><slot /></div>
+</header>

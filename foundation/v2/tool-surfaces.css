@@ -1,0 +1,95 @@
+.hara-v2-tool {
+  color: var(--hara-tool-ink);
+  background-color: var(--hara-tool-bg);
+  background-image: var(--hara-tool-noise);
+  accent-color: var(--hara-tool-signal);
+}
+
+.hara-tool-surface {
+  position: relative;
+  isolation: isolate;
+  color: var(--hara-tool-ink);
+  border: 1px solid var(--hara-tool-edge);
+  background-color: var(--hara-tool-bg);
+  background-image: var(--hara-tool-noise);
+  box-shadow: var(--hara-tool-shadow-inset);
+}
+
+.hara-tool-surface::after {
+  position: absolute;
+  z-index: -1;
+  inset: 1px;
+  border: 1px solid transparent;
+  border-top-color: color-mix(in srgb, var(--hara-tool-glint) 72%, transparent);
+  pointer-events: none;
+  content: "";
+}
+
+.hara-tool-surface--raised {
+  background-color: var(--hara-tool-bg-raised);
+  box-shadow: var(--hara-tool-shadow-inset), var(--hara-tool-shadow);
+}
+
+.hara-tool-surface--recessed {
+  background-color: var(--hara-tool-bg-recessed);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, .16), inset 0 -1px 0 var(--hara-tool-glint);
+}
+
+.hara-tool-surface--framed {
+  border-color: var(--hara-tool-edge-strong);
+  outline: 1px solid color-mix(in srgb, var(--hara-tool-glint) 58%, transparent);
+  outline-offset: -2px;
+}
+
+.hara-tool-surface--cut {
+  clip-path: polygon(
+    var(--hara-tool-cut) 0,
+    100% 0,
+    100% calc(100% - var(--hara-tool-cut)),
+    calc(100% - var(--hara-tool-cut)) 100%,
+    0 100%,
+    0 var(--hara-tool-cut)
+  );
+}
+
+.hara-tool-surface--cut-small {
+  clip-path: polygon(
+    var(--hara-tool-cut-small) 0,
+    100% 0,
+    100% calc(100% - var(--hara-tool-cut-small)),
+    calc(100% - var(--hara-tool-cut-small)) 100%,
+    0 100%,
+    0 var(--hara-tool-cut-small)
+  );
+}
+
+.hara-tool-surface[data-state="selected"],
+.hara-tool-surface[aria-selected="true"] {
+  border-color: color-mix(in srgb, var(--hara-tool-signal) 72%, var(--hara-tool-edge-strong));
+  background-image: linear-gradient(var(--hara-tool-highlight), var(--hara-tool-highlight)), var(--hara-tool-noise);
+}
+
+.hara-tool-surface[data-state="warning"] {
+  border-color: color-mix(in srgb, var(--hara-tool-warning) 76%, var(--hara-tool-edge-strong));
+}
+
+.hara-tool-surface[data-state="danger"],
+.hara-tool-surface[aria-invalid="true"] {
+  border-color: color-mix(in srgb, var(--hara-tool-danger) 78%, var(--hara-tool-edge-strong));
+}
+
+.hara-tool-seam {
+  border-block-start: 1px solid var(--hara-tool-edge-strong);
+  box-shadow: 0 -1px 0 color-mix(in srgb, var(--hara-tool-glint) 50%, transparent);
+}
+
+.hara-v2-tool :where(button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--hara-tool-signal);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hara-tool-surface[data-interactive="true"] {
+    transition: border-color var(--hara-tool-motion) ease, background-color var(--hara-tool-motion) ease, box-shadow var(--hara-tool-motion) ease;
+  }
+}

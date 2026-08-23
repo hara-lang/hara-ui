@@ -1,0 +1,148 @@
+{
+  "name": "Hara cinematic material fields",
+  "version": 2,
+  "format": "4K raster WebP with legacy adaptive SVG studies",
+  "direction": "original monumental painterly-industrial technology",
+  "themes": [
+    { "id": "monolith", "label": "Monolith", "character": "graphite mass, hard thresholds, isolated signal" },
+    { "id": "silica", "label": "Silica", "character": "dry mineral light, long horizons, optical heat" },
+    { "id": "foundry", "label": "Foundry", "character": "inked carbon, rough process, machined containment" },
+    { "id": "nocturne", "label": "Nocturne", "character": "operational night, structural ribs, sparse telemetry" },
+    { "id": "reliquary", "label": "Reliquary", "character": "pale ceramic armour, archival seams, protected core" },
+    { "id": "storm", "label": "Storm", "character": "directional pressure, vault geometry, charged atmosphere" }
+  ],
+  "raster": {
+    "format": "WebP",
+    "backgroundCanvas": "4096 x 2304",
+    "textureCanvas": "4096 x 4096",
+    "backgrounds": [
+      {
+        "id": "monolith-gate",
+        "label": "Monolith Gate",
+        "seed": "raster/seeds/monolith-gate.webp",
+        "file": "raster/backgrounds/monolith-gate.webp",
+        "theme": "monolith",
+        "width": 4096,
+        "height": 2304,
+        "use": "hero, runtime boundary, launch, and system threshold",
+        "alt": "A monumental engineered gate rising from an amber desert under windblown haze, with restrained blue energy seams."
+      },
+      {
+        "id": "desert-foundry",
+        "label": "Desert Foundry",
+        "seed": "raster/seeds/desert-foundry.webp",
+        "file": "raster/backgrounds/desert-foundry.webp",
+        "theme": "silica",
+        "width": 4096,
+        "height": 2304,
+        "use": "compiler, package delivery, infrastructure, and technical editorial",
+        "alt": "A weathered industrial foundry spread across desert dunes, with towering machinery and narrow orange furnace light."
+      },
+      {
+        "id": "nocturne-lattice",
+        "label": "Nocturne Lattice",
+        "seed": "raster/seeds/nocturne-lattice.webp",
+        "file": "raster/backgrounds/nocturne-lattice.webp",
+        "theme": "nocturne",
+        "width": 4096,
+        "height": 2304,
+        "use": "live sessions, code, event streams, agents, and operational night",
+        "alt": "A vast nocturnal machine city connected by bridges, lit by sparse amber lamps and cool blue apertures."
+      },
+      {
+        "id": "reliquary-engine",
+        "label": "Reliquary Engine",
+        "seed": "raster/seeds/reliquary-engine.webp",
+        "file": "raster/backgrounds/reliquary-engine.webp",
+        "theme": "reliquary",
+        "width": 4096,
+        "height": 2304,
+        "use": "VM, WASM, native runtime, protected state, and archival systems",
+        "alt": "An ancient engineered chamber centred on a circular golden machine, with carved stone, metal ribs, and faint electrical arcs."
+      },
+      {
+        "id": "storm-archive",
+        "label": "Storm Archive",
+        "seed": "raster/seeds/storm-archive.webp",
+        "file": "raster/backgrounds/storm-archive.webp",
+        "theme": "storm",
+        "width": 4096,
+        "height": 2304,
+        "use": "network operations, incidents, durable work, and charged status surfaces",
+        "alt": "A fortress tower anchors a desert storm while blue electrical pressure gathers above radial industrial conduits."
+      },
+      {
+        "id": "ink-conduit",
+        "label": "Ink Conduit",
+        "seed": "raster/seeds/ink-conduit.webp",
+        "file": "raster/backgrounds/ink-conduit.webp",
+        "theme": "foundry",
+        "width": 4096,
+        "height": 2304,
+        "use": "dataflow, orchestration, editor launch, and spatial tooling",
+        "alt": "A dark brass machine hall opens toward a distant desert tower while cyan energy filaments move through suspended conduits."
+      }
+    ],
+    "textures": [
+      {
+        "id": "silica-drift",
+        "label": "Silica Drift",
+        "seed": "raster/seeds/silica-drift.webp",
+        "file": "raster/textures/silica-drift.webp",
+        "width": 4096,
+        "height": 4096,
+        "use": "mineral surfaces, light panels, covers, and restrained canvas grain",
+        "alt": "Layered beige and graphite mineral material with metallic dust and thin blue seams."
+      },
+      {
+        "id": "oxide-patina",
+        "label": "Oxide Patina",
+        "seed": "raster/seeds/oxide-patina.webp",
+        "file": "raster/textures/oxide-patina.webp",
+        "width": 4096,
+        "height": 4096,
+        "use": "foundry panels, aged infrastructure, borders, and editorial crops",
+        "alt": "A weathered brass and oxidised copper surface with dark steel, teal patina, pitting, and warm metallic wear."
+      },
+      {
+        "id": "carbon-weave",
+        "label": "Carbon Weave",
+        "seed": "raster/seeds/carbon-weave.webp",
+        "file": "raster/textures/carbon-weave.webp",
+        "width": 4096,
+        "height": 4096,
+        "use": "dark editor surrounds, equipment panels, code canvases, and dense material depth",
+        "alt": "A dark woven carbon material with distressed folds, soot, fine filament structure, and subtle bronze dust."
+      },
+      {
+        "id": "phase-glass",
+        "label": "Phase Glass",
+        "seed": "raster/seeds/phase-glass.webp",
+        "file": "raster/textures/phase-glass.webp",
+        "width": 4096,
+        "height": 4096,
+        "use": "inspection surfaces, overlays, optical panels, and cool state transitions",
+        "alt": "Frosted fractured mineral glass with internal blue interference patterns, fine dust, and pale crystalline seams."
+      }
+    ]
+  },
+  "textures": [
+    "etched-copper", "silt-grain", "circuit-weave", "glass-fissure",
+    "ritual-grid", "dust-field", "prism-noise", "archival-paper"
+  ],
+  "shaders": ["strata", "ink", "monolith", "lattice", "shimmer", "field"],
+  "assets": [
+    { "id": "monolith-gate", "theme": "monolith", "use": "runtime boundary and launch" },
+    { "id": "silica-drift", "theme": "silica", "use": "roadmap and distributed work" },
+    { "id": "ink-foundry", "theme": "foundry", "use": "compiler and technical editorial" },
+    { "id": "signal-canyon", "theme": "monolith", "use": "workflow and dataflow" },
+    { "id": "vault-storm", "theme": "storm", "use": "network operations and status" },
+    { "id": "machine-sun", "theme": "reliquary", "use": "VM, WASM, and native runtime" },
+    { "id": "fracture-vault", "theme": "foundry", "use": "schema boundaries and migration" },
+    { "id": "conduit-horizon", "theme": "silica", "use": "deployment and package delivery" },
+    { "id": "carbon-ridge", "theme": "monolith", "use": "benchmarks and historical depth" },
+    { "id": "phase-loom", "theme": "nocturne", "use": "code, events, and live sessions" },
+    { "id": "pressure-well", "theme": "foundry", "use": "durable work, queues, and checkpoints" },
+    { "id": "night-aperture", "theme": "nocturne", "use": "identity and inspection" }
+  ]
+}

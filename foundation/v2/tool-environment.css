@@ -1,0 +1,476 @@
+/*
+ * Environment composition for Hara v2 workbenches.
+ *
+ * These classes describe section navigation, frontmatter, resource lists, and
+ * capability panes. Product state and keyboard movement remain application
+ * responsibilities.
+ */
+
+.hara-tool-tab {
+  position: relative;
+}
+
+.hara-tool-tab-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hara-tool-tab-badge {
+  display: inline-grid;
+  min-width: 18px;
+  height: 18px;
+  place-items: center;
+  padding-inline: 5px;
+  border: 1px solid var(--hara-tool-edge);
+  border-radius: 999px;
+  color: var(--hara-tool-muted);
+  background: var(--hara-tool-bg-recessed);
+  font: 650 9px/1 var(--hara-v2-font-code);
+  font-variant-numeric: tabular-nums;
+}
+
+.hara-tool-tab[aria-selected="true"] .hara-tool-tab-badge {
+  border-color: color-mix(in srgb, var(--hara-tool-signal) 26%, var(--hara-tool-edge));
+  color: var(--hara-tool-ink);
+  background: color-mix(in srgb, var(--hara-tool-signal) 9%, var(--hara-tool-bg-raised));
+}
+
+.hara-tool-tab-strip[data-variant="sections"] {
+  min-height: 36px;
+  gap: 4px;
+  padding: 3px;
+  border: 0;
+  background: transparent;
+}
+
+.hara-tool-tab-strip[data-variant="sections"] .hara-tool-tab {
+  min-height: 32px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+}
+
+.hara-tool-tab-strip[data-variant="sections"] .hara-tool-tab[aria-selected="true"] {
+  border-color: var(--hara-tool-edge);
+  background: var(--hara-tool-bg-raised);
+  box-shadow:
+    inset 0 -2px 0 var(--hara-tool-signal),
+    var(--hara-v2-calm-shadow-small);
+}
+
+.hara-tool-tab-strip[data-variant="groups"] {
+  min-height: 36px;
+  gap: 3px;
+  padding: 4px;
+  border-block-end: 1px solid var(--hara-tool-edge);
+  background: color-mix(in srgb, var(--hara-tool-bg-recessed) 60%, transparent);
+}
+
+.hara-tool-tab-strip[data-variant="groups"] .hara-tool-tab {
+  min-width: 0;
+  flex: 1 1 auto;
+  padding-inline: 7px;
+}
+
+.hara-tool-section-navigator {
+  min-width: 0;
+}
+
+.hara-tool-section-tabs {
+  width: max-content;
+  min-width: 100%;
+  justify-content: flex-start;
+}
+
+.hara-tool-environment {
+  min-width: 0;
+  color: var(--hara-tool-ink);
+}
+
+.hara-tool-environment[data-control-pane="collapsed"] .hara-tool-environment-shell {
+  --hara-tool-dock-right: var(--hara-tool-rail);
+}
+
+.hara-tool-environment-shell {
+  --hara-tool-dock-right: 296px;
+}
+
+.hara-tool-environment-top {
+  display: flex;
+  min-width: 0;
+  min-height: 46px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 6px;
+  border-block-end: 1px solid var(--hara-tool-edge);
+  background: color-mix(in srgb, var(--hara-tool-bg-raised) 92%, transparent);
+}
+
+.hara-tool-environment-navigation {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.hara-tool-environment-navigation::-webkit-scrollbar {
+  display: none;
+}
+
+.hara-tool-environment-commands {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 4px;
+}
+
+.hara-tool-environment-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 320px;
+  overflow: hidden;
+}
+
+.hara-tool-environment-section {
+  position: absolute;
+  inset: 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  color: var(--hara-tool-ink);
+  background: color-mix(in srgb, var(--hara-tool-bg-recessed) 94%, transparent);
+}
+
+.hara-tool-environment-section[hidden] {
+  display: none !important;
+}
+
+.hara-tool-environment-section[data-scroll="none"] {
+  overflow: hidden;
+}
+
+.hara-tool-environment-section[data-kind="nav"],
+.hara-tool-environment-section[data-kind="frontmatter"] {
+  background: var(--hara-tool-bg);
+}
+
+.hara-tool-environment-section[data-kind="code"] {
+  background: color-mix(in srgb, var(--hara-tool-bg-recessed) 88%, var(--hara-v2-canvas));
+}
+
+.hara-tool-environment-bottom {
+  height: 100%;
+  min-height: 0;
+}
+
+.hara-tool-frontmatter {
+  min-width: 0;
+  padding: 14px;
+}
+
+.hara-tool-frontmatter[data-compact="true"] {
+  padding: 8px;
+}
+
+.hara-tool-frontmatter-grid {
+  display: grid;
+  grid-template-columns: var(--hara-tool-frontmatter-columns, repeat(auto-fit, minmax(180px, 1fr)));
+  gap: 1px;
+  margin: 0;
+  padding: 1px;
+  border: 1px solid var(--hara-tool-edge);
+  border-radius: 9px;
+  overflow: hidden;
+  background: var(--hara-tool-edge);
+}
+
+.hara-tool-frontmatter-entry {
+  min-width: 0;
+  min-height: 82px;
+  padding: 12px 13px;
+  background: var(--hara-tool-bg);
+}
+
+.hara-tool-frontmatter[data-compact="true"] .hara-tool-frontmatter-entry {
+  min-height: 62px;
+  padding: 9px 10px;
+}
+
+.hara-tool-frontmatter-entry dt {
+  margin: 0 0 7px;
+  color: var(--hara-tool-muted);
+  font: 620 10px/1.25 var(--hara-v2-font-body);
+}
+
+.hara-tool-frontmatter-entry dd {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  margin: 0;
+  color: var(--hara-tool-ink);
+  font: 630 12px/1.4 var(--hara-v2-font-body);
+  overflow-wrap: anywhere;
+}
+
+.hara-tool-frontmatter-entry[data-code="true"] dd {
+  font-family: var(--hara-v2-font-code);
+  font-weight: 560;
+}
+
+.hara-tool-frontmatter-entry dd :where(span, a) {
+  color: inherit;
+}
+
+.hara-tool-frontmatter-entry dd a {
+  text-decoration-color: color-mix(in srgb, var(--hara-tool-signal) 45%, transparent);
+  text-underline-offset: 3px;
+}
+
+.hara-tool-frontmatter-entry dd small {
+  color: var(--hara-tool-muted);
+  font: 500 10px/1.45 var(--hara-v2-font-body);
+}
+
+.hara-tool-frontmatter-entry[data-state="ready"],
+.hara-tool-frontmatter-entry[data-state="current"] {
+  box-shadow: inset 2px 0 0 color-mix(in srgb, var(--hara-tool-signal) 72%, transparent);
+}
+
+.hara-tool-frontmatter-entry[data-state="warning"] {
+  box-shadow: inset 2px 0 0 var(--hara-tool-warning);
+}
+
+.hara-tool-frontmatter-entry[data-state="danger"] {
+  box-shadow: inset 2px 0 0 var(--hara-tool-danger);
+}
+
+.hara-tool-resource-list {
+  min-width: 0;
+  padding: 8px;
+}
+
+.hara-tool-resource-list ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hara-tool-resource-row {
+  appearance: none;
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  grid-template-columns: 8px minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  padding: 7px 9px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: var(--hara-tool-ink);
+  background: transparent;
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+}
+
+.hara-tool-resource-list[data-density="dense"] .hara-tool-resource-row {
+  min-height: 38px;
+  padding-block: 5px;
+}
+
+button.hara-tool-resource-row,
+a.hara-tool-resource-row {
+  cursor: pointer;
+}
+
+button.hara-tool-resource-row:hover:not(:disabled),
+a.hara-tool-resource-row:hover {
+  border-color: color-mix(in srgb, var(--hara-tool-signal) 18%, var(--hara-tool-edge));
+  background: color-mix(in srgb, var(--hara-tool-signal) 6%, transparent);
+}
+
+.hara-tool-resource-row[aria-current="true"] {
+  border-color: color-mix(in srgb, var(--hara-tool-signal) 26%, var(--hara-tool-edge));
+  background: color-mix(in srgb, var(--hara-tool-signal) 9%, transparent);
+  box-shadow: inset 2px 0 0 var(--hara-tool-signal);
+}
+
+.hara-tool-resource-row:disabled,
+.hara-tool-resource-row[aria-disabled="true"] {
+  opacity: .52;
+  cursor: not-allowed;
+}
+
+.hara-tool-resource-marker {
+  width: 7px;
+  height: 7px;
+  overflow: hidden;
+  border: 1px solid var(--hara-tool-edge-strong);
+  border-radius: 50%;
+  color: transparent;
+  background: var(--hara-tool-bg-recessed);
+}
+
+li[data-state="ready"] .hara-tool-resource-marker,
+li[data-state="current"] .hara-tool-resource-marker {
+  border-color: color-mix(in srgb, var(--hara-tool-success) 68%, var(--hara-tool-edge));
+  background: var(--hara-tool-success);
+}
+
+li[data-state="busy"] .hara-tool-resource-marker {
+  border-color: color-mix(in srgb, var(--hara-tool-signal) 68%, var(--hara-tool-edge));
+  background: var(--hara-tool-signal);
+}
+
+li[data-state="warning"] .hara-tool-resource-marker {
+  border-color: var(--hara-tool-warning);
+  background: var(--hara-tool-warning);
+}
+
+li[data-state="danger"] .hara-tool-resource-marker,
+li[data-state="error"] .hara-tool-resource-marker {
+  border-color: var(--hara-tool-danger);
+  background: var(--hara-tool-danger);
+}
+
+.hara-tool-resource-copy {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.hara-tool-resource-copy strong {
+  overflow: hidden;
+  color: var(--hara-tool-ink);
+  font: 630 11px/1.2 var(--hara-v2-font-body);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hara-tool-resource-copy small {
+  overflow: hidden;
+  color: var(--hara-tool-muted);
+  font: 500 9.5px/1.25 var(--hara-v2-font-body);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hara-tool-resource-meta {
+  display: grid;
+  justify-items: end;
+  gap: 3px;
+  color: var(--hara-tool-muted);
+}
+
+.hara-tool-resource-meta i {
+  color: inherit;
+  font: 620 9px/1 var(--hara-v2-font-body);
+  font-style: normal;
+}
+
+.hara-tool-resource-meta i[data-state="ready"],
+.hara-tool-resource-meta i[data-state="current"] {
+  color: var(--hara-tool-success);
+}
+
+.hara-tool-resource-meta i[data-state="warning"] {
+  color: var(--hara-tool-warning);
+}
+
+.hara-tool-resource-meta i[data-state="danger"],
+.hara-tool-resource-meta i[data-state="error"] {
+  color: var(--hara-tool-danger);
+}
+
+.hara-tool-resource-meta code {
+  color: var(--hara-tool-muted);
+  background: transparent;
+  font: 520 9px/1 var(--hara-v2-font-code);
+}
+
+.hara-tool-resource-empty {
+  margin: 0;
+  padding: 18px 10px;
+  color: var(--hara-tool-muted);
+  font: 500 11px/1.5 var(--hara-v2-font-body);
+}
+
+.hara-tool-capability-pane {
+  --hara-tool-panel-inline-size: 100%;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.hara-tool-capability-tabs {
+  width: 100%;
+}
+
+.hara-tool-capability-content {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.hara-tool-capability-section {
+  background: var(--hara-tool-bg);
+}
+
+.hara-tool-capability-section > :first-child {
+  min-height: 100%;
+}
+
+@media (max-width: 820px) {
+  .hara-tool-environment-top {
+    align-items: stretch;
+  }
+
+  .hara-tool-environment-commands {
+    position: sticky;
+    inset-inline-end: 0;
+    padding-inline-start: 4px;
+    background: var(--hara-tool-bg-raised);
+  }
+
+  .hara-tool-frontmatter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .hara-tool-tab-strip[data-variant="sections"] .hara-tool-tab {
+    min-width: max-content;
+    padding-inline: 9px;
+  }
+
+  .hara-tool-environment-top {
+    gap: 4px;
+    padding-inline: 4px;
+  }
+
+  .hara-tool-frontmatter {
+    padding: 8px;
+  }
+
+  .hara-tool-frontmatter-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hara-tool-resource-meta code {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hara-tool-environment :where(button, a, input, select, textarea, [tabindex]) {
+    transition: none;
+  }
+}

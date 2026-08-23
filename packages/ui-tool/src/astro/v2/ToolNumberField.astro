@@ -1,0 +1,44 @@
+---
+interface Props {
+  label: string;
+  name?: string;
+  value?: number | string;
+  min?: number;
+  max?: number;
+  step?: number | string;
+  unit?: string;
+  disabled?: boolean;
+  inline?: boolean;
+  class?: string;
+}
+
+const {
+  label,
+  name,
+  value,
+  min,
+  max,
+  step = 1,
+  unit,
+  disabled = false,
+  inline = false,
+  class: className = ""
+} = Astro.props;
+---
+<label class:list={["hara-tool-field", className]} data-inline={inline ? "true" : "false"}>
+  <span>{label}</span>
+  <span class="hara-tool-number-wrap">
+    <input
+      class="hara-tool-number-input"
+      type="number"
+      name={name}
+      value={value}
+      min={min}
+      max={max}
+      step={step}
+      disabled={disabled}
+      aria-label={inline ? label : undefined}
+    />
+    {unit && <span class="hara-tool-number-unit" aria-hidden="true">{unit}</span>}
+  </span>
+</label>

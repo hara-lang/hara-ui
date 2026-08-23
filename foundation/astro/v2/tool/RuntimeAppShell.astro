@@ -1,0 +1,59 @@
+---
+interface Props {
+  idPrefix: string;
+  label: string;
+  title: string;
+  eyebrow?: string;
+  activeApp?: string;
+  state?: string;
+  inspector?: boolean;
+  bottom?: boolean;
+  class?: string;
+}
+
+const {
+  idPrefix,
+  label,
+  title,
+  eyebrow = "Hara Chrome",
+  activeApp,
+  state = "ready",
+  inspector = Astro.slots.has("inspector"),
+  bottom = Astro.slots.has("bottom"),
+  class: className = ""
+} = Astro.props;
+
+const titleId = `${idPrefix}-title`;
+const hasNavigation = Astro.slots.has("navigation");
+const hasToolbar = Astro.slots.has("toolbar");
+const hasStatus = Astro.slots.has("status");
+---
+
+<section
+  class:list={["hara-runtime-app", "hara-tool-surface", "hara-tool-surface--framed", className]}
+  aria-labelledby={titleId}
+  aria-label={label}
+  data-active-app={activeApp}
+  data-state={state}
+  data-inspector={inspector ? "true" : "false"}
+  data-bottom={bottom ? "true" : "false"}
+>
+  <header class="hara-runtime-app-header">
+    <div>
+      <span class="hara-runtime-app-eyebrow">{eyebrow}</span>
+      <h2 id={titleId}>{title}</h2>
+    </div>
+    <div class="hara-runtime-app-header-actions"><slot name="header-actions" /></div>
+  </header>
+
+  {hasNavigation && <nav class="hara-runtime-app-navigation" aria-label={`${label} applications`}><slot name="navigation" /></nav>}
+  {hasToolbar && <div class="hara-runtime-app-toolbar"><slot name="toolbar" /></div>}
+
+  <div class="hara-runtime-app-body">
+    <main class="hara-runtime-app-main"><slot /></main>
+    {inspector && <aside class="hara-runtime-app-inspector" aria-label={`${label} inspector`}><slot name="inspector" /></aside>}
+  </div>
+
+  {bottom && <section class="hara-runtime-app-bottom" aria-label={`${label} secondary surface`}><slot name="bottom" /></section>}
+  {hasStatus && <footer class="hara-runtime-app-status"><slot name="status" /></footer>}
+</section>

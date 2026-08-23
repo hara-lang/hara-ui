@@ -1,0 +1,35 @@
+---
+interface Props {
+  label: string;
+  pressed?: boolean;
+  disabled?: boolean;
+  iconOnly?: boolean;
+  density?: "regular" | "dense";
+  command?: string;
+  class?: string;
+}
+
+const {
+  label,
+  pressed = false,
+  disabled = false,
+  iconOnly = false,
+  density = "regular",
+  command,
+  class: className = ""
+} = Astro.props;
+---
+<button
+  class:list={["hara-tool-toggle", className]}
+  type="button"
+  aria-label={iconOnly ? label : undefined}
+  aria-pressed={pressed ? "true" : "false"}
+  aria-keyshortcuts={command}
+  disabled={disabled}
+  data-icon-only={iconOnly ? "true" : "false"}
+  data-density={density}
+>
+  <span class="hara-tool-control-icon"><slot name="icon" /></span>
+  <span class="hara-tool-control-label" data-visually-hidden={iconOnly ? "true" : "false"}>{label}</span>
+  {command && !iconOnly && <kbd class="hara-tool-command-hint">{command}</kbd>}
+</button>

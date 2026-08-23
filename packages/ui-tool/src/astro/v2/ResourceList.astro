@@ -1,0 +1,103 @@
+---
+type ResourceItem = {
+  id: string;
+  label: string;
+  detail?: string;
+  meta?: string;
+  status?: string;
+  marker?: string;
+  href?: string;
+  action?: boolean;
+  current?: boolean;
+  disabled?: boolean;
+};
+
+interface Props {
+  items?: ResourceItem[];
+  label?: string;
+  empty?: string;
+  density?: "regular" | "dense";
+  class?: string;
+}
+
+const {
+  items = [] as ResourceItem[],
+  label = "Environment resources",
+  empty = "No resources available.",
+  density = "regular",
+  class: className = ""
+} = Astro.props;
+---
+<section
+  class:list={["hara-tool-resource-list", className]}
+  aria-label={label}
+  data-density={density}
+>
+  {items.length > 0 ? (
+    <ul>
+      {items.map((item: ResourceItem) => (
+        <li
+          data-resource-id={item.id}
+          data-state={item.status}
+          data-current={item.current ? "true" : "false"}
+          data-disabled={item.disabled ? "true" : "false"}
+        >
+          {item.href ? (
+            <a
+              class="hara-tool-resource-row"
+              href={item.href}
+              aria-current={item.current ? "true" : undefined}
+              aria-disabled={item.disabled ? "true" : undefined}
+            >
+              <span class="hara-tool-resource-marker" aria-hidden="true">{item.marker ?? ""}</span>
+              <span class="hara-tool-resource-copy">
+                <strong>{item.label}</strong>
+                {item.detail && <small>{item.detail}</small>}
+              </span>
+              <span class="hara-tool-resource-meta">
+                {item.status && <i data-state={item.status}>{item.status}</i>}
+                {item.meta && <code>{item.meta}</code>}
+              </span>
+            </a>
+          ) : item.action ? (
+            <button
+              class="hara-tool-resource-row"
+              type="button"
+              aria-current={item.current ? "true" : undefined}
+              disabled={item.disabled}
+              data-resource-action={item.id}
+            >
+              <span class="hara-tool-resource-marker" aria-hidden="true">{item.marker ?? ""}</span>
+              <span class="hara-tool-resource-copy">
+                <strong>{item.label}</strong>
+                {item.detail && <small>{item.detail}</small>}
+              </span>
+              <span class="hara-tool-resource-meta">
+                {item.status && <i data-state={item.status}>{item.status}</i>}
+                {item.meta && <code>{item.meta}</code>}
+              </span>
+            </button>
+          ) : (
+            <div
+              class="hara-tool-resource-row"
+              aria-current={item.current ? "true" : undefined}
+              aria-disabled={item.disabled ? "true" : undefined}
+            >
+              <span class="hara-tool-resource-marker" aria-hidden="true">{item.marker ?? ""}</span>
+              <span class="hara-tool-resource-copy">
+                <strong>{item.label}</strong>
+                {item.detail && <small>{item.detail}</small>}
+              </span>
+              <span class="hara-tool-resource-meta">
+                {item.status && <i data-state={item.status}>{item.status}</i>}
+                {item.meta && <code>{item.meta}</code>}
+              </span>
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p class="hara-tool-resource-empty">{empty}</p>
+  )}
+</section>

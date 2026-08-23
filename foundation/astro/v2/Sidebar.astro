@@ -1,0 +1,39 @@
+---
+type SidebarItem = {
+  href: string;
+  label: string;
+  badge?: string | number;
+  current?: boolean;
+};
+
+type SidebarGroup = {
+  label?: string;
+  items: SidebarItem[];
+};
+
+const {
+  title,
+  groups = [] as SidebarGroup[],
+  activePath = "",
+  label = "Page navigation"
+} = Astro.props;
+
+const current = (item: SidebarItem) => item.current ?? (
+  item.href === "/" ? activePath === "/" : Boolean(activePath && activePath.startsWith(item.href))
+);
+---
+<nav class="hara-v2-sidebar-nav" aria-label={label}>
+  {title && <h2 class="hara-v2-sidebar-title">{title}</h2>}
+  {groups.map((group: SidebarGroup) => (
+    <section class="hara-v2-sidebar-group">
+      {group.label && <b>{group.label}</b>}
+      {group.items.map((item: SidebarItem) => (
+        <a class="hara-v2-sidebar-link" href={item.href} aria-current={current(item) ? "page" : undefined}>
+          <span>{item.label}</span>
+          {item.badge !== undefined && <small>{item.badge}</small>}
+        </a>
+      ))}
+    </section>
+  ))}
+</nav>
+<div class="hara-v2-sidebar-footer"><slot /></div>

@@ -1,0 +1,48 @@
+---
+interface Envelope {
+  artifactType: string;
+  template: string;
+  canonicalUrl: string;
+  sourceIdentity: string;
+  sourceRevision: string;
+  authority: string;
+  status: string;
+  locale: string;
+  direction: string;
+  generatedAt: string;
+  staleAfter?: string | null;
+  textEquivalent?: string;
+}
+
+interface Props {
+  envelope: Envelope;
+  label?: string;
+  compact?: boolean;
+  class?: string;
+}
+
+const {
+  envelope,
+  label = "Artifact provenance",
+  compact = false,
+  class: className = ""
+} = Astro.props;
+
+for (const field of ["artifactType", "template", "canonicalUrl", "sourceIdentity", "sourceRevision", "authority", "status", "locale", "direction", "generatedAt"]) {
+  if (!envelope?.[field]?.toString().trim()) throw new Error(`ArtifactProvenance requires envelope.${field}`);
+}
+---
+<aside class:list={["hara-artifact-provenance", className]} data-compact={compact ? "true" : "false"} aria-label={label}>
+  <header><span>{label}</span><strong data-artifact-status={envelope.status}>{envelope.status}</strong></header>
+  <dl>
+    <div><dt>Artifact</dt><dd>{envelope.artifactType}</dd></div>
+    <div><dt>Template</dt><dd>{envelope.template}</dd></div>
+    <div><dt>Source</dt><dd>{envelope.sourceIdentity}</dd></div>
+    <div><dt>Revision</dt><dd><code>{envelope.sourceRevision}</code></dd></div>
+    <div><dt>Authority</dt><dd>{envelope.authority}</dd></div>
+    <div><dt>Generated</dt><dd><time datetime={envelope.generatedAt}>{envelope.generatedAt}</time></dd></div>
+    {envelope.staleAfter && <div><dt>Stale after</dt><dd><time datetime={envelope.staleAfter}>{envelope.staleAfter}</time></dd></div>}
+    <div><dt>Locale</dt><dd>{envelope.locale} · {envelope.direction}</dd></div>
+    <div class="hara-artifact-provenance-canonical"><dt>Canonical</dt><dd><a href={envelope.canonicalUrl}>{envelope.canonicalUrl}</a></dd></div>
+  </dl>
+</aside>

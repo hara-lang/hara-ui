@@ -1,0 +1,40 @@
+---
+interface Props {
+  format: "email" | "print" | "og" | "square" | "portrait" | "story" | "text" | "static";
+  label: string;
+  title?: string;
+  state?: "current" | "stale" | "unavailable" | "failed";
+  language?: string;
+  direction?: "ltr" | "rtl" | "auto";
+  class?: string;
+}
+
+const {
+  format,
+  label,
+  title,
+  state = "current",
+  language = "en",
+  direction = "ltr",
+  class: className = ""
+} = Astro.props;
+
+const validFormats = new Set(["email", "print", "og", "square", "portrait", "story", "text", "static"]);
+const validStates = new Set(["current", "stale", "unavailable", "failed"]);
+if (!validFormats.has(format)) throw new Error(`Unknown Hara delivery format: ${format}`);
+if (!validStates.has(state)) throw new Error(`Unknown Hara artifact state: ${state}`);
+if (!label?.trim()) throw new Error("Hara DeliveryFrame requires an accessible label");
+---
+<figure
+  class:list={["hara-delivery-frame", className]}
+  data-delivery-format={format}
+  data-artifact-state={state}
+  lang={language}
+  dir={direction}
+  aria-label={label}
+>
+  {title && <figcaption>{title}</figcaption>}
+  <div class="hara-delivery-frame-content">
+    <slot />
+  </div>
+</figure>

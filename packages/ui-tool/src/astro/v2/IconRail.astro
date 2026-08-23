@@ -1,0 +1,23 @@
+---
+interface Props {
+  label?: string;
+  orientation?: "horizontal" | "vertical";
+  density?: "regular" | "dense";
+  class?: string;
+}
+
+const {
+  label = "Editor tools",
+  orientation = "vertical",
+  density = "dense",
+  class: className = ""
+} = Astro.props;
+---
+<nav
+  class:list={["hara-tool-icon-rail", className]}
+  aria-label={label}
+  data-orientation={orientation}
+  data-density={density}
+>
+  <slot />
+</nav>

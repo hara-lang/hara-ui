@@ -1,0 +1,372 @@
+.hara-tool-workbench {
+  --hara-tool-dock-left: 224px;
+  --hara-tool-dock-right: 288px;
+  --hara-tool-dock-bottom: 176px;
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: var(--hara-tool-workbench-min-height, 620px);
+  grid-template:
+    "top top top" auto
+    "left viewport right" minmax(0, 1fr)
+    "left bottom right" auto
+    "status status status" auto /
+    auto minmax(0, 1fr) auto;
+  overflow: hidden;
+  border: 1px solid var(--hara-tool-edge-strong);
+  color: var(--hara-tool-ink);
+  background: var(--hara-tool-bg-recessed);
+  box-shadow: var(--hara-tool-shadow-inset), var(--hara-tool-shadow);
+  isolation: isolate;
+}
+
+.hara-tool-workbench-top {
+  z-index: 30;
+  grid-area: top;
+  min-width: 0;
+}
+
+.hara-tool-workbench-left {
+  z-index: 20;
+  grid-area: left;
+  width: var(--hara-tool-dock-left);
+  min-width: 0;
+  border-inline-end: 1px solid var(--hara-tool-edge-strong);
+}
+
+.hara-tool-workbench-right {
+  z-index: 20;
+  grid-area: right;
+  width: var(--hara-tool-dock-right);
+  min-width: 0;
+  border-inline-start: 1px solid var(--hara-tool-edge-strong);
+}
+
+.hara-tool-workbench-bottom {
+  z-index: 20;
+  grid-area: bottom;
+  min-width: 0;
+  min-height: var(--hara-tool-dock-bottom);
+  border-block-start: 1px solid var(--hara-tool-edge-strong);
+}
+
+.hara-tool-workbench-status {
+  z-index: 30;
+  grid-area: status;
+  min-width: 0;
+}
+
+.hara-tool-workbench-viewport {
+  position: relative;
+  z-index: 0;
+  grid-area: viewport;
+  min-width: 0;
+  min-height: 320px;
+  overflow: hidden;
+  color: var(--hara-tool-ink);
+  background-color: var(--hara-tool-bg-recessed);
+  background-image:
+    linear-gradient(var(--hara-v2-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hara-v2-grid) 1px, transparent 1px),
+    var(--hara-tool-noise);
+  background-size: 24px 24px, 24px 24px, auto;
+}
+
+.hara-tool-workbench-overlay {
+  position: absolute;
+  z-index: 35;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hara-tool-workbench :where([data-present="false"]) {
+  display: none;
+}
+
+.hara-tool-dock-panel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  overflow: auto;
+  border: 0;
+  background-color: var(--hara-tool-bg);
+  background-image: var(--hara-tool-noise);
+  box-shadow: var(--hara-tool-shadow-inset);
+}
+
+.hara-tool-dock-panel[data-position="bottom"] {
+  min-height: var(--hara-tool-dock-bottom);
+}
+
+.hara-tool-dock-panel[data-position="floating"] {
+  width: min(360px, calc(100vw - 32px));
+  height: auto;
+  max-height: min(520px, calc(100vh - 64px));
+  border: 1px solid var(--hara-tool-edge-strong);
+  box-shadow: var(--hara-tool-shadow-inset), var(--hara-tool-shadow);
+}
+
+.hara-tool-dock-panel[data-size="narrow"] {
+  --hara-tool-panel-inline-size: 184px;
+}
+
+.hara-tool-dock-panel[data-size="regular"] {
+  --hara-tool-panel-inline-size: 264px;
+}
+
+.hara-tool-dock-panel[data-size="wide"] {
+  --hara-tool-panel-inline-size: 360px;
+}
+
+.hara-tool-dock-panel[data-position="left"],
+.hara-tool-dock-panel[data-position="right"] {
+  width: var(--hara-tool-panel-inline-size, 100%);
+  max-width: 100%;
+}
+
+.hara-tool-dock-panel[data-selected="true"] {
+  box-shadow: inset 3px 0 0 var(--hara-tool-signal), var(--hara-tool-shadow-inset);
+}
+
+.hara-tool-dock-panel[data-collapsed="true"] {
+  width: var(--hara-tool-rail);
+  overflow: hidden;
+}
+
+.hara-tool-dock-panel[data-collapsed="true"] > * {
+  visibility: hidden;
+}
+
+.hara-tool-panel-header {
+  display: grid;
+  min-height: 38px;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-block-end: 1px solid var(--hara-tool-edge-strong);
+  background: var(--hara-tool-bg-raised);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .12), inset 0 1px 0 var(--hara-tool-glint);
+}
+
+.hara-tool-panel-header[data-compact="true"] {
+  min-height: 31px;
+  padding-block: 3px;
+}
+
+.hara-tool-panel-heading {
+  min-width: 0;
+}
+
+.hara-tool-panel-eyebrow {
+  display: block;
+  margin-block-end: 2px;
+  color: var(--hara-tool-muted);
+  font: 650 8px/1 var(--hara-v2-font-code);
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+
+.hara-tool-panel-title {
+  overflow: hidden;
+  margin: 0;
+  color: var(--hara-tool-ink);
+  font: 700 11px/1.2 var(--hara-v2-font-heading);
+  letter-spacing: .045em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.hara-tool-panel-metadata,
+.hara-tool-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--hara-tool-muted);
+  font: 600 9px/1 var(--hara-v2-font-code);
+}
+
+.hara-tool-inspector-section {
+  margin: 0;
+  border-block-end: 1px solid var(--hara-tool-edge);
+  background: color-mix(in srgb, var(--hara-tool-bg) 96%, transparent);
+}
+
+.hara-tool-inspector-section > summary {
+  display: grid;
+  min-height: 33px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px;
+  padding: 0 9px;
+  color: var(--hara-tool-ink);
+  background: color-mix(in srgb, var(--hara-tool-bg-raised) 66%, transparent);
+  font: 700 10px/1 var(--hara-v2-font-body);
+  letter-spacing: .045em;
+  text-transform: uppercase;
+  cursor: pointer;
+  list-style: none;
+}
+
+.hara-tool-inspector-section > summary::-webkit-details-marker {
+  display: none;
+}
+
+.hara-tool-inspector-section > summary::before {
+  width: 7px;
+  height: 7px;
+  border-inline-end: 1px solid currentColor;
+  border-block-end: 1px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform var(--hara-tool-motion) ease;
+  content: "";
+}
+
+.hara-tool-inspector-section[open] > summary::before {
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+.hara-tool-inspector-summary-meta {
+  justify-self: end;
+  color: var(--hara-tool-muted);
+  font: 600 9px/1 var(--hara-v2-font-code);
+  text-transform: none;
+}
+
+.hara-tool-inspector-body {
+  display: grid;
+  gap: 8px;
+  padding: 9px;
+}
+
+.hara-tool-floating-palette {
+  position: absolute;
+  z-index: 50;
+  width: min(320px, calc(100% - 24px));
+  max-height: calc(100% - 24px);
+  overflow: auto;
+  border: 1px solid var(--hara-tool-edge-strong);
+  background: var(--hara-tool-bg-raised);
+  box-shadow: var(--hara-tool-shadow-inset), var(--hara-tool-shadow);
+  pointer-events: auto;
+}
+
+.hara-tool-floating-palette[data-placement="top-left"] {
+  inset-block-start: 12px;
+  inset-inline-start: 12px;
+}
+
+.hara-tool-floating-palette[data-placement="top-right"] {
+  inset-block-start: 12px;
+  inset-inline-end: 12px;
+}
+
+.hara-tool-floating-palette[data-placement="bottom-left"] {
+  inset-block-end: 12px;
+  inset-inline-start: 12px;
+}
+
+.hara-tool-floating-palette[data-placement="bottom-right"] {
+  inset-block-end: 12px;
+  inset-inline-end: 12px;
+}
+
+.hara-tool-floating-palette[data-placement="center"] {
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.hara-tool-viewport-overlay {
+  position: absolute;
+  z-index: 40;
+  display: flex;
+  max-width: calc(100% - 24px);
+  align-items: center;
+  gap: 7px;
+  padding: 5px 7px;
+  border: 1px solid color-mix(in srgb, var(--hara-tool-edge-strong) 82%, transparent);
+  color: var(--hara-tool-ink);
+  background: color-mix(in srgb, var(--hara-tool-bg-raised) 88%, transparent);
+  box-shadow: var(--hara-tool-shadow-inset), 0 6px 18px rgba(0, 0, 0, .16);
+  backdrop-filter: blur(8px);
+  font: 600 9px/1.2 var(--hara-v2-font-code);
+  pointer-events: none;
+}
+
+.hara-tool-viewport-overlay[data-interactive="true"] {
+  pointer-events: auto;
+}
+
+.hara-tool-viewport-overlay[data-placement="top-left"] {
+  inset-block-start: 12px;
+  inset-inline-start: 12px;
+}
+
+.hara-tool-viewport-overlay[data-placement="top-right"] {
+  inset-block-start: 12px;
+  inset-inline-end: 12px;
+}
+
+.hara-tool-viewport-overlay[data-placement="bottom-left"] {
+  inset-block-end: 12px;
+  inset-inline-start: 12px;
+}
+
+.hara-tool-viewport-overlay[data-placement="bottom-right"] {
+  inset-block-end: 12px;
+  inset-inline-end: 12px;
+}
+
+.hara-tool-viewport-overlay[data-placement="center"] {
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media (max-width: 1120px) {
+  .hara-tool-workbench-right {
+    display: none;
+  }
+}
+
+@media (max-width: 820px) {
+  .hara-tool-workbench-left {
+    display: none;
+  }
+
+  .hara-tool-workbench {
+    min-height: var(--hara-tool-workbench-min-height-mobile, 540px);
+    grid-template:
+      "top" auto
+      "viewport" minmax(0, 1fr)
+      "bottom" auto
+      "status" auto /
+      minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .hara-tool-workbench-bottom {
+    display: none;
+  }
+
+  .hara-tool-workbench {
+    min-height: var(--hara-tool-workbench-min-height-phone, 460px);
+    grid-template:
+      "top" auto
+      "viewport" minmax(0, 1fr)
+      "status" auto /
+      minmax(0, 1fr);
+  }
+
+  .hara-tool-floating-palette {
+    inset: auto 8px 8px !important;
+    width: auto;
+    max-height: 58%;
+    transform: none !important;
+  }
+}

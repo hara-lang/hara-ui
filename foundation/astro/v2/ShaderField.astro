@@ -1,0 +1,85 @@
+---
+type Mode = "strata" | "ink" | "monolith" | "lattice" | "shimmer" | "field";
+type Atmosphere = "monolith" | "silica" | "foundry" | "nocturne" | "reliquary" | "storm";
+type Props = {
+  mode?: Mode;
+  atmosphere?: Atmosphere;
+  motion?: boolean;
+  interactive?: boolean;
+  label?: string;
+  fallback?: string;
+  plate?: string;
+  class?: string;
+};
+const {
+  mode = "monolith",
+  atmosphere = "monolith",
+  motion = false,
+  interactive = false,
+  label = "Procedural Hara material field",
+  fallback,
+  plate = mode,
+  class: className = ""
+} = Astro.props;
+---
+<div
+  class:list={["hara-v2-graphics", "hara-v2-shader-field", className]}
+  data-hara-shader-field
+  data-mode={mode}
+  data-atmosphere={atmosphere}
+  data-motion={motion ? "on" : "off"}
+  data-interactive={interactive ? "on" : "off"}
+  data-state="loading"
+  style={fallback ? `--hara-shader-fallback:url("${fallback}")` : undefined}
+>
+  <span class="hara-v2-shader-field__fallback" aria-hidden="true"></span>
+  <canvas class="hara-v2-shader-field__canvas" role="img" aria-label={label}></canvas>
+  <span class="hara-v2-shader-field__mesh" aria-hidden="true"></span>
+  <span class="hara-v2-shader-field__shade" aria-hidden="true"></span>
+  <span class="hara-v2-shader-field__plate" aria-hidden="true">{plate}</span>
+  <slot />
+</div>
+
+<script>
+const modeIndex = { strata:0, ink:1, monolith:2, lattice:3, shimmer:4, field:5 };
+const vertexSource = `
+attribute vec2 a_position;
+void main(){gl_Position=vec4(a_position,0.0,1.0);}
+`;
+const fragmentSource = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+uniform vec2 u_resolution;
+uniform vec2 u_pointer;
+uniform float u_time;
+uniform float u_mode;
+uniform vec3 u_ground;
+uniform vec3 u_plate;
+uniform vec3 u_mass;
+uniform vec3 u_signal;
+float hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+1.0),f.x),f.y);}
+float fbm(vec2 p){float v=0.0,a=.52;mat2 r=mat2(.8,-.6,.6,.8);for(int i=0;i<5;i++){v+=a*noise(p);p=r*p*2.03+19.7;a*=.49;}return v;}
+float line(float v,float w){return 1.0-smoothstep(w,w*2.4,abs(v));}
+float boxSdf(vec2 p,vec2 b){vec2 q=abs(p)-b;return length(max(q,0.0))+min(max(q.x,q.y),0.0);}
+vec3 strata(vec2 p,float t){float w=fbm(p*1.3+vec2(t*.025,0));float r=p.y+.22*sin(p.x*1.8+w*3.2)+.09*sin(p.x*5.0-t*.06);float b=.5+.5*sin((r+w*.15)*19.0);float m=smoothstep(-.7,.75,r);vec3 c=mix(u_ground,u_plate,m*.88);c=mix(c,u_mass,smoothstep(.78,.98,b)*(.2+m*.34));return mix(c,u_signal,line(r-.03,.008)*.82);}
+vec3 ink(vec2 p,float t){vec2 q=p;q.x+=.24*fbm(p*1.6+vec2(0,t*.035));q.y+=.17*fbm(p*2.1+vec2(-t*.028,7));float n=fbm(q*2.2+vec2(t*.018,-t*.021));float cut=smoothstep(.45,.8,n+q.x*.22-q.y*.08);vec3 c=mix(u_ground,u_plate,smoothstep(.2,.82,n));c=mix(c,u_mass,cut*(.72+.18*smoothstep(.55,.86,noise(q*10.))));float rail=line(p.x+.06+.04*sin(p.y*4.),.006);return mix(c,u_signal,rail*.76);}
+vec3 monolith(vec2 p,float t){vec2 q=p;q.x+=(u_pointer.x-.5)*.1;float fog=fbm(vec2(p.x*.8,p.y*1.3-t*.018));float a=boxSdf(q-vec2(0,-.08),vec2(.22+p.y*.08,.76));float b=boxSdf(q-vec2(-.66,-.04),vec2(.18,.9));float d=boxSdf(q-vec2(.66,-.04),vec2(.18,.9));float f=min(a,min(b,d));vec3 c=mix(u_ground,u_plate,smoothstep(-.2,0.,p.y)*.55+fog*.12);c=mix(c,u_mass,1.0-smoothstep(-.018,.015,f));c=mix(c,u_plate,line(f,.008)*.25);return mix(c,u_signal,line(q.x,.004)*(1.0-smoothstep(-.72,.72,abs(q.y)))*.8);}
+vec3 lattice(vec2 p,float t){vec2 sc=vec2(7.,5.2);vec2 cell=fract((p+1.)*sc)-.5;vec2 id=floor((p+1.)*sc);float g=max(line(cell.x,.025),line(cell.y,.025));float brace=max(line(cell.x+cell.y,.026),line(cell.x-cell.y,.026));float sel=step(.89,hash(id+3.1));vec3 c=mix(u_ground,u_plate,.18+.18*noise(id));c=mix(c,u_mass,max(g,brace*.33)*(.28+sel*.14));float scan=line(fract((p.y+1.)*.5-t*.018)-.5,.012);return mix(c,u_signal,sel*line(cell.x,.035)*scan*.92);}
+vec3 shimmer(vec2 p,float t){float d=fbm(vec2(p.x*3.,p.y*1.2-t*.05));vec2 q=p+vec2((d-.5)*.1,0);float h=q.y+.22*sin(q.x*2.)+.08*sin(q.x*6.+d*4.);float layers=.5+.5*sin((h+d*.13)*24.);vec3 c=mix(u_ground,u_plate,smoothstep(-.58,.62,h));c=mix(c,u_mass,smoothstep(.84,1.,layers)*.34);return mix(c,u_signal,line(q.x-.48,.008)*(1.0-smoothstep(0.,.82,abs(q.y)))*.72);}
+vec3 field(vec2 p,float t){vec2 pointer=(u_pointer-.5)*vec2(.7,-.5);vec2 q=p-pointer;float r=length(q),a=atan(q.y,q.x);float flow=sin(a*3.+r*13.-t*.12);float rails=.5+.5*sin((p.y+.18*sin(p.x*2.))*17.);float fog=fbm(p*1.4+vec2(t*.02,4.));vec3 c=mix(u_ground,u_plate,.3+fog*.34);c=mix(c,u_mass,smoothstep(.78,.98,rails)*.26);c=mix(c,u_mass,line(flow,.08)*(1.0-smoothstep(.18,1.,r))*.24);float aperture=line(r-.24,.008);float route=line(p.x-pointer.x,.004)*(1.0-smoothstep(.16,.72,r));return mix(c,u_signal,max(aperture*.55,route*.72));}
+void main(){vec2 p=(2.0*gl_FragCoord.xy-u_resolution.xy)/min(u_resolution.x,u_resolution.y);p.y*=-1.;vec3 c;if(u_mode<.5)c=strata(p,u_time);else if(u_mode<1.5)c=ink(p,u_time);else if(u_mode<2.5)c=monolith(p,u_time);else if(u_mode<3.5)c=lattice(p,u_time);else if(u_mode<4.5)c=shimmer(p,u_time);else c=field(p,u_time);float v=1.0-smoothstep(.24,1.45,length(p*vec2(.72,.92)));c=mix(u_ground,c,.78+v*.22);c+=(hash(gl_FragCoord.xy+floor(u_time*12.))-.5)*.018;gl_FragColor=vec4(clamp(c,0.,1.),1.);}
+`;
+function parseColor(value){const text=value.trim();const hex=text.match(/^#([0-9a-f]{6})$/i);if(hex){const n=Number.parseInt(hex[1],16);return [((n>>16)&255)/255,((n>>8)&255)/255,(n&255)/255];}const rgb=text.match(/rgba?\(([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/i);return rgb?[Number(rgb[1])/255,Number(rgb[2])/255,Number(rgb[3])/255]:[0,0,0];}
+function compile(gl,type,source){const shader=gl.createShader(type);if(!shader)return null;gl.shaderSource(shader,source);gl.compileShader(shader);if(!gl.getShaderParameter(shader,gl.COMPILE_STATUS)){gl.deleteShader(shader);return null;}return shader;}
+function makeProgram(gl){const v=compile(gl,gl.VERTEX_SHADER,vertexSource),f=compile(gl,gl.FRAGMENT_SHADER,fragmentSource);if(!v||!f)return null;const p=gl.createProgram();if(!p)return null;gl.attachShader(p,v);gl.attachShader(p,f);gl.linkProgram(p);gl.deleteShader(v);gl.deleteShader(f);if(!gl.getProgramParameter(p,gl.LINK_STATUS)){gl.deleteProgram(p);return null;}return p;}
+function mount(field){if(field.dataset.haraShaderBound==="true")return;field.dataset.haraShaderBound="true";const canvas=field.querySelector("canvas");const gl=canvas?.getContext("webgl",{alpha:false,antialias:false,depth:false,stencil:false,powerPreference:"low-power"});if(!canvas||!gl){field.dataset.state="fallback";return;}const program=makeProgram(gl);if(!program){field.dataset.state="fallback";return;}const buffer=gl.createBuffer();if(!buffer){field.dataset.state="fallback";return;}gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);const position=gl.getAttribLocation(program,"a_position");const u={resolution:gl.getUniformLocation(program,"u_resolution"),pointer:gl.getUniformLocation(program,"u_pointer"),time:gl.getUniformLocation(program,"u_time"),mode:gl.getUniformLocation(program,"u_mode"),ground:gl.getUniformLocation(program,"u_ground"),plate:gl.getUniformLocation(program,"u_plate"),mass:gl.getUniformLocation(program,"u_mass"),signal:gl.getUniformLocation(program,"u_signal")};let active=true,frame=0,start=performance.now(),pointer=[.5,.5];const reduced=matchMedia("(prefers-reduced-motion: reduce)");function resize(){const b=canvas.getBoundingClientRect(),ratio=Math.min(window.devicePixelRatio||1,1.75),w=Math.max(1,Math.round(b.width*ratio)),h=Math.max(1,Math.round(b.height*ratio));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}}
+function palette(){const s=getComputedStyle(field);gl.useProgram(program);gl.uniform3fv(u.ground,parseColor(s.getPropertyValue("--hara-graphics-ground")));gl.uniform3fv(u.plate,parseColor(s.getPropertyValue("--hara-graphics-plate")));gl.uniform3fv(u.mass,parseColor(s.getPropertyValue("--hara-graphics-mass")));gl.uniform3fv(u.signal,parseColor(s.getPropertyValue("--hara-graphics-signal")));}
+function render(now=performance.now()){cancelAnimationFrame(frame);resize();gl.viewport(0,0,canvas.width,canvas.height);gl.useProgram(program);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.enableVertexAttribArray(position);gl.vertexAttribPointer(position,2,gl.FLOAT,false,0,0);const animated=field.dataset.motion==="on"&&!reduced.matches;gl.uniform2f(u.resolution,canvas.width,canvas.height);gl.uniform2f(u.pointer,pointer[0],pointer[1]);gl.uniform1f(u.time,animated?(now-start)/1000:1.35);gl.uniform1f(u.mode,modeIndex[field.dataset.mode]??2);gl.drawArrays(gl.TRIANGLES,0,3);field.dataset.state="ready";if(animated&&active)frame=requestAnimationFrame(render);}
+palette();render();const intersection="IntersectionObserver" in window?new IntersectionObserver(([entry])=>{active=entry.isIntersecting;if(active)render();else cancelAnimationFrame(frame);},{rootMargin:"180px"}):null;intersection?.observe(field);const resizeObserver="ResizeObserver" in window?new ResizeObserver(()=>render()):null;resizeObserver?.observe(field);const themeObserver=new MutationObserver(()=>{palette();render();});themeObserver.observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});const fieldObserver=new MutationObserver(()=>{palette();start=performance.now();render();});fieldObserver.observe(field,{attributes:true,attributeFilter:["data-mode","data-atmosphere"]});reduced.addEventListener?.("change",()=>{start=performance.now();render();});if(field.dataset.interactive==="on"){field.addEventListener("pointermove",event=>{const b=field.getBoundingClientRect();pointer=[Math.max(0,Math.min(1,(event.clientX-b.left)/b.width)),Math.max(0,Math.min(1,(event.clientY-b.top)/b.height))];if(field.dataset.motion!=="on"||reduced.matches)render();});field.addEventListener("pointerleave",()=>{pointer=[.5,.5];if(field.dataset.motion!=="on"||reduced.matches)render();});}canvas.addEventListener("webglcontextlost",event=>{event.preventDefault();cancelAnimationFrame(frame);field.dataset.state="fallback";});}
+function mountAll(){document.querySelectorAll("[data-hara-shader-field]").forEach(mount);}
+mountAll();document.addEventListener("astro:page-load",mountAll);
+</script>

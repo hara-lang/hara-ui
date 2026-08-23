@@ -1,0 +1,39 @@
+---
+type Effect = "evaluation" | "syntax" | "lattice" | "flow" | "kernel";
+type Intensity = "quiet" | "balanced" | "dense";
+type Props = {
+  effect?: Effect;
+  intensity?: Intensity;
+  motion?: boolean;
+  label?: string;
+  class?: string;
+};
+
+const {
+  effect = "evaluation",
+  intensity = "balanced",
+  motion = false,
+  label,
+  class: className = "",
+} = Astro.props;
+
+const decorative = !label;
+---
+<div
+  class:list={["hara-backdrop", className]}
+  data-effect={effect}
+  data-intensity={intensity}
+  data-motion={motion ? "on" : "off"}
+  role={decorative ? undefined : "img"}
+  aria-hidden={decorative ? "true" : undefined}
+  aria-label={label}
+>
+  <span class="hara-backdrop__field"></span>
+  <span class="hara-backdrop__grid"></span>
+  <span class="hara-backdrop__trace"></span>
+  <span class="hara-backdrop__nodes"></span>
+  <svg class="hara-backdrop__mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+    <path fill="currentColor" d="M10 8h13v18h18V8h13v48H41V38H23v18H10z" />
+    <path fill="var(--hara-signal)" d="M27 8h10v10H27z" />
+  </svg>
+</div>

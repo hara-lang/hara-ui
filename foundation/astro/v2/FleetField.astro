@@ -1,0 +1,79 @@
+---
+const {
+  title = "Abstract Hara fleet command field",
+  class: className = ""
+} = Astro.props;
+---
+<svg class:list={["hara-v2-fleet-field", className]} viewBox="0 0 1200 680" role="img" aria-label={title} preserveAspectRatio="xMidYMid slice">
+  <rect class="fleet-fill" x="0" y="0" width="1200" height="680" />
+
+  <g class="fleet-line fleet-line--ghost">
+    <path d="M0 76 240 118 455 72 1200 92M0 606l212-174 156-92 187-24 193 25 452 228" />
+    <path d="M82 680 274 458 440 376M1138 680 918 448 758 372" />
+    <path d="M0 208 209 239 296 213 406 236M1200 206l-206 32-88-27-112 24" />
+  </g>
+
+  <g class="fleet-line fleet-line--faint">
+    <path d="M0 76 240 118 455 72 1200 92" />
+    <path d="M0 606l212-174 156-92 187-24 193 25 452 228" />
+    <path d="M82 680 274 458 440 376M1138 680 918 448 758 372" />
+    <path d="M0 208 209 239 296 213 406 236M1200 206l-206 32-88-27-112 24" />
+    <path d="M213 432 181 236 239 118M988 432l31-194-25-146" />
+    <path d="M368 340 345 220 455 72M833 341l21-119-99-140" />
+    <path d="M555 316 549 115M648 316l8-205" />
+    <path d="M30 540h167M1002 540h168M370 601h460" stroke-dasharray="8 10" />
+    <circle cx="601" cy="339" r="134" stroke-dasharray="3 12" />
+    <circle cx="601" cy="339" r="88" stroke-dasharray="2 8" />
+    <path d="M601 184v310M446 339h310" stroke-dasharray="5 10" />
+  </g>
+
+  <g class="fleet-line fleet-line--mid">
+    <path d="m445 273 120-31 89 19 93 64-112 15-72-13-148 25 40-46Z" />
+    <path d="m503 302 59-14 38 7 43 25-66 8-43-8-72 13 17-19Z" />
+    <path d="m744 198 105-23 77 15 68 44-91 12-62-10-123 18 27-30Z" />
+    <path d="m248 225 78-18 58 11 59 38-72 10-49-8-94 15 23-26Z" />
+    <path d="m860 365 70-13 50 9 49 32-63 9-42-7-80 13 19-22Z" />
+    <path d="m171 356 62-12 44 8 46 29-57 8-39-7-71 12 17-20Z" />
+    <path d="M565 242v-34l36-22 39 24v51M849 175v-28l28-17 32 19v41M326 207v-24l24-14 27 16v33" />
+    <path d="M50 625 212 432h156l187-116h193l170 116h172l110 193" />
+  </g>
+
+  <g class="fleet-fill">
+    <path d="m445 273 120-31 89 19 93 64-112 15-72-13-148 25 40-46Z" />
+    <path d="m744 198 105-23 77 15 68 44-91 12-62-10-123 18 27-30Z" />
+    <path d="m248 225 78-18 58 11 59 38-72 10-49-8-94 15 23-26Z" />
+  </g>
+
+  <g class="fleet-line fleet-line--faint">
+    <path d="M85 129h126M1013 128h116M92 158h81M1051 158h78" />
+    <path d="M74 496h96M1031 496h95" />
+    <path d="M486 554h230" stroke-dasharray="13 8" />
+    <path d="M547 573h108" />
+  </g>
+
+  <g>
+    <circle class="fleet-signal" cx="601" cy="339" r="4.5" />
+    <circle class="fleet-signal" cx="994" cy="234" r="3" opacity=".75" />
+    <circle class="fleet-signal" cx="443" cy="256" r="2.5" opacity=".55" />
+    <circle class="fleet-signal" cx="170" cy="381" r="2.5" opacity=".45" />
+  </g>
+
+  <g>
+    <text x="76" y="113">HARA / FLEET FIELD 07</text>
+    <text x="948" y="113">VECTOR 241.6</text>
+    <text x="78" y="523">DECK FRAME / A</text>
+    <text x="958" y="523">SIGNAL LOCK</text>
+    <text x="536" y="604">SYSTEM ONLINE</text>
+  </g>
+
+  <g opacity=".36">
+    <circle cx="98" cy="74" r="1.2" fill="currentColor" />
+    <circle cx="177" cy="52" r=".9" fill="currentColor" />
+    <circle cx="309" cy="88" r="1.1" fill="currentColor" />
+    <circle cx="531" cy="54" r=".8" fill="currentColor" />
+    <circle cx="689" cy="68" r="1.2" fill="currentColor" />
+    <circle cx="817" cy="42" r=".8" fill="currentColor" />
+    <circle cx="1038" cy="65" r="1.1" fill="currentColor" />
+    <circle cx="1124" cy="39" r=".8" fill="currentColor" />
+  </g>
+</svg>

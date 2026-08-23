@@ -1,0 +1,38 @@
+---
+interface Props {
+  id: string;
+  section: string;
+  tabId?: string;
+  label?: string;
+  active?: boolean;
+  kind?: "nav" | "frontmatter" | "graphics" | "code" | "generic";
+  scroll?: "auto" | "none";
+  class?: string;
+}
+
+const {
+  id,
+  section,
+  tabId,
+  label,
+  active = false,
+  kind = "generic",
+  scroll = "auto",
+  class: className = ""
+} = Astro.props;
+---
+<section
+  class:list={["hara-tool-environment-section", className]}
+  id={id}
+  role="tabpanel"
+  aria-labelledby={tabId}
+  aria-label={!tabId ? label : undefined}
+  tabindex={active ? 0 : -1}
+  hidden={!active}
+  data-section={section}
+  data-kind={kind}
+  data-scroll={scroll}
+  data-active={active ? "true" : "false"}
+>
+  <slot />
+</section>

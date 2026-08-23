@@ -1,0 +1,44 @@
+/* Keep compatibility-study navigation on the same type scale as the catalogue shell. */
+
+.v2-legacy-parent-link {
+  font: 560 12px/1.2 var(--hara-v2-font-body);
+  letter-spacing: -.005em;
+}
+
+.v2-legacy-route-label {
+  font: 650 10px/1.2 var(--hara-v2-font-code);
+  letter-spacing: .04em;
+}
+
+.v2-legacy-family-tabs a {
+  font: 600 13px/1.1 var(--hara-v2-font-body) !important;
+  letter-spacing: -.012em;
+}
+
+.v2-legacy-route-status {
+  font: 700 9px/1 var(--hara-v2-font-code);
+  letter-spacing: .055em;
+}
+
+body.hara-v2 > nav.v2-legacy-section-nav[data-legacy-section-nav="true"]::before {
+  content: "On this page";
+  font: 700 9px/1 var(--hara-v2-font-code);
+  letter-spacing: .07em;
+}
+
+body.hara-v2 > nav.v2-legacy-section-nav[data-legacy-section-nav="true"] a {
+  font: 600 12px/1.2 var(--hara-v2-font-body) !important;
+  letter-spacing: -.006em;
+}
+
+@media (max-width: 900px) {
+  .v2-legacy-parent-link {
+    min-height: 34px;
+    padding: .38rem .54rem;
+  }
+
+  .v2-legacy-family-tabs a {
+    min-height: 34px;
+    padding: .38rem .54rem !important;
+  }
+}

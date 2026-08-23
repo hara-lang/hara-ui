@@ -1,0 +1,28 @@
+---
+interface Props {
+  label?: string;
+  orientation?: "horizontal" | "vertical";
+  density?: "regular" | "dense";
+  sticky?: boolean;
+  class?: string;
+}
+
+const {
+  label = "Tool controls",
+  orientation = "horizontal",
+  density = "regular",
+  sticky = false,
+  class: className = ""
+} = Astro.props;
+---
+<div
+  class:list={["hara-tool-toolbar", "hara-tool-surface", className]}
+  role="toolbar"
+  aria-label={label}
+  aria-orientation={orientation}
+  data-orientation={orientation}
+  data-density={density}
+  data-sticky={sticky ? "true" : "false"}
+>
+  <slot />
+</div>

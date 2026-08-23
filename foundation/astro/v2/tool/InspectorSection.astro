@@ -1,0 +1,22 @@
+---
+interface Props {
+  title: string;
+  open?: boolean;
+  id?: string;
+  class?: string;
+}
+
+const {
+  title,
+  open = true,
+  id,
+  class: className = ""
+} = Astro.props;
+---
+<details class:list={["hara-tool-inspector-section", className]} open={open} id={id}>
+  <summary>
+    <span>{title}</span>
+    <span class="hara-tool-inspector-summary-meta"><slot name="meta" /></span>
+  </summary>
+  <div class="hara-tool-inspector-body"><slot /></div>
+</details>
