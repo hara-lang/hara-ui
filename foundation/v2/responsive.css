@@ -10,6 +10,7 @@
   .hara-v2-header { padding-inline: 16px; }
   .hara-v2-header-row { grid-template-columns: minmax(0, 116px) minmax(0, 1fr) minmax(0, 116px); }
   .hara-v2-header-left { width: 116px; }
+  .hara-v2-menu-button { display: flex; }
   .hara-v2-brand { width: 84px; flex-basis: 84px; }
   .hara-v2-ecosystem-nav { display: none; }
   .hara-v2-header-actions { max-width: 116px; }

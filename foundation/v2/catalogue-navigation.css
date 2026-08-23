@@ -197,7 +197,7 @@
   align-self: center;
   margin-right: .38rem;
   color: var(--hara-v2-faint);
-  content: "Sections";
+  content: "On this page";
   font: 700 .48rem var(--hara-v2-font-code);
   letter-spacing: .07em;
   text-transform: uppercase;
@@ -357,7 +357,7 @@ body.hara-v2 > header.v2-lab-header > nav::before {
   align-self: center;
   margin-right: .35rem;
   color: var(--hara-v2-faint);
-  content: "Sections";
+  content: "On this page";
   font: 700 .46rem var(--hara-v2-font-code);
   letter-spacing: .06em;
   text-transform: uppercase;

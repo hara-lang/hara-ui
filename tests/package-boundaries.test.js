@@ -36,6 +36,7 @@ test("the shared shell exposes the mobile states from the Hara shell study", asy
   const responsive = await readFile(new URL("foundation/v2/responsive.css", root), "utf8");
   assert.match(header, /data-hara-header-menu/);
   assert.match(header, /data-hara-mobile-navigation/);
+  assert.match(header, /slot name="mobile-navigation"/);
   assert.match(header, /data-account=\{account\}/);
   assert.match(header, /account === "logged-out"/);
   assert.match(header, /data-open-label=\{menuLabel\}/);

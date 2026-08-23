@@ -80,6 +80,7 @@ const current = (item: NavItem) => item.current ?? (
   {nav.length > 0 && (
     <div class="hara-v2-mobile-navigation" id="hara-v2-mobile-navigation" data-hara-mobile-navigation hidden>
       <nav aria-label="Hara mobile navigation">
+        <slot name="mobile-navigation" />
         {nav.map((item: NavItem) => (
           <a
             href={item.href}
