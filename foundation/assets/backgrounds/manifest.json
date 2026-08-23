@@ -1,0 +1,43 @@
+{
+  "name": "Hara material backgrounds",
+  "version": 2,
+  "canvas": "4096 x 2304",
+  "format": "adaptive SVG",
+  "resolutionIndependent": true,
+  "direction": "precision-engineered gothic material",
+  "palette": {
+    "signal": "#2F7CFF",
+    "signalSoft": "#8DB2FF",
+    "lightGround": "#F6F8FA",
+    "lightPlate": "#E7EBEF",
+    "darkGround": "#050608",
+    "darkPlate": "#11151A"
+  },
+  "assets": [
+    {
+      "id": "evaluation",
+      "file": "evaluation-field.svg",
+      "use": "armour seam, hero, and evaluation state"
+    },
+    {
+      "id": "syntax",
+      "file": "ast-field.svg",
+      "use": "compiler conduits, AST, and macroexpansion"
+    },
+    {
+      "id": "lattice",
+      "file": "symbol-lattice.svg",
+      "use": "machined tracery, section texture, and covers"
+    },
+    {
+      "id": "flow",
+      "file": "dataflow-orbit.svg",
+      "use": "instrument aperture, state, and orchestration"
+    },
+    {
+      "id": "kernel",
+      "file": "kernel-depth.svg",
+      "use": "rack vault, runtime, VM, WASM, and stack depth"
+    }
+  ]
+}

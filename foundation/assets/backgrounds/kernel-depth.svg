@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4096 2304" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="title desc">
+<title id="title">Hara kernel rack vault</title>
+<desc id="desc">Receding machined rack frames form a pointed military-grade vault around a single execution core.</desc>
+
+  <defs>
+    <style>
+      :root{
+        --ground:#f6f8fa;
+        --ground2:#ffffff;
+        --plate:#e7ebef;
+        --plate2:#cfd5db;
+        --ink:#11151a;
+        --line:#5e6873;
+        --faint:#8b949e;
+        --recess:#b8c0c8;
+        --signal:#2f7cff;
+        --signalSoft:#8db2ff;
+      }
+      @media(prefers-color-scheme:dark){
+        :root{
+          --ground:#050608;
+          --ground2:#080a0d;
+          --plate:#11151a;
+          --plate2:#20262d;
+          --ink:#f4f6f8;
+          --line:#9aa4af;
+          --faint:#6f7882;
+          --recess:#0b0e12;
+          --signal:#4d8cff;
+          --signalSoft:#8db2ff;
+        }
+      }
+    </style>
+    <linearGradient id="ground" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="var(--ground2)"/>
+      <stop offset=".55" stop-color="var(--ground)"/>
+      <stop offset="1" stop-color="var(--plate)"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="var(--plate2)"/>
+      <stop offset=".34" stop-color="var(--ground2)"/>
+      <stop offset=".62" stop-color="var(--plate)"/>
+      <stop offset="1" stop-color="var(--plate2)"/>
+    </linearGradient>
+    <linearGradient id="darkMetal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="var(--recess)"/>
+      <stop offset=".5" stop-color="var(--plate)"/>
+      <stop offset="1" stop-color="var(--ground)"/>
+    </linearGradient>
+    <pattern id="microgrid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" fill="none" stroke="var(--ink)" stroke-width="2" opacity=".045"/>
+      <circle cx="0" cy="0" r="2.5" fill="var(--ink)" opacity=".07"/>
+    </pattern>
+    <pattern id="brush" width="16" height="16" patternUnits="userSpaceOnUse">
+      <path d="M0 3H16M0 8H16M0 13H16" stroke="var(--ink)" stroke-width="1" opacity=".025"/>
+    </pattern>
+    <filter id="signalGlow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="28" stdDeviation="38" flood-color="#000" flood-opacity=".22"/>
+    </filter>
+    <clipPath id="frameClip"><rect x="128" y="128" width="3840" height="2048" rx="44"/></clipPath>
+  </defs>
+
+<rect width="4096" height="2304" fill="url(#ground)"/>
+<rect width="4096" height="2304" fill="url(#microgrid)"/>
+<g fill="none" stroke-linejoin="miter" filter="url(#softShadow)">
+  <path d="M180 2160V640L2048 120L3916 640V2160" stroke="var(--recess)" stroke-width="92"/>
+  <path d="M480 2160V760L2048 310L3616 760V2160" stroke="var(--recess)" stroke-width="76"/>
+  <path d="M790 2160V900L2048 520L3306 900V2160" stroke="var(--recess)" stroke-width="62"/>
+  <path d="M1090 2160V1040L2048 730L3006 1040V2160" stroke="var(--recess)" stroke-width="50"/>
+  <path d="M1390 2160V1180L2048 930L2706 1180V2160" stroke="var(--recess)" stroke-width="40"/>
+  <path d="M1690 2160V1320L2048 1130L2406 1320V2160" stroke="var(--recess)" stroke-width="32"/>
+  <path d="M180 2160V640L2048 120L3916 640V2160M480 2160V760L2048 310L3616 760V2160M790 2160V900L2048 520L3306 900V2160M1090 2160V1040L2048 730L3006 1040V2160M1390 2160V1180L2048 930L2706 1180V2160M1690 2160V1320L2048 1130L2406 1320V2160" stroke="var(--ink)" stroke-width="5" opacity=".48"/>
+</g>
+<g fill="none" stroke="var(--ink)" opacity=".2">
+  <path d="M180 1860H3916M180 1590H3916M180 1320H3916M480 1050H3616M790 810H3306" stroke-width="4"/>
+  <path d="M2048 120V2160" stroke-width="4"/>
+</g>
+<g transform="translate(2048 1580)" filter="url(#signalGlow)">
+  <rect x="-120" y="-120" width="240" height="240" rx="18" fill="var(--ground)" stroke="var(--ink)" stroke-width="8"/>
+  <rect x="-62" y="-62" width="124" height="124" rx="8" fill="var(--recess)" stroke="var(--signal)" stroke-width="8"/>
+  <circle r="20" fill="var(--signal)"/>
+</g>
+<g fill="var(--ink)" opacity=".28">
+  <rect x="240" y="200" width="760" height="10" rx="5"/>
+  <rect x="240" y="238" width="480" height="5" rx="2"/>
+  <rect x="3096" y="2090" width="760" height="10" rx="5"/>
+  <rect x="3376" y="2052" width="480" height="5" rx="2"/>
+</g>
+<rect x="128" y="128" width="3840" height="2048" rx="44" fill="none" stroke="var(--ink)" stroke-width="4" opacity=".18"/>
+<rect width="4096" height="2304" fill="url(#brush)"/>
+</svg>

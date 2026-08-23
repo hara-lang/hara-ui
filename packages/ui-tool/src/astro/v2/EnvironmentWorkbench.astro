@@ -1,0 +1,163 @@
+---
+import CapabilityPane from "./CapabilityPane.astro";
+import EnvironmentSection from "./EnvironmentSection.astro";
+import SectionNavigator from "./SectionNavigator.astro";
+import WorkbenchShell from "./WorkbenchShell.astro";
+
+type SectionId = "nav" | "frontmatter" | "graphics" | "code";
+type CapabilityId = "sessions" | "files" | "canvas" | "three-d";
+type SectionDefinition = {
+  id: SectionId;
+  label: string;
+  present: boolean;
+};
+
+interface Props {
+  label?: string;
+  activeSection?: SectionId;
+  activeControlGroup?: CapabilityId;
+  idPrefix?: string;
+  minHeight?: string;
+  controlPaneCollapsed?: boolean;
+  sectionLabels?: Partial<Record<SectionId, string>>;
+  sectionBadges?: Partial<Record<SectionId, string | number>>;
+  capabilityBadges?: Partial<Record<CapabilityId, string | number>>;
+  class?: string;
+}
+
+const {
+  label = "Hara environment",
+  activeSection = "code",
+  activeControlGroup = "sessions",
+  idPrefix = "hara-environment",
+  minHeight = "620px",
+  controlPaneCollapsed = false,
+  sectionLabels = {},
+  sectionBadges = {},
+  capabilityBadges = {},
+  class: className = ""
+} = Astro.props;
+
+const hasNav = Astro.slots.has("nav");
+const hasFrontmatter = Astro.slots.has("frontmatter");
+const hasGraphics = Astro.slots.has("graphics");
+const hasNamedCode = Astro.slots.has("code");
+const hasDefaultCode = Astro.slots.has("default");
+const hasCode = hasNamedCode || hasDefaultCode;
+const hasCommands = Astro.slots.has("commands");
+const hasSessions = Astro.slots.has("sessions");
+const hasFiles = Astro.slots.has("files");
+const hasCanvas = Astro.slots.has("canvas");
+const hasThreeD = Astro.slots.has("threeD");
+const hasCapabilities = hasSessions || hasFiles || hasCanvas || hasThreeD;
+const hasBottom = Astro.slots.has("bottom");
+const hasOverlay = Astro.slots.has("overlay");
+const hasStatus = Astro.slots.has("status");
+
+const definitions: SectionDefinition[] = [
+  { id: "nav", label: sectionLabels.nav ?? "Nav", present: hasNav },
+  { id: "frontmatter", label: sectionLabels.frontmatter ?? "Frontmatter", present: hasFrontmatter },
+  { id: "graphics", label: sectionLabels.graphics ?? "Graphics", present: hasGraphics },
+  { id: "code", label: sectionLabels.code ?? "Code", present: hasCode }
+];
+const available = definitions.filter((section: SectionDefinition) => section.present);
+const selected = available.some((section: SectionDefinition) => section.id === activeSection)
+  ? activeSection
+  : available[0]?.id;
+const sections = available.map((section: SectionDefinition) => ({
+  id: section.id,
+  label: section.label,
+  active: section.id === selected,
+  tabId: `${idPrefix}-${section.id}-tab`,
+  panelId: `${idPrefix}-${section.id}-panel`,
+  badge: sectionBadges[section.id]
+}));
+---
+<section
+  class:list={["hara-tool-environment", className]}
+  aria-label={label}
+  data-active-section={selected}
+  data-control-pane={hasCapabilities ? (controlPaneCollapsed ? "collapsed" : "open") : "absent"}
+>
+  <WorkbenchShell label={label} minHeight={minHeight} class="hara-tool-environment-shell">
+    <div slot="top" class="hara-tool-environment-top">
+      <SectionNavigator
+        sections={sections}
+        activeSection={selected}
+        label={`${label} sections`}
+        idPrefix={idPrefix}
+        class="hara-tool-environment-navigation"
+      />
+      {hasCommands && <div class="hara-tool-environment-commands"><slot name="commands" /></div>}
+    </div>
+
+    <div slot="viewport" class="hara-tool-environment-stage" data-active-section={selected}>
+      {hasNav && (
+        <EnvironmentSection
+          id={`${idPrefix}-nav-panel`}
+          tabId={`${idPrefix}-nav-tab`}
+          section="nav"
+          kind="nav"
+          active={selected === "nav"}
+        >
+          <slot name="nav" />
+        </EnvironmentSection>
+      )}
+      {hasFrontmatter && (
+        <EnvironmentSection
+          id={`${idPrefix}-frontmatter-panel`}
+          tabId={`${idPrefix}-frontmatter-tab`}
+          section="frontmatter"
+          kind="frontmatter"
+          active={selected === "frontmatter"}
+        >
+          <slot name="frontmatter" />
+        </EnvironmentSection>
+      )}
+      {hasGraphics && (
+        <EnvironmentSection
+          id={`${idPrefix}-graphics-panel`}
+          tabId={`${idPrefix}-graphics-tab`}
+          section="graphics"
+          kind="graphics"
+          active={selected === "graphics"}
+          scroll="none"
+        >
+          <slot name="graphics" />
+        </EnvironmentSection>
+      )}
+      {hasCode && (
+        <EnvironmentSection
+          id={`${idPrefix}-code-panel`}
+          tabId={`${idPrefix}-code-tab`}
+          section="code"
+          kind="code"
+          active={selected === "code"}
+        >
+          {hasNamedCode ? <slot name="code" /> : <slot />}
+        </EnvironmentSection>
+      )}
+    </div>
+
+    {hasCapabilities && (
+      <CapabilityPane
+        slot="right"
+        label="Live controls"
+        activeGroup={activeControlGroup}
+        idPrefix={`${idPrefix}-capabilities`}
+        collapsed={controlPaneCollapsed}
+        badges={capabilityBadges}
+      >
+        {hasSessions && <div slot="sessions"><slot name="sessions" /></div>}
+        {hasFiles && <div slot="files"><slot name="files" /></div>}
+        {hasCanvas && <div slot="canvas"><slot name="canvas" /></div>}
+        {hasThreeD && <div slot="threeD"><slot name="threeD" /></div>}
+        <slot name="controlActions" slot="actions" />
+      </CapabilityPane>
+    )}
+
+    {hasBottom && <div slot="bottom" class="hara-tool-environment-bottom"><slot name="bottom" /></div>}
+    {hasOverlay && <div slot="overlay"><slot name="overlay" /></div>}
+    {hasStatus && <div slot="status"><slot name="status" /></div>}
+  </WorkbenchShell>
+</section>

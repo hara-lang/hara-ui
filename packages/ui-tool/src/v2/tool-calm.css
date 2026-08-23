@@ -1,0 +1,327 @@
+/*
+ * Calm refinement for the v2 tool and workbench layer.
+ *
+ * Tool structure stays dense and operational, while material cues become
+ * continuous and quiet enough for long editor sessions.
+ */
+
+.hara-v2-tool {
+  --hara-tool-control: 34px;
+  --hara-tool-control-dense: 30px;
+  --hara-tool-toolbar: 44px;
+  --hara-tool-rail: 44px;
+  --hara-tool-status: 28px;
+  --hara-tool-cut: 4px;
+  --hara-tool-cut-small: 2px;
+  --hara-tool-gap: 8px;
+  --hara-tool-gap-dense: 5px;
+  --hara-tool-motion: 180ms;
+  --hara-tool-ease: cubic-bezier(.2, .8, .2, 1);
+  --hara-tool-bg: color-mix(in srgb, var(--hara-v2-panel) 92%, var(--hara-v2-canvas));
+  --hara-tool-bg-raised: color-mix(in srgb, var(--hara-v2-panel-raised) 92%, var(--hara-v2-panel));
+  --hara-tool-bg-recessed: color-mix(in srgb, var(--hara-v2-panel-recess) 78%, var(--hara-v2-panel));
+  --hara-tool-edge: var(--hara-v2-line);
+  --hara-tool-edge-strong: var(--hara-v2-line-strong);
+  --hara-tool-glint: var(--hara-v2-calm-sketch);
+  --hara-tool-shadow: var(--hara-v2-calm-shadow);
+  --hara-tool-shadow-inset: inset 0 1px 0 var(--hara-v2-calm-sketch);
+  --hara-tool-highlight: color-mix(in srgb, var(--hara-tool-signal) 9%, transparent);
+  --hara-tool-noise: none;
+  background-image: none;
+}
+
+.hara-tool-surface {
+  border-color: var(--hara-tool-edge);
+  border-radius: 8px;
+  background-image: none;
+  box-shadow: none;
+}
+
+.hara-tool-surface::after {
+  display: none;
+}
+
+.hara-tool-surface--raised {
+  background-color: var(--hara-tool-bg-raised);
+  box-shadow: var(--hara-v2-calm-shadow-small);
+}
+
+.hara-tool-surface--recessed {
+  background-color: var(--hara-tool-bg-recessed);
+  box-shadow: inset 0 1px 2px color-mix(in srgb, var(--hara-v2-ink) 4%, transparent);
+}
+
+.hara-tool-surface--framed {
+  border-color: var(--hara-tool-edge-strong);
+  outline: 0;
+}
+
+.hara-tool-surface--cut,
+.hara-tool-surface--cut-small {
+  border-radius: 8px;
+  clip-path: none;
+}
+
+.hara-tool-surface[data-state="selected"],
+.hara-tool-surface[aria-selected="true"] {
+  border-color: color-mix(in srgb, var(--hara-tool-signal) 34%, var(--hara-tool-edge));
+  background-image: linear-gradient(var(--hara-tool-highlight), var(--hara-tool-highlight));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--hara-tool-signal) 12%, transparent);
+}
+
+.hara-tool-seam {
+  border-block-start-color: var(--hara-tool-edge);
+  box-shadow: none;
+}
+
+.hara-v2-tool :where(button, input, select, textarea, summary, [tabindex]) {
+  transition:
+    color var(--hara-tool-motion) var(--hara-tool-ease),
+    background-color var(--hara-tool-motion) var(--hara-tool-ease),
+    border-color var(--hara-tool-motion) var(--hara-tool-ease),
+    box-shadow var(--hara-tool-motion) var(--hara-tool-ease),
+    opacity var(--hara-tool-motion) var(--hara-tool-ease);
+}
+
+.hara-v2-tool :where(button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--hara-tool-signal);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--hara-tool-signal) 12%, transparent);
+}
+
+.hara-tool-toolbar {
+  gap: var(--hara-tool-gap);
+  padding: 5px 7px;
+  border-color: var(--hara-tool-edge);
+  border-radius: 8px;
+  background-color: var(--hara-tool-bg-raised);
+  box-shadow: none;
+}
+
+.hara-tool-toolbar[data-density="dense"] {
+  min-height: calc(var(--hara-tool-control-dense) + 8px);
+  gap: var(--hara-tool-gap-dense);
+  padding: 4px 6px;
+}
+
+.hara-tool-workbench-top .hara-tool-toolbar {
+  border-width: 0 0 1px;
+  border-radius: 0;
+}
+
+.hara-tool-group {
+  gap: 3px;
+  padding-inline: 5px;
+  border-inline-end-color: var(--hara-tool-edge);
+  box-shadow: none;
+}
+
+.hara-tool-group[data-orientation="vertical"] {
+  border-block-end-color: var(--hara-tool-edge);
+  box-shadow: none;
+}
+
+.hara-tool-button,
+.hara-tool-toggle,
+.hara-tool-tab {
+  gap: 7px;
+  padding-inline: 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 620;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+[data-density="dense"] :where(.hara-tool-button, .hara-tool-toggle, .hara-tool-tab),
+:where(.hara-tool-button, .hara-tool-toggle, .hara-tool-tab)[data-density="dense"] {
+  gap: 5px;
+  padding-inline: 8px;
+  font-size: 10.5px;
+}
+
+.hara-tool-button:hover:not(:disabled),
+.hara-tool-toggle:hover:not(:disabled),
+.hara-tool-tab:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--hara-tool-signal) 20%, var(--hara-tool-edge));
+  background: color-mix(in srgb, var(--hara-tool-signal) 6%, var(--hara-tool-bg-raised));
+}
+
+.hara-tool-button[data-active="true"],
+.hara-tool-toggle[aria-pressed="true"],
+.hara-tool-tab[aria-selected="true"] {
+  border-color: color-mix(in srgb, var(--hara-tool-signal) 30%, var(--hara-tool-edge));
+  background: color-mix(in srgb, var(--hara-tool-signal) 10%, var(--hara-tool-bg-raised));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--hara-tool-signal) 9%, transparent);
+}
+
+.hara-tool-command-hint {
+  letter-spacing: 0;
+  opacity: .76;
+}
+
+.hara-tool-field {
+  gap: 4px;
+  font-size: 9.5px;
+  letter-spacing: .02em;
+  text-transform: none;
+}
+
+.hara-tool-select,
+.hara-tool-number-input {
+  border-color: var(--hara-tool-edge);
+  border-radius: 6px;
+  background-color: var(--hara-tool-bg-recessed);
+  box-shadow: none;
+}
+
+.hara-tool-tab-strip {
+  gap: 3px;
+  padding: 3px;
+  border-block-end-color: var(--hara-tool-edge);
+  background: color-mix(in srgb, var(--hara-tool-bg-recessed) 62%, transparent);
+}
+
+.hara-tool-tab {
+  border-inline-end-color: transparent;
+}
+
+.hara-tool-tab[aria-selected="true"] {
+  border-block-end-color: transparent;
+  background: var(--hara-tool-bg-raised);
+  box-shadow: var(--hara-v2-calm-shadow-small);
+}
+
+.hara-tool-icon-rail {
+  gap: 3px;
+  padding: 5px;
+  border-color: var(--hara-tool-edge);
+  border-radius: 8px;
+  background: var(--hara-tool-bg-raised);
+  box-shadow: none;
+}
+
+.hara-tool-status-bar {
+  gap: 14px;
+  padding-inline: 10px;
+  border-block-start-color: var(--hara-tool-edge);
+  background: color-mix(in srgb, var(--hara-tool-bg-raised) 88%, transparent);
+  box-shadow: none;
+  letter-spacing: 0;
+}
+
+.hara-tool-workbench {
+  overflow: hidden;
+  border-color: var(--hara-tool-edge);
+  border-radius: 12px;
+  background: var(--hara-tool-bg-recessed);
+  box-shadow: var(--hara-tool-shadow);
+}
+
+.hara-tool-workbench-left,
+.hara-tool-workbench-right,
+.hara-tool-workbench-bottom {
+  border-color: var(--hara-tool-edge);
+}
+
+.hara-tool-workbench-viewport {
+  background-color: var(--hara-tool-bg-recessed);
+  background-image:
+    linear-gradient(var(--hara-v2-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hara-v2-grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.hara-tool-dock-panel {
+  background-color: var(--hara-tool-bg);
+  background-image: none;
+  box-shadow: none;
+}
+
+.hara-tool-dock-panel[data-position="floating"] {
+  border-color: var(--hara-tool-edge);
+  border-radius: 10px;
+  box-shadow: var(--hara-tool-shadow);
+}
+
+.hara-tool-dock-panel[data-selected="true"] {
+  box-shadow: inset 2px 0 0 color-mix(in srgb, var(--hara-tool-signal) 70%, transparent);
+}
+
+.hara-tool-panel-header {
+  min-height: 40px;
+  gap: 10px;
+  padding: 6px 10px;
+  border-block-end-color: var(--hara-tool-edge);
+  background: color-mix(in srgb, var(--hara-tool-bg-raised) 78%, transparent);
+  box-shadow: none;
+}
+
+.hara-tool-panel-header[data-compact="true"] {
+  min-height: 34px;
+  padding-block: 4px;
+}
+
+.hara-tool-panel-eyebrow {
+  letter-spacing: .045em;
+}
+
+.hara-tool-panel-title {
+  font-size: 12px;
+  font-weight: 660;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.hara-tool-inspector-section {
+  border-block-end-color: var(--hara-tool-edge);
+  background: transparent;
+}
+
+.hara-tool-inspector-section > summary {
+  min-height: 36px;
+  gap: 8px;
+  padding-inline: 10px;
+  background: transparent;
+  font-size: 11px;
+  font-weight: 630;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.hara-tool-inspector-section > summary:hover {
+  background: var(--hara-tool-highlight);
+}
+
+.hara-tool-inspector-section > summary::before {
+  transition: transform var(--hara-tool-motion) var(--hara-tool-ease);
+}
+
+.hara-tool-inspector-body {
+  gap: 10px;
+  padding: 10px;
+}
+
+.hara-tool-floating-palette {
+  border-color: var(--hara-tool-edge);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--hara-tool-bg-raised) 96%, transparent);
+  box-shadow: var(--hara-tool-shadow);
+}
+
+.hara-tool-viewport-overlay {
+  gap: 8px;
+  padding: 6px 9px;
+  border-color: var(--hara-tool-edge);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--hara-tool-bg-raised) 84%, transparent);
+  box-shadow: var(--hara-v2-calm-shadow-small);
+  backdrop-filter: blur(12px);
+  letter-spacing: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hara-v2-tool :where(button, input, select, textarea, summary, [tabindex]) {
+    transition: none;
+  }
+}

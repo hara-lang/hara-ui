@@ -1,0 +1,48 @@
+---
+interface Props {
+  id: string;
+  label: string;
+  checked?: boolean;
+  disabled?: boolean;
+  describedBy?: string;
+  name?: string;
+  value?: string;
+  density?: "regular" | "dense";
+  class?: string;
+}
+
+const {
+  id,
+  label,
+  checked = false,
+  disabled = false,
+  describedBy,
+  name,
+  value,
+  density = "dense",
+  class: className = ""
+} = Astro.props;
+---
+
+<label
+  class:list={["hara-runtime-switch", className]}
+  for={id}
+  data-density={density}
+  data-disabled={disabled ? "true" : "false"}
+>
+  <input
+    class="hara-runtime-switch-input"
+    id={id}
+    type="checkbox"
+    role="switch"
+    aria-label={label}
+    aria-describedby={describedBy}
+    checked={checked}
+    disabled={disabled}
+    name={name}
+    value={value}
+  />
+  <span class="hara-runtime-switch-track" aria-hidden="true">
+    <span class="hara-runtime-switch-thumb"></span>
+  </span>
+</label>

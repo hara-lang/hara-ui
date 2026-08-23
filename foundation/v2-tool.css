@@ -1,0 +1,18 @@
+@import "./v2.css";
+@import "./v2/tool-tokens.css";
+@import "./v2/tool-surfaces.css";
+@import "./v2/tool-controls.css";
+@import "./v2/tool-shell.css";
+@import "./v2/tool-calm.css";
+@import "./v2/tool-environment.css";
+@import "./v2/tool-runtime.css";
+@import "./v2/tool-responsive.css";
+
+/*
+ * Hara interface language v2: tool and workbench layer.
+ *
+ * This entry point is additive to v2.css. Apply both `hara-v2` and
+ * `hara-v2-tool` to the interface root so document, tool, environment, and
+ * browser-runtime primitives can be composed without changing existing v1 or
+ * v2 consumers.
+ */

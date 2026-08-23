@@ -1,0 +1,67 @@
+---
+import TabStrip from "./TabStrip.astro";
+
+type Section = {
+  id: string;
+  label: string;
+  tabId?: string;
+  panelId?: string;
+  active?: boolean;
+  disabled?: boolean;
+  badge?: string | number;
+  description?: string;
+};
+
+interface Props {
+  sections?: Section[];
+  activeSection?: string;
+  label?: string;
+  idPrefix?: string;
+  density?: "regular" | "dense";
+  class?: string;
+}
+
+const DEFAULT_SECTIONS: Section[] = [
+  { id: "nav", label: "Nav" },
+  { id: "frontmatter", label: "Frontmatter" },
+  { id: "graphics", label: "Graphics" },
+  { id: "code", label: "Code" }
+];
+
+const {
+  sections = DEFAULT_SECTIONS,
+  activeSection = "code",
+  label = "Environment sections",
+  idPrefix = "hara-environment",
+  density = "regular",
+  class: className = ""
+} = Astro.props;
+
+const requested = sections.find((section: Section) => section.active)?.id ?? activeSection;
+const selected = sections.some((section: Section) => section.id === requested && !section.disabled)
+  ? requested
+  : sections.find((section: Section) => !section.disabled)?.id;
+const tabs = sections.map((section: Section) => ({
+  id: section.tabId ?? `${idPrefix}-${section.id}-tab`,
+  label: section.label,
+  active: section.id === selected,
+  disabled: section.disabled,
+  controls: section.panelId ?? `${idPrefix}-${section.id}-panel`,
+  value: section.id,
+  badge: section.badge,
+  description: section.description
+}));
+---
+<nav
+  class:list={["hara-tool-section-navigator", className]}
+  aria-label={label}
+  data-active-section={selected}
+>
+  <TabStrip
+    tabs={tabs}
+    label={label}
+    density={density}
+    variant="sections"
+    class="hara-tool-section-tabs"
+  />
+</nav>

@@ -1,0 +1,55 @@
+---
+type FrontmatterEntry = {
+  id?: string;
+  label: string;
+  value?: string | number | boolean;
+  detail?: string;
+  status?: string;
+  href?: string;
+  code?: boolean;
+};
+
+interface Props {
+  entries?: FrontmatterEntry[];
+  label?: string;
+  columns?: 1 | 2 | 3 | "auto";
+  compact?: boolean;
+  class?: string;
+}
+
+const {
+  entries = [] as FrontmatterEntry[],
+  label = "Environment frontmatter",
+  columns = "auto",
+  compact = false,
+  class: className = ""
+} = Astro.props;
+const template = columns === "auto"
+  ? "repeat(auto-fit, minmax(180px, 1fr))"
+  : `repeat(${columns}, minmax(0, 1fr))`;
+---
+<section
+  class:list={["hara-tool-frontmatter", className]}
+  aria-label={label}
+  data-compact={compact ? "true" : "false"}
+>
+  <dl class="hara-tool-frontmatter-grid" style={`--hara-tool-frontmatter-columns: ${template}`}>
+    {entries.map((entry: FrontmatterEntry) => {
+      const value = entry.value === undefined ? "" : String(entry.value);
+      return (
+        <div
+          class="hara-tool-frontmatter-entry"
+          id={entry.id}
+          data-state={entry.status}
+          data-code={entry.code ? "true" : "false"}
+        >
+          <dt>{entry.label}</dt>
+          <dd>
+            {entry.href ? <a href={entry.href}>{value}</a> : <span>{value}</span>}
+            {entry.detail && <small>{entry.detail}</small>}
+          </dd>
+        </div>
+      );
+    })}
+  </dl>
+</section>

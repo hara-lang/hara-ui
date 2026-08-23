@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4096 2304" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="title desc">
+<title id="title">Hara machined symbol lattice</title>
+<desc id="desc">A repeatable lattice of pointed arches and H-shaped braces forms a restrained alien gothic metal surface.</desc>
+
+  <defs>
+    <style>
+      :root{--ground:#f6f8fa;--ground2:#ffffff;--plate:#e7ebef;--plate2:#cfd5db;--ink:#11151a;--line:#5e6873;--faint:#8b949e;--recess:#b8c0c8;--signal:#2f7cff;--signalSoft:#8db2ff}
+      @media(prefers-color-scheme:dark){:root{--ground:#050608;--ground2:#080a0d;--plate:#11151a;--plate2:#20262d;--ink:#f4f6f8;--line:#9aa4af;--faint:#6f7882;--recess:#0b0e12;--signal:#4d8cff;--signalSoft:#8db2ff}}
+    </style>
+    <linearGradient id="ground" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--ground2)"/><stop offset=".55" stop-color="var(--ground)"/><stop offset="1" stop-color="var(--plate)"/></linearGradient>
+    <pattern id="microgrid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" fill="none" stroke="var(--ink)" stroke-width="2" opacity=".045"/><circle cx="0" cy="0" r="2.5" fill="var(--ink)" opacity=".07"/></pattern>
+    <pattern id="brush" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M0 3H16M0 8H16M0 13H16" stroke="var(--ink)" stroke-width="1" opacity=".025"/></pattern>
+    <pattern id="lattice" width="512" height="512" patternUnits="userSpaceOnUse">
+      <rect width="512" height="512" fill="var(--ground)"/>
+      <path d="M64 448V256C64 140 136 64 256 32C376 64 448 140 448 256V448" fill="none" stroke="var(--recess)" stroke-width="38"/>
+      <path d="M64 448V256C64 140 136 64 256 32C376 64 448 140 448 256V448" fill="none" stroke="var(--ink)" stroke-width="4" opacity=".36"/>
+      <path d="M64 280H448M160 192H352M256 32V448" fill="none" stroke="var(--ink)" stroke-width="3" opacity=".2"/>
+      <path d="M64 448L256 256L448 448" fill="none" stroke="var(--ink)" stroke-width="3" opacity=".14"/>
+      <circle cx="256" cy="256" r="11" fill="var(--signal)" opacity=".45"/>
+    </pattern>
+  </defs>
+
+<rect width="4096" height="2304" fill="url(#ground)"/>
+<rect width="4096" height="2304" fill="url(#lattice)" opacity=".82"/>
+<rect width="4096" height="2304" fill="url(#microgrid)" opacity=".5"/>
+<path d="M-300 2120L2080 120L4380 2080" fill="none" stroke="var(--ground2)" stroke-width="210" opacity=".84"/>
+<path d="M-300 2120L2080 120L4380 2080" fill="none" stroke="var(--ink)" stroke-width="6" opacity=".28"/>
+<path d="M-120 2140L2080 300L4200 2100" fill="none" stroke="var(--signal)" stroke-width="5" opacity=".55"/>
+<g fill="var(--ink)" opacity=".26"><rect x="220" y="208" width="700" height="9" rx="4"/><rect x="220" y="242" width="420" height="5" rx="2"/><rect x="3180" y="2050" width="700" height="9" rx="4"/><rect x="3460" y="2016" width="420" height="5" rx="2"/></g>
+<rect x="128" y="128" width="3840" height="2048" rx="44" fill="none" stroke="var(--ink)" stroke-width="4" opacity=".18"/>
+<rect width="4096" height="2304" fill="url(#brush)"/>
+</svg>

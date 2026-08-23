@@ -1,0 +1,22 @@
+---
+interface Props {
+  label?: string;
+  live?: boolean;
+  class?: string;
+}
+
+const {
+  label = "Workbench status",
+  live = false,
+  class: className = ""
+} = Astro.props;
+---
+<footer
+  class:list={["hara-tool-status-bar", className]}
+  aria-label={label}
+  role={live ? "status" : undefined}
+  aria-live={live ? "polite" : undefined}
+>
+  <div class="hara-tool-status-primary"><slot /></div>
+  <div class="hara-tool-status-secondary"><slot name="secondary" /></div>
+</footer>

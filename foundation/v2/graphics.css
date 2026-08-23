@@ -1,0 +1,129 @@
+/* Hara v2 cinematic materials: original monumental painterly-industrial fields. */
+.hara-v2-graphics {
+  --hara-graphics-ground: var(--hara-v2-canvas, #eef0ef);
+  --hara-graphics-plate: var(--hara-v2-panel, #f3f3f0);
+  --hara-graphics-mass: var(--hara-v2-ink, #13171c);
+  --hara-graphics-ink: var(--hara-v2-ink, #13171c);
+  --hara-graphics-muted: var(--hara-v2-muted, #5d656e);
+  --hara-graphics-signal: var(--hara-v2-signal, #2f7cff);
+  --hara-graphics-texture: url("../../assets/cinematic/textures/archival-paper.svg");
+  color: var(--hara-graphics-ink);
+  background-color: var(--hara-graphics-ground);
+}
+
+.hara-v2-graphics[data-atmosphere="monolith"] {
+  --hara-graphics-ground: #e7eaec;
+  --hara-graphics-plate: #b8bec4;
+  --hara-graphics-mass: #101419;
+  --hara-graphics-ink: #101419;
+  --hara-graphics-muted: #59616a;
+  --hara-graphics-texture: url("../../assets/cinematic/textures/circuit-weave.svg");
+}
+.hara-v2-graphics[data-atmosphere="silica"] {
+  --hara-graphics-ground: #ece9e1;
+  --hara-graphics-plate: #c7c2b7;
+  --hara-graphics-mass: #181715;
+  --hara-graphics-ink: #15191d;
+  --hara-graphics-muted: #69635a;
+  --hara-graphics-texture: url("../../assets/cinematic/textures/silt-grain.svg");
+}
+.hara-v2-graphics[data-atmosphere="foundry"] {
+  --hara-graphics-ground: #e2e6e8;
+  --hara-graphics-plate: #98a2ab;
+  --hara-graphics-mass: #091015;
+  --hara-graphics-ink: #0b1015;
+  --hara-graphics-muted: #59636c;
+  --hara-graphics-texture: url("../../assets/cinematic/textures/etched-copper.svg");
+}
+.hara-v2-graphics[data-atmosphere="nocturne"] {
+  --hara-graphics-ground: #dfe4e9;
+  --hara-graphics-plate: #a8b1ba;
+  --hara-graphics-mass: #0b1118;
+  --hara-graphics-ink: #0c1118;
+  --hara-graphics-muted: #5e6872;
+  --hara-graphics-texture: url("../../assets/cinematic/textures/ritual-grid.svg");
+}
+.hara-v2-graphics[data-atmosphere="reliquary"] {
+  --hara-graphics-ground: #f0eee8;
+  --hara-graphics-plate: #d5d0c5;
+  --hara-graphics-mass: #17191b;
+  --hara-graphics-ink: #14181c;
+  --hara-graphics-muted: #66625b;
+  --hara-graphics-texture: url("../../assets/cinematic/textures/glass-fissure.svg");
+}
+.hara-v2-graphics[data-atmosphere="storm"] {
+  --hara-graphics-ground: #e0e6eb;
+  --hara-graphics-plate: #9eabb7;
+  --hara-graphics-mass: #0b121a;
+  --hara-graphics-ink: #0b1118;
+  --hara-graphics-muted: #596570;
+  --hara-graphics-texture: url("../../assets/cinematic/textures/dust-field.svg");
+}
+
+:root[data-theme="dark"] .hara-v2-graphics,
+.hara-v2-graphics[data-theme="dark"] {
+  --hara-graphics-ground: #050608;
+  --hara-graphics-plate: #1a2027;
+  --hara-graphics-mass: #080b0f;
+  --hara-graphics-ink: #e8edf2;
+  --hara-graphics-muted: #9ca7b2;
+}
+:root[data-theme="dark"] .hara-v2-graphics[data-atmosphere="silica"] { --hara-graphics-ground:#0b0a09; --hara-graphics-plate:#2d2a25; --hara-graphics-mass:#11100e; --hara-graphics-ink:#e9e5dc; }
+:root[data-theme="dark"] .hara-v2-graphics[data-atmosphere="foundry"] { --hara-graphics-ground:#07090b; --hara-graphics-plate:#222a32; --hara-graphics-mass:#0d1217; --hara-graphics-ink:#edf1f4; }
+:root[data-theme="dark"] .hara-v2-graphics[data-atmosphere="nocturne"] { --hara-graphics-ground:#05070b; --hara-graphics-plate:#141d28; --hara-graphics-mass:#08101a; --hara-graphics-ink:#e8eef5; }
+:root[data-theme="dark"] .hara-v2-graphics[data-atmosphere="reliquary"] { --hara-graphics-ground:#0b0a08; --hara-graphics-plate:#29261f; --hara-graphics-mass:#11100d; --hara-graphics-ink:#ece8df; }
+:root[data-theme="dark"] .hara-v2-graphics[data-atmosphere="storm"] { --hara-graphics-ground:#05070a; --hara-graphics-plate:#172231; --hara-graphics-mass:#07101a; --hara-graphics-ink:#e6eef6; }
+
+.hara-v2-material-surface {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--hara-graphics-ink);
+  background: var(--hara-graphics-ground);
+}
+.hara-v2-material-surface::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background: var(--hara-graphics-texture) center / 360px 360px repeat;
+  opacity: .28;
+  pointer-events: none;
+}
+
+.hara-v2-texture { background-color: var(--hara-graphics-ground); background-position:center; background-repeat:repeat; background-size:280px 280px; }
+.hara-v2-texture[data-texture="etched-copper"] { background-image:url("../../assets/cinematic/textures/etched-copper.svg"); }
+.hara-v2-texture[data-texture="silt-grain"] { background-image:url("../../assets/cinematic/textures/silt-grain.svg"); }
+.hara-v2-texture[data-texture="circuit-weave"] { background-image:url("../../assets/cinematic/textures/circuit-weave.svg"); }
+.hara-v2-texture[data-texture="glass-fissure"] { background-image:url("../../assets/cinematic/textures/glass-fissure.svg"); }
+.hara-v2-texture[data-texture="ritual-grid"] { background-image:url("../../assets/cinematic/textures/ritual-grid.svg"); }
+.hara-v2-texture[data-texture="dust-field"] { background-image:url("../../assets/cinematic/textures/dust-field.svg"); }
+.hara-v2-texture[data-texture="prism-noise"] { background-image:url("../../assets/cinematic/textures/prism-noise.svg"); }
+.hara-v2-texture[data-texture="archival-paper"] { background-image:url("../../assets/cinematic/textures/archival-paper.svg"); }
+
+.hara-v2-shader-field {
+  position: relative;
+  isolation: isolate;
+  min-height: 240px;
+  overflow: hidden;
+  color: var(--hara-graphics-ink);
+  border: 1px solid color-mix(in srgb, var(--hara-graphics-ink) 22%, transparent);
+  background: var(--hara-graphics-ground);
+  clip-path: polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
+}
+.hara-v2-shader-field__fallback,
+.hara-v2-shader-field__canvas,
+.hara-v2-shader-field__mesh,
+.hara-v2-shader-field__shade { position:absolute; inset:0; width:100%; height:100%; }
+.hara-v2-shader-field__fallback { z-index:0; background:var(--hara-shader-fallback,linear-gradient(135deg,var(--hara-graphics-ground),var(--hara-graphics-plate))) center/cover no-repeat; }
+.hara-v2-shader-field__canvas { z-index:1; display:block; opacity:0; transition:opacity 180ms ease; }
+.hara-v2-shader-field[data-state="ready"] .hara-v2-shader-field__canvas { opacity:1; }
+.hara-v2-shader-field__mesh { z-index:2; background-image:linear-gradient(color-mix(in srgb,var(--hara-graphics-ink) 6%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--hara-graphics-ink) 6%,transparent) 1px,transparent 1px); background-size:72px 72px; mask-image:linear-gradient(90deg,transparent,#000 18% 82%,transparent); opacity:.34; pointer-events:none; }
+.hara-v2-shader-field__shade { z-index:3; background:linear-gradient(180deg,color-mix(in srgb,var(--hara-graphics-ground) 10%,transparent),transparent 25% 72%,color-mix(in srgb,var(--hara-graphics-ground) 40%,transparent)); pointer-events:none; }
+.hara-v2-shader-field__plate { position:absolute; z-index:4; top:.75rem; left:.75rem; min-height:28px; padding:0 .58rem; display:flex; align-items:center; gap:.5rem; color:color-mix(in srgb,var(--hara-graphics-ink) 74%,transparent); border:1px solid color-mix(in srgb,var(--hara-graphics-ink) 20%,transparent); background:color-mix(in srgb,var(--hara-graphics-ground) 80%,transparent); backdrop-filter:blur(10px); font:700 .58rem/1 var(--hara-v2-font-code,monospace); letter-spacing:.08em; text-transform:uppercase; pointer-events:none; }
+.hara-v2-shader-field__plate::before { width:6px; height:6px; content:""; background:var(--hara-graphics-signal); box-shadow:0 0 12px color-mix(in srgb,var(--hara-graphics-signal) 64%,transparent); }
+.hara-v2-shader-field[data-interactive="on"] { cursor:crosshair; }
+.hara-v2-shader-field[data-state="fallback"]::after { position:absolute; z-index:5; right:.75rem; bottom:.75rem; padding:.38rem .48rem; content:"STATIC FIELD"; color:color-mix(in srgb,var(--hara-graphics-ink) 62%,transparent); border:1px solid color-mix(in srgb,var(--hara-graphics-ink) 18%,transparent); background:color-mix(in srgb,var(--hara-graphics-ground) 84%,transparent); font:700 .52rem/1 var(--hara-v2-font-code,monospace); letter-spacing:.08em; }
+
+@media (prefers-reduced-motion:reduce) { .hara-v2-shader-field__canvas { transition:none; } }
+@media (forced-colors:active) { .hara-v2-shader-field { clip-path:none; border-color:CanvasText; } .hara-v2-shader-field__mesh,.hara-v2-shader-field__shade { display:none; } }

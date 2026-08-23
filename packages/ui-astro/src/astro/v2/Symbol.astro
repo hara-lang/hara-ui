@@ -1,0 +1,61 @@
+---
+import {
+  symbolById,
+  symbolOpticalSizes,
+  symbolShapeById,
+  symbolTones,
+  symbolViewBox
+} from "@hara-lang/ui/v2/symbols.js";
+
+type SymbolTone = "current" | "signal" | "success" | "warning" | "danger" | "muted";
+type OpticalSize = 16 | 20 | 24 | 32;
+
+interface Props {
+  name: string;
+  size?: OpticalSize;
+  tone?: SymbolTone;
+  label?: string;
+  decorative?: boolean;
+  class?: string;
+}
+
+const {
+  name,
+  size = 20,
+  tone = "current",
+  label,
+  decorative = !label,
+  class: className = ""
+} = Astro.props;
+
+const symbol = symbolById(name);
+const shape = symbolShapeById(name);
+if (!symbol || !shape) throw new Error(`Unknown Hara v2 symbol: ${name}`);
+if (!symbolOpticalSizes.includes(size)) throw new Error(`Unsupported Hara v2 symbol size: ${size}`);
+if (!symbolTones.includes(tone)) throw new Error(`Unsupported Hara v2 symbol tone: ${tone}`);
+
+const hidden = decorative && !label;
+const accessibleLabel = label ?? symbol.label;
+---
+<svg
+  class:list={["hara-v2-symbol", className]}
+  viewBox={symbolViewBox}
+  width={size}
+  height={size}
+  fill="none"
+  stroke="currentColor"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  focusable="false"
+  role={hidden ? undefined : "img"}
+  aria-hidden={hidden ? "true" : undefined}
+  aria-label={hidden ? undefined : accessibleLabel}
+  data-symbol={name}
+  data-family={symbol.family}
+  data-tone={tone}
+  data-size={size}
+>
+  {shape.paths?.map((d) => <path d={d} />)}
+  {shape.circles?.map(({ cx, cy, r }) => <circle cx={cx} cy={cy} r={r} />)}
+  {shape.rects?.map(({ x, y, width, height, rx }) => <rect x={x} y={y} width={width} height={height} rx={rx} />)}
+</svg>

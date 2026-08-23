@@ -1,0 +1,31 @@
+---
+const {
+  sidebar = true,
+  aside = false,
+  embedded = false,
+  density = "comfortable",
+  mainId = "content",
+  class: className = ""
+} = Astro.props;
+
+const hasContext = Astro.slots.has("context");
+---
+<div
+  class:list={["hara-v2", "hara-v2-shell", className]}
+  data-sidebar={sidebar ? "true" : "false"}
+  data-aside={aside ? "true" : "false"}
+  data-context={hasContext ? "true" : "false"}
+  data-embedded={embedded ? "true" : "false"}
+  data-density={density}
+>
+  <slot name="header" />
+  {hasContext && <slot name="context" />}
+  <div class="hara-v2-workspace">
+    {sidebar && <aside class="hara-v2-sidebar"><slot name="sidebar" /></aside>}
+    <main class="hara-v2-main" id={mainId}>
+      <div class="hara-v2-content"><slot /></div>
+    </main>
+    {aside && <aside class="hara-v2-inspector"><slot name="aside" /></aside>}
+  </div>
+  <slot name="footer" />
+</div>

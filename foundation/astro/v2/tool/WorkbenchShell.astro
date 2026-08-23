@@ -1,0 +1,42 @@
+---
+interface Props {
+  label?: string;
+  minHeight?: string;
+  class?: string;
+}
+
+const {
+  label = "Hara workbench",
+  minHeight = "620px",
+  class: className = ""
+} = Astro.props;
+
+const hasTop = Astro.slots.has("top");
+const hasLeft = Astro.slots.has("left");
+const hasViewport = Astro.slots.has("viewport");
+const hasRight = Astro.slots.has("right");
+const hasBottom = Astro.slots.has("bottom");
+const hasOverlay = Astro.slots.has("overlay");
+const hasStatus = Astro.slots.has("status");
+---
+<section
+  class:list={["hara-tool-workbench", className]}
+  aria-label={label}
+  style={`--hara-tool-workbench-min-height: ${minHeight}`}
+  data-top={hasTop ? "true" : "false"}
+  data-left={hasLeft ? "true" : "false"}
+  data-right={hasRight ? "true" : "false"}
+  data-bottom={hasBottom ? "true" : "false"}
+  data-overlay={hasOverlay ? "true" : "false"}
+  data-status={hasStatus ? "true" : "false"}
+>
+  <div class="hara-tool-workbench-top" data-present={hasTop ? "true" : "false"}><slot name="top" /></div>
+  <aside class="hara-tool-workbench-left" data-present={hasLeft ? "true" : "false"}><slot name="left" /></aside>
+  <main class="hara-tool-workbench-viewport">
+    {hasViewport ? <slot name="viewport" /> : <slot />}
+    <div class="hara-tool-workbench-overlay" data-present={hasOverlay ? "true" : "false"}><slot name="overlay" /></div>
+  </main>
+  <aside class="hara-tool-workbench-right" data-present={hasRight ? "true" : "false"}><slot name="right" /></aside>
+  <section class="hara-tool-workbench-bottom" data-present={hasBottom ? "true" : "false"}><slot name="bottom" /></section>
+  <div class="hara-tool-workbench-status" data-present={hasStatus ? "true" : "false"}><slot name="status" /></div>
+</section>

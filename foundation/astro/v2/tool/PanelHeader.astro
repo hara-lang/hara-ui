@@ -1,0 +1,23 @@
+---
+interface Props {
+  title: string;
+  eyebrow?: string;
+  compact?: boolean;
+  class?: string;
+}
+
+const {
+  title,
+  eyebrow,
+  compact = false,
+  class: className = ""
+} = Astro.props;
+---
+<header class:list={["hara-tool-panel-header", className]} data-compact={compact ? "true" : "false"}>
+  <div class="hara-tool-panel-heading">
+    {eyebrow && <span class="hara-tool-panel-eyebrow">{eyebrow}</span>}
+    <h2 class="hara-tool-panel-title">{title}</h2>
+  </div>
+  <div class="hara-tool-panel-metadata"><slot name="metadata" /></div>
+  <div class="hara-tool-panel-actions"><slot /></div>
+</header>

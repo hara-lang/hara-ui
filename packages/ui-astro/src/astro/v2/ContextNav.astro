@@ -1,0 +1,28 @@
+---
+type NavItem = {
+  href: string;
+  label: string;
+  current?: boolean;
+};
+
+const {
+  items = [] as NavItem[],
+  activePath = "",
+  label = "Section navigation",
+  sticky = true
+} = Astro.props;
+
+const current = (item: NavItem) => item.current ?? (
+  item.href === "/" ? activePath === "/" : Boolean(activePath && activePath.startsWith(item.href))
+);
+---
+<nav class="hara-v2-context-nav" data-sticky={sticky ? "true" : "false"} aria-label={label}>
+  <div class="hara-v2-context-inner">
+    <div class="hara-v2-context-items">
+      {items.map((item: NavItem) => (
+        <a href={item.href} aria-current={current(item) ? "page" : undefined}>{item.label}</a>
+      ))}
+    </div>
+    <div class="hara-v2-context-actions"><slot /></div>
+  </div>
+</nav>

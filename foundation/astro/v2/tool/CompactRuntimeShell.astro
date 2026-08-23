@@ -1,0 +1,74 @@
+---
+import StatusLamp from "./StatusLamp.astro";
+
+interface Props {
+  idPrefix: string;
+  label: string;
+  title?: string;
+  eyebrow?: string;
+  state?: "off" | "starting" | "ready" | "stopping" | "connecting" | "connected" | "attention" | "warning" | "danger" | "error" | "disabled";
+  stateLabel?: string;
+  target?: string;
+  targetDetail?: string;
+  width?: "compact" | "wide";
+  class?: string;
+}
+
+const {
+  idPrefix,
+  label,
+  title = "Hara",
+  eyebrow = "Connection control",
+  state = "off",
+  stateLabel = state.toUpperCase(),
+  target = "No target",
+  targetDetail,
+  width = "compact",
+  class: className = ""
+} = Astro.props;
+
+const titleId = `${idPrefix}-title`;
+const hasConnections = Astro.slots.has("connections");
+const hasStatus = Astro.slots.has("status");
+const hasError = Astro.slots.has("error");
+const hasActions = Astro.slots.has("actions");
+---
+
+<section
+  class:list={["hara-runtime-compact", "hara-tool-surface", "hara-tool-surface--framed", className]}
+  aria-labelledby={titleId}
+  aria-label={label}
+  data-width={width}
+  data-state={state}
+>
+  <header class="hara-runtime-compact-header">
+    <div class="hara-runtime-compact-identity">
+      <span class="hara-runtime-compact-eyebrow">{eyebrow}</span>
+      <h2 id={titleId}>{title}</h2>
+    </div>
+    <StatusLamp label={stateLabel} state={state} live />
+  </header>
+
+  <div class="hara-runtime-compact-target">
+    <strong>{target}</strong>
+    {targetDetail && <span>{targetDetail}</span>}
+  </div>
+
+  {hasConnections && (
+    <section class="hara-runtime-compact-section" aria-label="Connections">
+      <h3>Connections</h3>
+      <div class="hara-runtime-connection-list"><slot name="connections" /></div>
+    </section>
+  )}
+
+  {hasStatus && (
+    <section class="hara-runtime-compact-section" aria-label="Status">
+      <h3>Status</h3>
+      <div class="hara-runtime-status-list"><slot name="status" /></div>
+    </section>
+  )}
+
+  {hasError && <div class="hara-runtime-error" role="alert"><slot name="error" /></div>}
+
+  {hasActions && <footer class="hara-runtime-actions"><slot name="actions" /></footer>}
+</section>

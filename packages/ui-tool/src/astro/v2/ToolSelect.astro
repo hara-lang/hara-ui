@@ -1,0 +1,35 @@
+---
+type Option = {
+  value: string;
+  label: string;
+  disabled?: boolean;
+};
+
+interface Props {
+  label: string;
+  name?: string;
+  value?: string;
+  options?: Option[];
+  disabled?: boolean;
+  inline?: boolean;
+  class?: string;
+}
+
+const {
+  label,
+  name,
+  value,
+  options = [] as Option[],
+  disabled = false,
+  inline = false,
+  class: className = ""
+} = Astro.props;
+---
+<label class:list={["hara-tool-field", className]} data-inline={inline ? "true" : "false"}>
+  <span>{label}</span>
+  <select class="hara-tool-select" name={name} disabled={disabled} aria-label={inline ? label : undefined}>
+    {options.map((option: Option) => (
+      <option value={option.value} selected={option.value === value} disabled={option.disabled}>{option.label}</option>
+    ))}
+  </select>
+</label>

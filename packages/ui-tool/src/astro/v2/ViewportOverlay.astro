@@ -1,0 +1,23 @@
+---
+interface Props {
+  label?: string;
+  placement?: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "center";
+  interactive?: boolean;
+  class?: string;
+}
+
+const {
+  label = "Viewport information",
+  placement = "top-left",
+  interactive = false,
+  class: className = ""
+} = Astro.props;
+---
+<aside
+  class:list={["hara-tool-viewport-overlay", "hara-tool-surface--cut-small", className]}
+  aria-label={label}
+  data-placement={placement}
+  data-interactive={interactive ? "true" : "false"}
+>
+  <slot />
+</aside>

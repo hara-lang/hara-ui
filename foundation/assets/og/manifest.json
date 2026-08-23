@@ -1,0 +1,36 @@
+{
+  "name": "Hara Open Graph image system",
+  "version": 1,
+  "canvas": "3840 x 2016",
+  "aspectRatio": "40:21",
+  "deliveryFormat": "progressive JPEG",
+  "palette": {
+    "void": "#050608",
+    "frost": "#F4F6F8",
+    "cyan": "#27B8B0",
+    "blue": "#2F7CFF",
+    "violet": "#7957D5"
+  },
+  "masters": [
+    { "id": "evaluation", "file": "master/evaluation.webp", "use": "language and evaluation" },
+    { "id": "syntax", "file": "master/syntax.webp", "use": "documentation and executable specifications" },
+    { "id": "workbench", "file": "master/workbench.webp", "use": "live editing and playgrounds" },
+    { "id": "registry", "file": "master/registry.webp", "use": "packages, versions, and public identity" },
+    { "id": "measure", "file": "master/measure.webp", "use": "benchmarks and build health" },
+    { "id": "materials", "file": "master/materials.webp", "use": "UI and visual language" }
+  ],
+  "cards": [
+    "hara",
+    "docs",
+    "playground",
+    "specs",
+    "packages",
+    "api",
+    "identity",
+    "status",
+    "benchmarks",
+    "ui",
+    "cli",
+    "visual-language"
+  ]
+}

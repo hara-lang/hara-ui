@@ -1,0 +1,131 @@
+---
+import DockPanel from "./DockPanel.astro";
+import EnvironmentSection from "./EnvironmentSection.astro";
+import PanelHeader from "./PanelHeader.astro";
+import TabStrip from "./TabStrip.astro";
+
+type CapabilityId = "sessions" | "files" | "canvas" | "three-d";
+type Capability = {
+  id: CapabilityId;
+  label: string;
+  slot: "sessions" | "files" | "canvas" | "threeD";
+};
+
+interface Props {
+  label?: string;
+  eyebrow?: string;
+  activeGroup?: CapabilityId;
+  idPrefix?: string;
+  position?: "left" | "right" | "bottom" | "floating";
+  size?: "narrow" | "regular" | "wide";
+  collapsed?: boolean;
+  badges?: Partial<Record<CapabilityId, string | number>>;
+  class?: string;
+}
+
+const CAPABILITIES: Capability[] = [
+  { id: "sessions", label: "Sessions", slot: "sessions" },
+  { id: "files", label: "Files", slot: "files" },
+  { id: "canvas", label: "Canvas", slot: "canvas" },
+  { id: "three-d", label: "3D", slot: "threeD" }
+];
+
+const {
+  label = "Environment controls",
+  eyebrow = "Environment",
+  activeGroup = "sessions",
+  idPrefix = "hara-capabilities",
+  position = "right",
+  size = "regular",
+  collapsed = false,
+  badges = {},
+  class: className = ""
+} = Astro.props;
+const available = CAPABILITIES.filter((capability: Capability) => Astro.slots.has(capability.slot));
+const selected = available.some((capability: Capability) => capability.id === activeGroup)
+  ? activeGroup
+  : available[0]?.id;
+const tabs = available.map((capability: Capability) => ({
+  id: `${idPrefix}-${capability.id}-tab`,
+  label: capability.label,
+  active: capability.id === selected,
+  controls: `${idPrefix}-${capability.id}-panel`,
+  value: capability.id,
+  badge: badges[capability.id]
+}));
+const hasSessions = Astro.slots.has("sessions");
+const hasFiles = Astro.slots.has("files");
+const hasCanvas = Astro.slots.has("canvas");
+const hasThreeD = Astro.slots.has("threeD");
+---
+{available.length > 0 && (
+  <DockPanel
+    label={label}
+    position={position}
+    size={size}
+    collapsed={collapsed}
+    class:list={["hara-tool-capability-pane", className]}
+  >
+    <PanelHeader title={label} eyebrow={eyebrow} compact>
+      <span slot="metadata">{available.length} groups</span>
+      <slot name="actions" />
+    </PanelHeader>
+    <TabStrip
+      tabs={tabs}
+      label={label}
+      density="dense"
+      variant="groups"
+      class="hara-tool-capability-tabs"
+    />
+    <div class="hara-tool-capability-content" data-active-group={selected}>
+      {hasSessions && (
+        <EnvironmentSection
+          id={`${idPrefix}-sessions-panel`}
+          tabId={`${idPrefix}-sessions-tab`}
+          section="sessions"
+          label="Sessions"
+          active={selected === "sessions"}
+          class="hara-tool-capability-section"
+        >
+          <slot name="sessions" />
+        </EnvironmentSection>
+      )}
+      {hasFiles && (
+        <EnvironmentSection
+          id={`${idPrefix}-files-panel`}
+          tabId={`${idPrefix}-files-tab`}
+          section="files"
+          label="Files"
+          active={selected === "files"}
+          class="hara-tool-capability-section"
+        >
+          <slot name="files" />
+        </EnvironmentSection>
+      )}
+      {hasCanvas && (
+        <EnvironmentSection
+          id={`${idPrefix}-canvas-panel`}
+          tabId={`${idPrefix}-canvas-tab`}
+          section="canvas"
+          label="Canvas"
+          active={selected === "canvas"}
+          class="hara-tool-capability-section"
+        >
+          <slot name="canvas" />
+        </EnvironmentSection>
+      )}
+      {hasThreeD && (
+        <EnvironmentSection
+          id={`${idPrefix}-three-d-panel`}
+          tabId={`${idPrefix}-three-d-tab`}
+          section="three-d"
+          label="3D"
+          active={selected === "three-d"}
+          class="hara-tool-capability-section"
+        >
+          <slot name="threeD" />
+        </EnvironmentSection>
+      )}
+    </div>
+  </DockPanel>
+)}

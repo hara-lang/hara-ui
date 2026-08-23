@@ -1,0 +1,30 @@
+---
+interface Props {
+  label?: string;
+  position?: "left" | "right" | "bottom" | "floating";
+  size?: "narrow" | "regular" | "wide";
+  collapsed?: boolean;
+  selected?: boolean;
+  class?: string;
+}
+
+const {
+  label = "Workbench panel",
+  position = "right",
+  size = "regular",
+  collapsed = false,
+  selected = false,
+  class: className = ""
+} = Astro.props;
+---
+<section
+  class:list={["hara-tool-dock-panel", "hara-tool-surface", className]}
+  aria-label={label}
+  aria-hidden={collapsed ? "true" : undefined}
+  data-position={position}
+  data-size={size}
+  data-collapsed={collapsed ? "true" : "false"}
+  data-selected={selected ? "true" : "false"}
+>
+  <slot />
+</section>
