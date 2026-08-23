@@ -32,10 +32,18 @@ test("astro and tool adapters are independently packageable", async () => {
 
 test("the shared shell exposes the mobile states from the Hara shell study", async () => {
   const header = await readFile(new URL("packages/ui-astro/src/astro/v2/Header.astro", root), "utf8");
+  const shell = await readFile(new URL("foundation/v2/shell.css", root), "utf8");
   const responsive = await readFile(new URL("foundation/v2/responsive.css", root), "utf8");
   assert.match(header, /data-hara-header-menu/);
   assert.match(header, /data-hara-mobile-navigation/);
+  assert.match(header, /data-account=\{account\}/);
+  assert.match(header, /account === "logged-out"/);
+  assert.match(header, /data-open-label=\{menuLabel\}/);
+  assert.match(header, /data-close-label=\{menuCloseLabel\}/);
   assert.match(header, /aria-expanded="false"/);
+  assert.match(shell, /\.hara-v2-header-row/);
+  assert.match(shell, /grid-template-columns: minmax\(0, 130px\) minmax\(0, 1fr\) minmax\(0, 130px\)/);
+  assert.match(shell, /\.hara-v2-account-link/);
   assert.match(responsive, /\.hara-v2-mobile-navigation/);
   assert.match(responsive, /max-width: 820px/);
 });
