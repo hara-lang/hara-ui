@@ -8,12 +8,17 @@ type NavItem = {
   external?: boolean;
 };
 
+type AccountState = "logged-in" | "logged-out";
+
 const {
   homeHref = "/",
   section,
   nav = [] as NavItem[],
   activePath = "",
   label = section ? `Hara ${section}` : "Hara",
+  account = "logged-out" as AccountState,
+  accountHref = "#account",
+  accountLabel = "Sign in",
   menuLabel = "Open navigation",
   menuCloseLabel = "Close navigation"
 } = Astro.props;
@@ -22,45 +27,58 @@ const current = (item: NavItem) => item.current ?? (
   item.href === "/" ? activePath === "/" : Boolean(activePath && activePath.startsWith(item.href))
 );
 ---
-<header class="hara-v2-header" data-hara-shell-header data-navigation-open="false">
-  <a class="hara-v2-brand" href={homeHref} aria-label={label}>
-    <HaraMark size={28} title="Hara" />
-    <span class="hara-v2-wordmark">Hara</span>
-    {section && <span class="hara-v2-brand-divider" aria-hidden="true">/</span>}
-    {section && <span class="hara-v2-brand-section">{section}</span>}
-  </a>
-  <nav class="hara-v2-ecosystem-nav" data-hara-header-navigation aria-label="Hara ecosystem navigation">
-    {nav.map((item: NavItem) => (
-      <a
-        href={item.href}
-        aria-current={current(item) ? "page" : undefined}
-        target={item.external ? "_blank" : undefined}
-        rel={item.external ? "noreferrer" : undefined}
-      >{item.label}</a>
-    ))}
-  </nav>
-  <div class="hara-v2-header-actions">
-    <slot />
-    {nav.length > 0 && (
-      <button
-        class="hara-v2-menu-button"
-        type="button"
-        data-hara-header-menu
-        aria-expanded="false"
-        aria-controls="hara-v2-mobile-navigation"
-        aria-label={menuLabel}
-        title={menuLabel}
-      >
-        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
-      </button>
-    )}
+<header
+  class="hara-v2-header"
+  data-hara-shell-header
+  data-account={account}
+  data-navigation-open="false"
+>
+  <div class="hara-v2-header-row">
+    <div class="hara-v2-header-left">
+      {nav.length > 0 && (
+        <button
+          class="hara-v2-menu-button"
+          type="button"
+          data-hara-header-menu
+          aria-expanded="false"
+          aria-controls="hara-v2-mobile-navigation"
+          aria-label={menuLabel}
+          title={menuLabel}
+          data-open-label={menuLabel}
+          data-close-label={menuCloseLabel}
+        >
+          <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+        </button>
+      )}
+      <a class="hara-v2-brand" href={homeHref} aria-label={label}>
+        <HaraMark size={28} title="Hara" />
+        <span class="hara-v2-wordmark">Hara</span>
+        {section && <span class="hara-v2-brand-divider" aria-hidden="true">/</span>}
+        {section && <span class="hara-v2-brand-section">{section}</span>}
+      </a>
+    </div>
+
+    <nav class="hara-v2-ecosystem-nav" data-hara-header-navigation aria-label="Hara ecosystem navigation">
+      {nav.map((item: NavItem) => (
+        <a
+          href={item.href}
+          aria-current={current(item) ? "page" : undefined}
+          target={item.external ? "_blank" : undefined}
+          rel={item.external ? "noreferrer" : undefined}
+        >{item.label}</a>
+      ))}
+    </nav>
+
+    <div class="hara-v2-header-actions">
+      <slot />
+      {account === "logged-out" && (
+        <a class="hara-v2-account-link" href={accountHref}>{accountLabel}</a>
+      )}
+    </div>
   </div>
+
   {nav.length > 0 && (
     <div class="hara-v2-mobile-navigation" id="hara-v2-mobile-navigation" data-hara-mobile-navigation hidden>
-      <div class="hara-v2-mobile-navigation__head">
-        <span>Hara</span>
-        <button type="button" data-hara-header-close aria-label={menuCloseLabel} title={menuCloseLabel}>×</button>
-      </div>
       <nav aria-label="Hara mobile navigation">
         {nav.map((item: NavItem) => (
           <a
@@ -68,7 +86,7 @@ const current = (item: NavItem) => item.current ?? (
             aria-current={current(item) ? "page" : undefined}
             target={item.external ? "_blank" : undefined}
             rel={item.external ? "noreferrer" : undefined}
-          >{item.label}<span aria-hidden="true">↗</span></a>
+          >{item.label}</a>
         ))}
       </nav>
     </div>
@@ -80,18 +98,19 @@ const current = (item: NavItem) => item.current ?? (
       if (!(header instanceof HTMLElement) || header.dataset.haraHeaderReady === "true") return;
       const menu = header.querySelector("[data-hara-header-menu]");
       const navigation = header.querySelector("[data-hara-mobile-navigation]");
-      const close = header.querySelector("[data-hara-header-close]");
       if (!(menu instanceof HTMLButtonElement) || !(navigation instanceof HTMLElement)) return;
       header.dataset.haraHeaderReady = "true";
+      const openLabel = menu.dataset.openLabel ?? "Open navigation";
+      const closeLabel = menu.dataset.closeLabel ?? "Close navigation";
       const setOpen = (open, restoreFocus = false) => {
         header.dataset.navigationOpen = String(open);
         menu.setAttribute("aria-expanded", String(open));
-        menu.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+        menu.setAttribute("aria-label", open ? closeLabel : openLabel);
+        menu.title = open ? closeLabel : openLabel;
         navigation.hidden = !open;
         if (!open && restoreFocus) menu.focus();
       };
       menu.addEventListener("click", () => setOpen(header.dataset.navigationOpen !== "true"));
-      close?.addEventListener("click", () => setOpen(false, true));
       navigation.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setOpen(false)));
       header.addEventListener("keydown", (event) => {
         if (event.key === "Escape" && header.dataset.navigationOpen === "true") setOpen(false, true);
