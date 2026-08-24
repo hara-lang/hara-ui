@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v4
       - id: version
         name: Read the published UI version
-        run: echo "value=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+        run: node -p "'value=' + require('./package.json').version" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
