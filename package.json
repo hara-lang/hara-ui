@@ -1,6 +1,6 @@
 {
   "name": "@hara-lang/ui",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": false,
   "type": "module",
   "description": "Product-neutral browser services, primitives and compatibility UI surfaces for Hara",
@@ -28,6 +28,8 @@
     "./theme.js": "./foundation/theme.js",
     "./v2.css": "./v2.css",
     "./v2/foundation.css": "./v2.css",
+    "./v2/header.js": "./foundation/v2/header.js",
+    "./v2-header.css": "./foundation/v2/header.css",
     "./v2-graphics.css": "./foundation/v2/graphics.css",
     "./v2-data.css": "./foundation/v2/data-visualisation.css",
     "./v2-diagrams.css": "./foundation/v2-diagrams.css",
@@ -69,7 +71,7 @@
   ],
   "scripts": {
     "test": "node --test tests/*.test.js && npm test --workspaces --if-present",
-    "check": "node --check document-model.js && node --check document-editor.js && node --check document-hestia.js && node --check document-compatibility.js && npm run check --workspaces --if-present"
+    "check": "node --check document-model.js && node --check document-editor.js && node --check document-hestia.js && node --check document-compatibility.js && node --check foundation/v2/header.js && npm run check --workspaces --if-present"
   },
   "license": "MIT"
 }
