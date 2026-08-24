@@ -169,7 +169,7 @@ body.hara-v2 > nav.v2-legacy-section-nav[data-legacy-section-nav="true"]::before
   align-items: center;
   margin-right: .35rem;
   color: var(--hara-v2-faint);
-  content: "Sections";
+  content: "On this page";
   font: 700 .43rem var(--hara-v2-font-code);
   text-transform: uppercase;
   white-space: nowrap;
