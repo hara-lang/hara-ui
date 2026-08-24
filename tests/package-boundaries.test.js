@@ -53,7 +53,9 @@ test("the shared shell exposes the complete mobile states from the Hara shell st
   assert.match(header, /data-account=\{account\}/);
   assert.match(header, /account === "logged-out"/);
   assert.match(header, /navigationId: suppliedNavigationId/);
-  assert.match(header, /aria-controls=\{navigationId\}/);
+  assert.match(header, /aria-controls=\{menuControlsId\}/);
+  assert.match(header, /data-hara-menu-mode=\{menuMode\}/);
+  assert.match(header, /menuMode === "navigation" && nav\.length > 0/);
   assert.match(header, /hara-v2-mobile-navigation--fallback/);
   assert.match(header, /@hara-lang\/ui\/v2\/header\.js/);
   assert.match(header, /showSection = false/);
@@ -68,6 +70,7 @@ test("the shared shell exposes the complete mobile states from the Hara shell st
   assert.match(headerCss, /data-navigation-open="true"[\s\S]*opacity: 1/);
   assert.doesNotMatch(headerCss, /--hara-v2-[a-z0-9-]+\s*:/i, "header CSS may consume but not redefine protected tokens");
 
+  assert.match(controller, /export function setHaraHeaderMenuState/);
   assert.match(controller, /hara:header-navigation/);
   assert.match(controller, /hara:header-menu-request/);
   assert.match(controller, /event\.key === "Escape"/);
