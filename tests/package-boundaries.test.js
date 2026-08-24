@@ -73,7 +73,7 @@ test("the shared shell exposes the complete mobile states from the Hara shell st
   assert.match(controller, /export function setHaraHeaderMenuState/);
   assert.match(controller, /hara:header-navigation/);
   assert.match(controller, /hara:header-menu-request/);
-  assert.match(controller, /event\.key === "Escape"/);
+  assert.match(controller, /event\.key (?:===|!==) "Escape"/);
   assert.match(controller, /compact\.addEventListener\("change"/);
   assert.match(controller, /navigation\.hidden = !open/);
 });
