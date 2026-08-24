@@ -3,89 +3,129 @@ name: Deploy UI preview to GitHub Pages
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
-    types: [closed]
   workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
+  statuses: write
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
-    if: github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    outputs:
+      ui-version: ${{ steps.version.outputs.value }}
     steps:
       - uses: actions/checkout@v4
+      - id: version
+        name: Read the published UI version
+        run: echo "value=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
       - id: deployment
         uses: actions/deploy-pages@v4
 
-  verify-live:
-    if: github.event_name != 'pull_request'
-    needs: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Verify the deployed v2 shell
-        run: |
-          page="$(mktemp)"
-          for attempt in {1..20}; do
-            if curl --fail --silent --show-error --location --max-time 20 \
-                https://ui.hara-lang.org/ >"$page" \
-              && grep -q 'data-ui-version="0.2.1"' "$page" \
-              && grep -q 'data-hara-shell-header' "$page" \
-              && grep -q 'data-hara-mobile-navigation' "$page" \
-              && grep -q 'href="./v2.css"' "$page"; then
-              echo "Verified @hara-lang/ui 0.2.1 and the responsive Hara v2 shell."
-              exit 0
-            fi
-            [[ "$attempt" -lt 20 ]] && sleep 15
-          done
-          echo "ui.hara-lang.org did not publish the expected v2 shell." >&2
-          exit 1
-
   reconcile-domain:
-    if: >-
-      github.event_name == 'pull_request' &&
-      github.event.pull_request.merged == true &&
-      startsWith(github.event.pull_request.title, '[deploy]')
+    needs: deploy
     runs-on: ubuntu-latest
     steps:
       - name: Reconcile ui.hara-lang.org
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          curl --fail-with-body --silent --show-error \
+          response="$(mktemp)"
+          status="$(curl --silent --show-error \
+            --output "$response" \
+            --write-out '%{http_code}' \
             -X PUT \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             --data '{"cname":"ui.hara-lang.org","build_type":"workflow"}' \
-            "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages"
-      - name: Verify live UI metadata and shell
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages")"
+
+          if [[ "$status" != "200" && "$status" != "201" ]]; then
+            cat "$response" >&2
+            echo "Pages domain reconciliation returned HTTP $status." >&2
+            exit 1
+          fi
+
+  verify-live:
+    needs: [deploy, reconcile-domain]
+    runs-on: ubuntu-latest
+    env:
+      EXPECTED_UI_VERSION: ${{ needs.deploy.outputs.ui-version }}
+    steps:
+      - name: Verify the deployed responsive shell
         run: |
           page="$(mktemp)"
-          for attempt in {1..20}; do
-            if curl --fail --silent --show-error --location --max-time 20 \
-                https://ui.hara-lang.org/ >"$page" \
-              && grep -q 'property="og:image"' "$page" \
-              && grep -q 'property="og:image:width" content="3840"' "$page" \
-              && grep -q 'data-hara-shell-header' "$page"; then
-              echo "Verified the UI metadata and v2 shell."
+          live_url="https://ui.hara-lang.org/?deployment=${GITHUB_SHA}"
+
+          for attempt in {1..12}; do
+            if curl --fail --silent --show-error --location \
+                --connect-timeout 5 --max-time 10 \
+                -H 'Cache-Control: no-cache' \
+                "$live_url" >"$page" \
+              && grep -q "data-ui-version=\"${EXPECTED_UI_VERSION}\"" "$page" \
+              && grep -q 'data-hara-shell-header' "$page" \
+              && grep -q 'data-hara-mobile-navigation' "$page" \
+              && grep -q 'href="./v2.css"' "$page" \
+              && ! grep -q 'class="topbar"' "$page"; then
+              echo "Verified @hara-lang/ui ${EXPECTED_UI_VERSION} and the responsive Hara v2 shell."
               exit 0
             fi
-            [[ "$attempt" -lt 20 ]] && sleep 15
+
+            [[ "$attempt" -lt 12 ]] && sleep 10
           done
-          echo "ui.hara-lang.org did not publish the expected metadata and shell." >&2
+
+          echo "ui.hara-lang.org did not publish the expected responsive shell." >&2
           exit 1
+
+  record-live-status:
+    if: always()
+    needs: [deploy, reconcile-domain, verify-live]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Record the Pages live receipt on the commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPLOY_RESULT: ${{ needs.deploy.result }}
+          DOMAIN_RESULT: ${{ needs.reconcile-domain.result }}
+          LIVE_RESULT: ${{ needs.verify-live.result }}
+        run: |
+          if [[ "$DEPLOY_RESULT" == "success" \
+             && "$DOMAIN_RESULT" == "success" \
+             && "$LIVE_RESULT" == "success" ]]; then
+            state="success"
+            description="ui.hara-lang.org published and verified"
+          else
+            state="failure"
+            description="Pages publication or live verification failed"
+          fi
+
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          payload="$(jq -n \
+            --arg state "$state" \
+            --arg target_url "$run_url" \
+            --arg description "$description" \
+            --arg context "pages/live" \
+            '{state: $state, target_url: $target_url, description: $description, context: $context}')"
+
+          curl --fail-with-body --silent --show-error \
+            -X POST \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            --data "$payload" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/statuses/${GITHUB_SHA}"
+
+          [[ "$state" == "success" ]]
