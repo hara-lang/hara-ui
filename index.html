@@ -3,12 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#020408">
-  <meta name="description" content="Hara UI shared component preview">
+  <meta name="theme-color" content="#f8f8f5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#06080b" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="Hara UI shared component and application-shell preview">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Hara UI">
   <meta property="og:title" content="Hara UI — Shared Interface System">
-  <meta property="og:description" content="The canonical components, palette, and editor language used across Hara.">
+  <meta property="og:description" content="The canonical components, application shell, palette, and editor language used across Hara.">
   <meta property="og:url" content="https://ui.hara-lang.org/">
   <meta property="og:image" content="https://ui.hara-lang.org/og-hara-ui.jpg">
   <meta property="og:image:secure_url" content="https://ui.hara-lang.org/og-hara-ui.jpg">
@@ -18,7 +19,7 @@
   <meta property="og:image:alt" content="Hara UI — one interface system">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Hara UI — Shared Interface System">
-  <meta name="twitter:description" content="The canonical components, palette, and editor language used across Hara.">
+  <meta name="twitter:description" content="The canonical components, application shell, palette, and editor language used across Hara.">
   <meta name="twitter:image" content="https://ui.hara-lang.org/og-hara-ui.jpg">
   <meta name="twitter:image:alt" content="Hara UI — one interface system">
   <link rel="canonical" href="https://ui.hara-lang.org/">
@@ -28,42 +29,132 @@
   <link rel="stylesheet" href="./tokens.css">
   <link rel="stylesheet" href="./components.css">
   <link rel="stylesheet" href="./spec-explorer.css">
+  <link rel="stylesheet" href="./v2.css">
   <title>Hara UI — Component preview</title>
   <style>
     * { box-sizing: border-box; }
-    body { margin: 0; color: var(--hara-text); background: var(--hara-abyss); font-family: var(--hara-mono); }
-    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem clamp(1rem, 4vw, 3rem); border-bottom: 1px solid var(--hara-line-strong); background: rgba(2, 4, 8, .88); }
-    .identity { display: flex; align-items: center; gap: .7rem; letter-spacing: .13em; font-size: .72rem; }
-    .mark { width: 26px; height: 26px; object-fit: contain; filter: drop-shadow(0 0 7px rgba(49, 207, 234, .45)); }
-    .topbar a { color: var(--hara-muted); font-size: .78rem; text-decoration: none; }
-    .topbar a:hover { color: var(--hara-cyan); }
-    main { width: min(1120px, calc(100% - 2rem)); margin: 0 auto; padding: clamp(2rem, 6vw, 5rem) 0; }
-    .eyebrow { color: var(--hara-cyan); font-size: .72rem; letter-spacing: .15em; }
-    h1 { margin: .7rem 0; font: 800 clamp(2rem, 6vw, 4.5rem)/.95 var(--hara-display); letter-spacing: -.05em; }
-    .lede { max-width: 48rem; color: var(--hara-muted); font: 1rem/1.7 system-ui, sans-serif; }
-    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1rem; margin-top: 3rem; }
-    .card { grid-column: span 6; min-width: 0; padding: 1.25rem; border: 1px solid var(--hara-line); background: var(--hara-panel); }
+    html { min-width: 320px; background: var(--hara-v2-canvas); }
+    body { margin: 0; color: var(--hara-v2-ink); background: var(--hara-v2-canvas); font-family: var(--hara-v2-font-code); }
+    .ui-skip-link { position: fixed; z-index: 200; top: 8px; left: 8px; padding: .7rem .9rem; color: var(--hara-v2-panel-raised); background: var(--hara-v2-signal); text-decoration: none; transform: translateY(-160%); }
+    .ui-skip-link:focus { transform: none; }
+    .ui-catalogue-main { width: min(1120px, calc(100% - 2rem)); margin: 0 auto; padding: clamp(2rem, 6vw, 5rem) 0; }
+    .ui-eyebrow { color: var(--hara-v2-signal); font: 700 .68rem/1.4 var(--hara-v2-font-code); letter-spacing: .13em; text-transform: uppercase; }
+    .ui-version { color: var(--hara-v2-muted); }
+    h1 { max-width: 920px; margin: .7rem 0; font: 760 clamp(2.6rem, 7vw, 5.8rem)/.94 var(--hara-v2-font-heading); letter-spacing: -.06em; text-wrap: balance; }
+    .ui-lede { max-width: 50rem; color: var(--hara-v2-muted); font: 1rem/1.7 var(--hara-v2-font-body); text-wrap: pretty; }
+    .ui-hero-actions { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1.5rem; }
+    .ui-hero-actions a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 .9rem; color: var(--hara-v2-ink); border: 1px solid var(--hara-v2-line-strong); background: var(--hara-v2-panel); font: 650 .76rem/1 var(--hara-v2-font-body); text-decoration: none; }
+    .ui-hero-actions a:first-child { color: var(--hara-v2-panel-raised); border-color: var(--hara-v2-signal); background: var(--hara-v2-signal); }
+    .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 1rem; margin-top: 3rem; }
+    .card { grid-column: span 6; min-width: 0; padding: 1.25rem; border: 1px solid var(--hara-v2-line); background: var(--hara-v2-panel); }
     .card.wide { grid-column: span 12; }
-    .card h2 { margin: 0 0 1rem; color: var(--hara-cyan-bright); font-size: .8rem; letter-spacing: .11em; }
+    .card h2 { margin: 0 0 1rem; color: var(--hara-v2-signal); font: 700 .72rem/1.3 var(--hara-v2-font-code); letter-spacing: .11em; }
     .swatches { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .6rem; }
-    .swatch { min-height: 92px; padding: .6rem; display: flex; align-items: end; border: 1px solid var(--hara-line); color: var(--hara-abyss); font-size: .66rem; }
+    .swatch { min-height: 92px; padding: .6rem; display: flex; align-items: end; border: 1px solid var(--hara-v2-line); color: #020408; font-size: .66rem; }
     .swatch.cyan { background: var(--hara-cyan); } .swatch.magenta { background: var(--hara-magenta); } .swatch.violet { background: var(--hara-violet); } .swatch.amber { background: var(--hara-amber); }
     .sample-row { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; }
     .sample-code { min-height: 190px; }
-    #explorer { min-height: 530px; border: 1px solid var(--hara-line); }
-    @media (max-width: 720px) { .card { grid-column: span 12; } .swatches { grid-template-columns: repeat(2, 1fr); } main { width: min(100% - 1.25rem, 1120px); } }
+    #explorer { min-height: 530px; border: 1px solid var(--hara-v2-line); }
+    .ui-overflow-region { max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; }
+    .ui-theme-control svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.45; stroke-linecap: round; stroke-linejoin: round; }
+    .ui-theme-control svg[data-hara-theme-icon="dark"] { display: none; fill: currentColor; stroke: none; }
+    .ui-theme-control[data-resolved-theme="dark"] svg[data-hara-theme-icon="light"] { display: none; }
+    .ui-theme-control[data-resolved-theme="dark"] svg[data-hara-theme-icon="dark"] { display: block; }
+    .ui-catalogue-main :where(a, button, input, summary):focus-visible { outline: 2px solid var(--hara-v2-signal); outline-offset: 3px; }
+    @media (max-width: 720px) {
+      .card { grid-column: span 12; }
+      .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .ui-catalogue-main { width: min(calc(100% - 1.25rem), 1120px); padding-top: 2.4rem; }
+      .hara-window, .hara-toolbar, .hara-tabs, .hara-code-visual-actions { min-width: max-content; }
+      #explorer { min-height: 620px; }
+    }
+    @media (max-width: 420px) {
+      h1 { font-size: clamp(2.45rem, 14vw, 3.4rem); }
+      .card { padding: 1rem; }
+      .ui-hero-actions { display: grid; grid-template-columns: 1fr; }
+      .ui-hero-actions a { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ui-skip-link { transition: none; }
+    }
   </style>
 </head>
-<body>
-  <header class="topbar">
-    <div class="identity"><img class="mark" src="./logo-white.svg" alt=""><span>HARA UI / 0.1</span></div>
-    <a href="https://github.com/hara-lang/hara-ui">source ↗</a>
+<body class="hara-v2 ui-catalogue" data-ui-version="0.2.1">
+  <a class="ui-skip-link" href="#content">Skip to component catalogue</a>
+  <header class="hara-v2-header" data-hara-shell-header data-account="logged-out" data-navigation-open="false">
+    <div class="hara-v2-header-row">
+      <div class="hara-v2-header-left">
+        <button
+          class="hara-v2-menu-button"
+          type="button"
+          data-hara-header-menu
+          aria-expanded="false"
+          aria-controls="hara-v2-ui-navigation"
+          aria-haspopup="true"
+          aria-label="Open navigation"
+          title="Open navigation"
+          data-open-label="Open navigation"
+          data-close-label="Close navigation"
+        >
+          <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+        </button>
+        <a class="hara-v2-brand" href="./" aria-label="Hara UI home">
+          <svg width="28" height="28" viewBox="0 0 64 64" role="img" aria-label="Hara">
+            <path fill="currentColor" d="M10 8h13v18h18V8h13v48H41V38H23v18H10z"></path>
+            <path fill="var(--hara-signal)" d="M27 8h10v10H27z"></path>
+          </svg>
+          <span class="hara-v2-wordmark">Hara</span>
+        </a>
+      </div>
+      <nav class="hara-v2-ecosystem-nav" data-hara-header-navigation aria-label="Hara ecosystem navigation">
+        <a href="https://play.hara-lang.org/">Play</a>
+        <a href="https://learn.hara-lang.org/">Learn</a>
+        <a href="https://build.hara-lang.org/">Build</a>
+      </nav>
+      <div class="hara-v2-header-actions">
+        <button class="hara-theme-toggle ui-theme-control" type="button" data-hara-theme-toggle data-resolved-theme="light" aria-label="Use dark theme" title="Use dark theme">
+          <span class="hara-theme-toggle__icon" aria-hidden="true">
+            <svg data-hara-theme-icon="light" viewBox="0 0 20 20" focusable="false">
+              <circle cx="10" cy="10" r="3.1"></circle>
+              <path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M15.8 4.2l-1.4 1.4M5.6 14.4l-1.4 1.4"></path>
+            </svg>
+            <svg data-hara-theme-icon="dark" viewBox="0 0 20 20" focusable="false">
+              <path d="M15.9 13.1A6.6 6.6 0 0 1 6.9 4.1a6.6 6.6 0 1 0 9 9Z"></path>
+            </svg>
+          </span>
+          <span data-hara-theme-label hidden>Light</span>
+        </button>
+        <a class="hara-v2-account-link" href="https://id.hara-lang.org/">Sign in</a>
+      </div>
+    </div>
+    <div class="hara-v2-mobile-navigation" id="hara-v2-ui-navigation" data-hara-mobile-navigation aria-hidden="true" hidden>
+      <nav aria-label="Hara compact navigation">
+        <a href="https://play.hara-lang.org/">Play</a>
+        <a href="https://learn.hara-lang.org/">Learn</a>
+        <a href="https://build.hara-lang.org/">Build</a>
+      </nav>
+    </div>
+    <noscript>
+      <div class="hara-v2-mobile-navigation hara-v2-mobile-navigation--fallback">
+        <nav aria-label="Hara compact navigation">
+          <a href="https://play.hara-lang.org/">Play</a>
+          <a href="https://learn.hara-lang.org/">Learn</a>
+          <a href="https://build.hara-lang.org/">Build</a>
+        </nav>
+      </div>
+    </noscript>
   </header>
-  <main>
-    <div class="eyebrow">SHARED INTERFACE SYSTEM</div>
-    <h1>One palette.<br>Every Hara surface.</h1>
-    <p class="lede">The canonical editor theme and small framework-free components used by Hara’s website, specification explorer, and browser tools.</p>
-    <section class="grid" aria-label="Component samples">
+
+  <main class="ui-catalogue-main" id="content">
+    <div class="ui-eyebrow">Shared interface system <span class="ui-version">/ @hara-lang/ui 0.2.1</span></div>
+    <h1>One interface system for every Hara surface.</h1>
+    <p class="ui-lede">The canonical application shell, theme, editor palette, and framework-neutral components used by Hara’s websites, documentation, specification explorer, and browser tools.</p>
+    <div class="ui-hero-actions">
+      <a href="https://github.com/hara-lang/hara-ui">Source ↗</a>
+      <a href="#components">Browse components</a>
+    </div>
+
+    <section class="grid" id="components" aria-label="Component samples">
       <article class="card">
         <h2>PALETTE</h2>
         <div class="swatches"><div class="swatch cyan">CYAN<br>#41F5E4</div><div class="swatch magenta">MAGENTA<br>#FF2E88</div><div class="swatch violet">VIOLET<br>#9C7BFF</div><div class="swatch amber">AMBER<br>#F5D742</div></div>
@@ -71,7 +162,7 @@
       <article class="card">
         <h2>CONTROLS</h2>
         <div class="sample-row"><button class="hara-button" type="button">compile</button><button class="hara-button" type="button" aria-pressed="true">running</button><span class="hara-badge">draft authority</span></div>
-        <p class="lede">Shared primitives use the same focus, border, and active-state language in each property.</p>
+        <p class="ui-lede">Shared primitives use the same focus, border, and active-state language in each product.</p>
         <input class="hara-input" value="(defn hello [] :hara)" aria-label="Example Hara source">
       </article>
       <article class="card wide">
@@ -80,53 +171,57 @@
       </article>
       <article class="card wide">
         <h2>WINDOW, MENUS &amp; TOOLBAR</h2>
-        <div class="hara-window">
-          <div class="hara-window-bar">
-            <span class="hara-window-title">main.hal — hara editor</span>
-            <div class="hara-window-controls" aria-label="Window controls">
-              <button class="hara-window-control close" type="button" aria-label="Close"></button>
-              <button class="hara-window-control minimize" type="button" aria-label="Minimize"></button>
-              <button class="hara-window-control zoom" type="button" aria-label="Maximize"></button>
+        <div class="ui-overflow-region" tabindex="0" aria-label="Scrollable editor window example">
+          <div class="hara-window">
+            <div class="hara-window-bar">
+              <span class="hara-window-title">main.hal — hara editor</span>
+              <div class="hara-window-controls" aria-label="Window controls">
+                <button class="hara-window-control close" type="button" aria-label="Close"></button>
+                <button class="hara-window-control minimize" type="button" aria-label="Minimize"></button>
+                <button class="hara-window-control zoom" type="button" aria-label="Maximize"></button>
+              </div>
             </div>
+            <nav class="hara-menu-bar" aria-label="Application menu">
+              <details class="hara-menu"><summary>file</summary><div class="hara-menu-popover"><button class="hara-menu-item" type="button">new file <span class="hara-menu-shortcut">⌘N</span></button><button class="hara-menu-item" type="button">save <span class="hara-menu-shortcut">⌘S</span></button></div></details>
+              <details class="hara-menu"><summary>edit</summary><div class="hara-menu-popover"><button class="hara-menu-item" type="button">format form <span class="hara-menu-shortcut">⌘I</span></button><button class="hara-menu-item" type="button">find symbol <span class="hara-menu-shortcut">⌘F</span></button></div></details>
+              <details class="hara-menu"><summary>run</summary><div class="hara-menu-popover"><button class="hara-menu-item" type="button">evaluate form <span class="hara-menu-shortcut">⌃E</span></button><button class="hara-menu-item" type="button">run file <span class="hara-menu-shortcut">⌃⌃E</span></button></div></details>
+            </nav>
+            <div class="hara-toolbar" aria-label="Editor toolbar">
+              <div class="hara-toolbar-group"><button class="hara-icon-button" type="button" aria-label="New file" title="New file">＋</button><button class="hara-icon-button" type="button" aria-label="Save" title="Save">↓</button></div>
+              <span class="hara-toolbar-separator" aria-hidden="true"></span>
+              <div class="hara-toolbar-group"><button class="hara-icon-button" type="button" aria-label="Undo" title="Undo">↶</button><button class="hara-icon-button" type="button" aria-label="Redo" title="Redo">↷</button></div>
+              <span class="hara-toolbar-separator" aria-hidden="true"></span>
+              <div class="hara-toolbar-group"><button class="hara-icon-button" type="button" aria-label="Search" title="Search">⌕</button><button class="hara-icon-button" type="button" aria-label="Run file" title="Run file">▶</button></div>
+            </div>
+            <div class="hara-window-body"><span class="hara-tok-heading">(defn</span> <span class="hara-tok-atom">greeting</span> [<span class="hara-tok-atom">name</span>]<br>&nbsp;&nbsp;(<span class="hara-tok-atom">str</span> <span class="hara-tok-string">&quot;hello &quot;</span> name))</div>
+            <div class="hara-status-bar"><span>HARA L0 // READY</span><span>UTF-8 · 2 SPACES · 1:1</span></div>
           </div>
-          <nav class="hara-menu-bar" aria-label="Application menu">
-            <details class="hara-menu"><summary>file</summary><div class="hara-menu-popover"><button class="hara-menu-item" type="button">new file <span class="hara-menu-shortcut">⌘N</span></button><button class="hara-menu-item" type="button">save <span class="hara-menu-shortcut">⌘S</span></button></div></details>
-            <details class="hara-menu"><summary>edit</summary><div class="hara-menu-popover"><button class="hara-menu-item" type="button">format form <span class="hara-menu-shortcut">⌘I</span></button><button class="hara-menu-item" type="button">find symbol <span class="hara-menu-shortcut">⌘F</span></button></div></details>
-            <details class="hara-menu"><summary>run</summary><div class="hara-menu-popover"><button class="hara-menu-item" type="button">evaluate form <span class="hara-menu-shortcut">⌃E</span></button><button class="hara-menu-item" type="button">run file <span class="hara-menu-shortcut">⌃⌃E</span></button></div></details>
-          </nav>
-          <div class="hara-toolbar" aria-label="Editor toolbar">
-            <div class="hara-toolbar-group"><button class="hara-icon-button" type="button" aria-label="New file" title="New file">＋</button><button class="hara-icon-button" type="button" aria-label="Save" title="Save">↓</button></div>
-            <span class="hara-toolbar-separator" aria-hidden="true"></span>
-            <div class="hara-toolbar-group"><button class="hara-icon-button" type="button" aria-label="Undo" title="Undo">↶</button><button class="hara-icon-button" type="button" aria-label="Redo" title="Redo">↷</button></div>
-            <span class="hara-toolbar-separator" aria-hidden="true"></span>
-            <div class="hara-toolbar-group"><button class="hara-icon-button" type="button" aria-label="Search" title="Search">⌕</button><button class="hara-icon-button" type="button" aria-label="Run file" title="Run file">▶</button></div>
-          </div>
-          <div class="hara-window-body"><span class="hara-tok-heading">(defn</span> <span class="hara-tok-atom">greeting</span> [<span class="hara-tok-atom">name</span>]<br>&nbsp;&nbsp;(<span class="hara-tok-atom">str</span> <span class="hara-tok-string">&quot;hello &quot;</span> name))</div>
-          <div class="hara-status-bar"><span>HARA L0 // READY</span><span>UTF-8 · 2 SPACES · 1:1</span></div>
         </div>
       </article>
       <article class="card wide">
         <h2>WORKSPACE TABS, SECTIONS &amp; LINKS</h2>
-        <div data-workspace-tabs>
-          <div class="hara-tabs" role="tablist" aria-label="Studio areas">
-            <button class="hara-tab" role="tab" aria-selected="true" aria-controls="code-panel">main.hal</button>
-            <button class="hara-tab" role="tab" aria-selected="false" aria-controls="patch-panel">patch</button>
-            <button class="hara-tab" role="tab" aria-selected="false" aria-controls="inspect-panel">inspector</button>
+        <div class="ui-overflow-region" tabindex="0" aria-label="Scrollable workspace example">
+          <div data-workspace-tabs>
+            <div class="hara-tabs" role="tablist" aria-label="Studio areas">
+              <button class="hara-tab" role="tab" aria-selected="true" aria-controls="code-panel">main.hal</button>
+              <button class="hara-tab" role="tab" aria-selected="false" aria-controls="patch-panel">patch</button>
+              <button class="hara-tab" role="tab" aria-selected="false" aria-controls="inspect-panel">inspector</button>
+            </div>
+            <section class="hara-tab-panel" id="code-panel" role="tabpanel">Source-first area: select a form, evaluate it, or link it to a visual anchor.</section>
+            <section class="hara-tab-panel" id="patch-panel" role="tabpanel" hidden>Canvas-first area: nodes and cables project the same structured program.</section>
+            <section class="hara-tab-panel" id="inspect-panel" role="tabpanel" hidden>
+              <details class="hara-section" open><summary>Provenance</summary><div class="hara-section-body">source/main.hal · form/greeting · scene/greeting-card</div></details>
+              <details class="hara-section"><summary>Diagnostics</summary><div class="hara-section-body">No diagnostics.</div></details>
+            </section>
           </div>
-          <section class="hara-tab-panel" id="code-panel" role="tabpanel">Source-first area: select a form, evaluate it, or link it to a visual anchor.</section>
-          <section class="hara-tab-panel" id="patch-panel" role="tabpanel" hidden>Canvas-first area: nodes and cables project the same structured program.</section>
-          <section class="hara-tab-panel" id="inspect-panel" role="tabpanel" hidden>
-            <details class="hara-section" open><summary>Provenance</summary><div class="hara-section-body">source/main.hal · form/greeting · scene/greeting-card</div></details>
-            <details class="hara-section"><summary>Diagnostics</summary><div class="hara-section-body">No diagnostics.</div></details>
-          </section>
-        </div>
-        <div class="hara-code-visual-actions" data-code-visual-actions aria-label="Code visual actions">
-          <button class="hara-icon-button" data-code-visual-action="link-create" title="Link selection" aria-label="Link code and visual selection">⛓</button>
-          <button class="hara-icon-button" data-code-visual-action="reveal-visual" title="Reveal visual" aria-label="Reveal visual peer">◉</button>
-          <button class="hara-icon-button" data-code-visual-action="reveal-code" title="Reveal code" aria-label="Reveal code peer">&lt;/&gt;</button>
-          <button class="hara-icon-button" data-code-visual-action="evaluate-link" title="Evaluate link" aria-label="Evaluate link">▶</button>
-          <button class="hara-icon-button" data-code-visual-action="inspect-link" title="Inspect link" aria-label="Inspect link">ⓘ</button>
-          <span class="hara-link-status" data-link-status data-state="current">LINK // CURRENT</span>
+          <div class="hara-code-visual-actions" data-code-visual-actions aria-label="Code visual actions">
+            <button class="hara-icon-button" data-code-visual-action="link-create" title="Link selection" aria-label="Link code and visual selection">⛓</button>
+            <button class="hara-icon-button" data-code-visual-action="reveal-visual" title="Reveal visual" aria-label="Reveal visual peer">◉</button>
+            <button class="hara-icon-button" data-code-visual-action="reveal-code" title="Reveal code" aria-label="Reveal code peer">&lt;/&gt;</button>
+            <button class="hara-icon-button" data-code-visual-action="evaluate-link" title="Evaluate link" aria-label="Evaluate link">▶</button>
+            <button class="hara-icon-button" data-code-visual-action="inspect-link" title="Inspect link" aria-label="Inspect link">ⓘ</button>
+            <span class="hara-link-status" data-link-status data-state="current">LINK // CURRENT</span>
+          </div>
         </div>
       </article>
       <article class="card wide">
@@ -139,11 +234,32 @@
       </article>
     </section>
   </main>
+
   <script type="module">
-    import { createSpecExplorer, highlightSource } from "./spec-explorer.js?tree-state=2";
+    import { createSpecExplorer, highlightSource } from "./spec-explorer.js?tree-state=3";
     import { bindMenuBar } from "./menu-bar.js";
     import { bindTabs, bindCodeVisualActions } from "./workspace.js";
     import { createWorkbench } from "./workbench.js";
+    import { getThemePreference, resolvedTheme, toggleTheme } from "./foundation/theme.js";
+    import { initialiseHaraHeaders } from "./foundation/v2/header.js";
+
+    const themeButton = document.querySelector("[data-hara-theme-toggle]");
+    const syncThemeButton = () => {
+      if (!(themeButton instanceof HTMLButtonElement)) return;
+      const current = resolvedTheme(getThemePreference());
+      const next = current === "dark" ? "light" : "dark";
+      themeButton.dataset.resolvedTheme = current;
+      themeButton.setAttribute("aria-label", `Use ${next} theme`);
+      themeButton.title = `Use ${next} theme`;
+    };
+
+    initialiseHaraHeaders();
+    if (themeButton instanceof HTMLButtonElement) {
+      themeButton.addEventListener("click", () => toggleTheme());
+      addEventListener("hara:theme-change", syncThemeButton);
+      syncThemeButton();
+    }
+
     document.querySelector("[data-edn]").innerHTML = highlightSource(`{:spec/id :hal/language\n :spec/status :draft\n :spec/sections [:syntax :semantics :evidence]\n :example \"(defn greeting [name] (str \\\"hello \\\" name))\"}`, "edn");
     createSpecExplorer(document.querySelector("#explorer"), {
       manifestUrl: "https://specs.hara-lang.org/spec-manifest.json",

@@ -32,6 +32,29 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v4
 
+  verify-live:
+    if: github.event_name != 'pull_request'
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify the deployed v2 shell
+        run: |
+          page="$(mktemp)"
+          for attempt in {1..20}; do
+            if curl --fail --silent --show-error --location --max-time 20 \
+                https://ui.hara-lang.org/ >"$page" \
+              && grep -q 'data-ui-version="0.2.1"' "$page" \
+              && grep -q 'data-hara-shell-header' "$page" \
+              && grep -q 'data-hara-mobile-navigation' "$page" \
+              && grep -q 'href="./v2.css"' "$page"; then
+              echo "Verified @hara-lang/ui 0.2.1 and the responsive Hara v2 shell."
+              exit 0
+            fi
+            [[ "$attempt" -lt 20 ]] && sleep 15
+          done
+          echo "ui.hara-lang.org did not publish the expected v2 shell." >&2
+          exit 1
+
   reconcile-domain:
     if: >-
       github.event_name == 'pull_request' &&
@@ -50,18 +73,19 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             --data '{"cname":"ui.hara-lang.org","build_type":"workflow"}' \
             "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages"
-      - name: Verify live OG metadata
+      - name: Verify live UI metadata and shell
         run: |
           page="$(mktemp)"
           for attempt in {1..20}; do
             if curl --fail --silent --show-error --location --max-time 20 \
                 https://ui.hara-lang.org/ >"$page" \
               && grep -q 'property="og:image"' "$page" \
-              && grep -q 'property="og:image:width" content="3840"' "$page"; then
-              echo "Verified the UI OG metadata."
+              && grep -q 'property="og:image:width" content="3840"' "$page" \
+              && grep -q 'data-hara-shell-header' "$page"; then
+              echo "Verified the UI metadata and v2 shell."
               exit 0
             fi
             [[ "$attempt" -lt 20 ]] && sleep 15
           done
-          echo "ui.hara-lang.org did not publish the expected OG metadata." >&2
+          echo "ui.hara-lang.org did not publish the expected metadata and shell." >&2
           exit 1
