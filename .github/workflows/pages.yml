@@ -28,39 +28,16 @@ jobs:
       - id: version
         name: Read the published UI version
         run: node -p "'value=' + require('./package.json').version" >> "$GITHUB_OUTPUT"
+      - name: Verify the file-owned custom domain
+        run: test "$(cat CNAME)" = "ui.hara-lang.org"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
       - id: deployment
         uses: actions/deploy-pages@v4
 
-  reconcile-domain:
-    needs: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Reconcile ui.hara-lang.org
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          response="$(mktemp)"
-          status="$(curl --silent --show-error \
-            --output "$response" \
-            --write-out '%{http_code}' \
-            -X PUT \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            --data '{"cname":"ui.hara-lang.org","build_type":"workflow"}' \
-            "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages")"
-
-          if [[ "$status" != "200" && "$status" != "201" ]]; then
-            cat "$response" >&2
-            echo "Pages domain reconciliation returned HTTP $status." >&2
-            exit 1
-          fi
-
   verify-live:
-    needs: [deploy, reconcile-domain]
+    needs: deploy
     runs-on: ubuntu-latest
     env:
       EXPECTED_UI_VERSION: ${{ needs.deploy.outputs.ui-version }}
@@ -92,19 +69,16 @@ jobs:
 
   record-live-status:
     if: always()
-    needs: [deploy, reconcile-domain, verify-live]
+    needs: [deploy, verify-live]
     runs-on: ubuntu-latest
     steps:
       - name: Record the Pages live receipt on the commit
         env:
           GH_TOKEN: ${{ github.token }}
           DEPLOY_RESULT: ${{ needs.deploy.result }}
-          DOMAIN_RESULT: ${{ needs.reconcile-domain.result }}
           LIVE_RESULT: ${{ needs.verify-live.result }}
         run: |
-          if [[ "$DEPLOY_RESULT" == "success" \
-             && "$DOMAIN_RESULT" == "success" \
-             && "$LIVE_RESULT" == "success" ]]; then
+          if [[ "$DEPLOY_RESULT" == "success" && "$LIVE_RESULT" == "success" ]]; then
             state="success"
             description="ui.hara-lang.org published and verified"
           else
