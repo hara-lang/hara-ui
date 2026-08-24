@@ -9,6 +9,7 @@ type NavItem = {
 };
 
 type AccountState = "logged-in" | "logged-out";
+type MenuMode = "navigation" | "product";
 
 const {
   homeHref = "/",
@@ -20,8 +21,10 @@ const {
   account = "logged-out" as AccountState,
   accountHref = "#account",
   accountLabel = "Sign in",
-  menuLabel = "Open navigation",
-  menuCloseLabel = "Close navigation",
+  menuMode = "navigation" as MenuMode,
+  menuControls,
+  menuLabel = menuMode === "product" ? "Open application menu" : "Open navigation",
+  menuCloseLabel = menuMode === "product" ? "Close application menu" : "Close navigation",
   navigationId: suppliedNavigationId
 } = Astro.props;
 
@@ -33,22 +36,28 @@ const idSeed = String(section ?? label ?? "primary")
   .replace(/[^a-z0-9]+/g, "-")
   .replace(/^-|-$/g, "") || "primary";
 const navigationId = suppliedNavigationId ?? `hara-v2-${idSeed}-navigation`;
+if (menuMode === "product" && !menuControls) {
+  throw new Error("Hara Header product menu mode requires a menuControls target ID");
+}
+const menuControlsId = menuMode === "product" ? menuControls : navigationId;
+const hasMenu = nav.length > 0 || menuMode === "product";
 ---
 <header
   class="hara-v2-header"
   data-hara-shell-header
   data-account={account}
+  data-hara-menu-mode={menuMode}
   data-navigation-open="false"
 >
   <div class="hara-v2-header-row">
     <div class="hara-v2-header-left">
-      {nav.length > 0 && (
+      {hasMenu && (
         <button
           class="hara-v2-menu-button"
           type="button"
           data-hara-header-menu
           aria-expanded="false"
-          aria-controls={navigationId}
+          aria-controls={menuControlsId}
           aria-haspopup="true"
           aria-label={menuLabel}
           title={menuLabel}
@@ -89,7 +98,7 @@ const navigationId = suppliedNavigationId ?? `hara-v2-${idSeed}-navigation`;
     </div>
   </div>
 
-  {nav.length > 0 && (
+  {menuMode === "navigation" && nav.length > 0 && (
     <div
       class="hara-v2-mobile-navigation"
       id={navigationId}
@@ -110,7 +119,7 @@ const navigationId = suppliedNavigationId ?? `hara-v2-${idSeed}-navigation`;
     </div>
   )}
 
-  {nav.length > 0 && (
+  {menuMode === "navigation" && nav.length > 0 && (
     <noscript>
       <div class="hara-v2-mobile-navigation hara-v2-mobile-navigation--fallback">
         <nav aria-label="Hara compact navigation">
