@@ -9,7 +9,7 @@ const readJson = async (path) => JSON.parse(await readFile(new URL(path, root), 
 test("hara ui owns the foundation entrypoints", async () => {
   const packageJson = await readJson("package.json");
   assert.equal(packageJson.name, "@hara-lang/ui");
-  assert.equal(packageJson.version, "0.2.1");
+  assert.equal(packageJson.version, "0.2.2");
   assert.equal(packageJson.exports["./v2.css"], "./v2.css");
   assert.equal(packageJson.exports["./v2/header.js"], "./foundation/v2/header.js");
   assert.equal(packageJson.exports["./v2-header.css"], "./foundation/v2/header.css");
@@ -26,8 +26,8 @@ test("astro and tool adapters are independently packageable", async () => {
   const astro = await readJson("packages/ui-astro/package.json");
   const tool = await readJson("packages/ui-tool/package.json");
   assert.equal(astro.name, "@hara-lang/ui-astro");
-  assert.equal(astro.version, "0.1.1");
-  assert.equal(astro.peerDependencies["@hara-lang/ui"], "^0.2.1");
+  assert.equal(astro.version, "0.1.2");
+  assert.equal(astro.peerDependencies["@hara-lang/ui"], "^0.2.2");
   assert.equal(astro.exports["./astro/v2/Header.astro"], "./src/astro/v2/Header.astro");
   assert.equal(astro.exports["./astro/v2/DeliveryFrame.astro"], "./src/astro/v2/DeliveryFrame.astro");
   assert.equal(astro.exports["./astro/v2/ArtifactProvenance.astro"], "./src/astro/v2/ArtifactProvenance.astro");
@@ -53,7 +53,9 @@ test("the shared shell exposes the complete mobile states from the Hara shell st
   assert.match(header, /data-account=\{account\}/);
   assert.match(header, /account === "logged-out"/);
   assert.match(header, /navigationId: suppliedNavigationId/);
-  assert.match(header, /aria-controls=\{navigationId\}/);
+  assert.match(header, /aria-controls=\{menuControlsId\}/);
+  assert.match(header, /data-hara-menu-mode=\{menuMode\}/);
+  assert.match(header, /menuMode === "navigation" && nav\.length > 0/);
   assert.match(header, /hara-v2-mobile-navigation--fallback/);
   assert.match(header, /@hara-lang\/ui\/v2\/header\.js/);
   assert.match(header, /showSection = false/);
@@ -68,9 +70,10 @@ test("the shared shell exposes the complete mobile states from the Hara shell st
   assert.match(headerCss, /data-navigation-open="true"[\s\S]*opacity: 1/);
   assert.doesNotMatch(headerCss, /--hara-v2-[a-z0-9-]+\s*:/i, "header CSS may consume but not redefine protected tokens");
 
+  assert.match(controller, /export function setHaraHeaderMenuState/);
   assert.match(controller, /hara:header-navigation/);
   assert.match(controller, /hara:header-menu-request/);
-  assert.match(controller, /event\.key === "Escape"/);
+  assert.match(controller, /event\.key (?:===|!==) "Escape"/);
   assert.match(controller, /compact\.addEventListener\("change"/);
   assert.match(controller, /navigation\.hidden = !open/);
 });

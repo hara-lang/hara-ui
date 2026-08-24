@@ -1,6 +1,6 @@
 {
   "name": "@hara-lang/ui-astro",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Astro adapters for the Hara interface language and shared shell",
   "type": "module",
   "exports": {
@@ -28,7 +28,7 @@
     "check": "node --check src/icons.mjs"
   },
   "peerDependencies": {
-    "@hara-lang/ui": "^0.2.1",
+    "@hara-lang/ui": "^0.2.2",
     "astro": ">=4"
   },
   "license": "MIT"

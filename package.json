@@ -1,6 +1,6 @@
 {
   "name": "@hara-lang/ui",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": false,
   "type": "module",
   "description": "Product-neutral browser services, primitives and compatibility UI surfaces for Hara",
