@@ -1,9 +1,15 @@
 const HEADER_SELECTOR = "[data-hara-shell-header]";
 const MENU_SELECTOR = "[data-hara-header-menu]";
 const NAVIGATION_SELECTOR = "[data-hara-mobile-navigation]";
+const SIGN_IN_TRIGGER_SELECTOR = "[data-hara-sign-in-trigger]";
 const DEFAULT_COMPACT_QUERY = "(max-width: 820px)";
 
 const isElement = (value) => typeof HTMLElement !== "undefined" && value instanceof HTMLElement;
+const isInteractiveElement = (value) => Boolean(
+  value
+  && typeof value.addEventListener === "function"
+  && typeof value.querySelector === "function"
+);
 
 function headerCandidates(root) {
   if (!root || typeof root.querySelectorAll !== "function") return [];
@@ -139,6 +145,69 @@ export function initialiseHaraHeader(header) {
 export function initialiseHaraHeaders(root = document) {
   return headerCandidates(root).reduce(
     (count, header) => count + (initialiseHaraHeader(header) ? 1 : 0),
+    0
+  );
+}
+
+function signInTriggerCandidates(root) {
+  if (!root || typeof root.querySelectorAll !== "function") return [];
+  const triggers = [...root.querySelectorAll(SIGN_IN_TRIGGER_SELECTOR)];
+  if (typeof root.matches === "function" && root.matches(SIGN_IN_TRIGGER_SELECTOR)) triggers.unshift(root);
+  return triggers;
+}
+
+/**
+ * Mount the shared logged-out account action as a centered modal.
+ *
+ * The provider link remains in the dialog so the visual package owns the
+ * interaction boundary without owning identity, session, or OAuth state.
+ */
+export function initialiseHaraSignIn(trigger) {
+  if (!isInteractiveElement(trigger) || trigger.dataset.haraSignInReady === "true") return false;
+
+  const modalId = trigger.getAttribute("aria-controls");
+  const modal = modalId ? document.getElementById(modalId) : null;
+  if (!isInteractiveElement(modal)) return false;
+
+  const closeButton = modal.querySelector("[data-hara-sign-in-close]");
+  trigger.dataset.haraSignInReady = "true";
+
+  const syncState = (open, restoreFocus = false) => {
+    modal.hidden = !open;
+    modal.setAttribute("aria-hidden", String(!open));
+    trigger.setAttribute("aria-expanded", String(open));
+    document.documentElement.dataset.haraSignInOpen = String(open);
+    if (open) {
+      const firstControl = modal.querySelector("a, button, [tabindex]:not([tabindex='-1'])");
+      if (isInteractiveElement(firstControl)) requestAnimationFrame(() => firstControl.focus());
+    } else if (restoreFocus) trigger.focus();
+  };
+
+  const close = (restoreFocus = true) => {
+    syncState(false, restoreFocus);
+  };
+
+  trigger.addEventListener("click", (event) => {
+    event.preventDefault();
+    syncState(true);
+  });
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) close();
+  });
+  modal.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      close();
+    }
+  });
+  if (isInteractiveElement(closeButton)) closeButton.addEventListener("click", () => close());
+  syncState(false, false);
+  return true;
+}
+
+export function initialiseHaraSignIns(root = document) {
+  return signInTriggerCandidates(root).reduce(
+    (count, trigger) => count + (initialiseHaraSignIn(trigger) ? 1 : 0),
     0
   );
 }

@@ -21,11 +21,15 @@ const {
   account = "logged-out" as AccountState,
   accountHref = "#account",
   accountLabel = "Sign in",
+  variant = "standard",
+  class: className = "",
   menuMode = "navigation" as MenuMode,
   menuControls,
   menuLabel = menuMode === "product" ? "Open application menu" : "Open navigation",
   menuCloseLabel = menuMode === "product" ? "Close application menu" : "Close navigation",
-  navigationId: suppliedNavigationId
+  navigationId: suppliedNavigationId,
+  compactQuery = "(max-width: 820px)",
+  style: inlineStyle
 } = Astro.props;
 
 const current = (item: NavItem) => item.current ?? (
@@ -41,13 +45,17 @@ if (menuMode === "product" && !menuControls) {
 }
 const menuControlsId = menuMode === "product" ? menuControls : navigationId;
 const hasMenu = nav.length > 0 || menuMode === "product";
+const signInDialogId = `hara-v2-${idSeed}-sign-in-dialog`;
 ---
 <header
-  class="hara-v2-header"
+  class:list={["hara-v2-header", className]}
   data-hara-shell-header
   data-account={account}
+  data-hara-header-variant={variant}
   data-hara-menu-mode={menuMode}
+  data-hara-compact-query={compactQuery}
   data-navigation-open="false"
+  style={inlineStyle}
 >
   <div class="hara-v2-header-row">
     <div class="hara-v2-header-left">
@@ -93,7 +101,14 @@ const hasMenu = nav.length > 0 || menuMode === "product";
     <div class="hara-v2-header-actions">
       <slot />
       {account === "logged-out" && (
-        <a class="hara-v2-account-link" href={accountHref}>{accountLabel}</a>
+        <button
+          class="hara-v2-account-link"
+          type="button"
+          aria-controls={signInDialogId}
+          aria-expanded="false"
+          aria-haspopup="dialog"
+          data-hara-sign-in-trigger
+        >{accountLabel}</button>
       )}
     </div>
   </div>
@@ -136,9 +151,38 @@ const hasMenu = nav.length > 0 || menuMode === "product";
     </noscript>
   )}
 </header>
+{account === "logged-out" && (
+  <div
+    class="hara-v2-sign-in-modal"
+    id={signInDialogId}
+    data-hara-sign-in-modal
+    role="dialog"
+    aria-modal="true"
+    aria-hidden="true"
+    hidden
+    aria-labelledby={`${signInDialogId}-title`}
+    aria-describedby={`${signInDialogId}-description`}
+  >
+    <div class="hara-v2-sign-in-dialog">
+      <header class="hara-v2-sign-in-dialog-header">
+        <p class="hara-v2-kicker">Hara identity</p>
+        <h2 id={`${signInDialogId}-title`}>Sign in to Hara</h2>
+        <p id={`${signInDialogId}-description`}>Use your Hara identity to save work, publish changes, and keep your account connected across Hara products.</p>
+      </header>
+      <div class="hara-v2-sign-in-dialog-actions">
+        <a class="hara-v2-button" data-variant="primary" href={accountHref}>Continue with GitHub</a>
+        <button class="hara-v2-sign-in-dialog-close" type="button" data-hara-sign-in-close>Cancel</button>
+      </div>
+    </div>
+  </div>
+)}
 <script>
-  import { initialiseHaraHeaders } from "@hara-lang/ui/v2/header.js";
+  import { initialiseHaraHeaders, initialiseHaraSignIns } from "@hara-lang/ui/v2/header.js";
 
   initialiseHaraHeaders();
-  document.addEventListener("astro:page-load", () => initialiseHaraHeaders());
+  initialiseHaraSignIns();
+  document.addEventListener("astro:page-load", () => {
+    initialiseHaraHeaders();
+    initialiseHaraSignIns();
+  });
 </script>
