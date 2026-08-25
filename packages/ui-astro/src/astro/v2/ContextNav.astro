@@ -9,14 +9,16 @@ const {
   items = [] as NavItem[],
   activePath = "",
   label = "Section navigation",
-  sticky = true
+  sticky = true,
+  class: className = "",
+  style: inlineStyle
 } = Astro.props;
 
 const current = (item: NavItem) => item.current ?? (
   item.href === "/" ? activePath === "/" : Boolean(activePath && activePath.startsWith(item.href))
 );
 ---
-<nav class="hara-v2-context-nav" data-sticky={sticky ? "true" : "false"} aria-label={label}>
+<nav class:list={["hara-v2-context-nav", className]} data-sticky={sticky ? "true" : "false"} aria-label={label} style={inlineStyle}>
   <div class="hara-v2-context-inner">
     <div class="hara-v2-context-items">
       {items.map((item: NavItem) => (

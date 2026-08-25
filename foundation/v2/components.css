@@ -39,6 +39,100 @@
 .hara-v2-fleet-field .fleet-signal { fill: var(--hara-v2-signal); }
 .hara-v2-fleet-field text { fill: currentColor; opacity: .58; font: 600 11px var(--hara-v2-font-code); letter-spacing: 1.8px; }
 
+.hara-v2-fleet-field--architectural {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 260px;
+  color: var(--hara-v2-ink);
+  background: var(--hara-v2-panel-recess);
+}
+
+.hara-v2-fleet-field--architectural .fleet-architecture-image {
+  position: absolute;
+  z-index: -3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(.68) contrast(1.12) brightness(.54);
+  transform: scale(1.025);
+}
+
+.hara-v2-fleet-field--architectural .fleet-architecture-wash,
+.hara-v2-fleet-field--architectural .fleet-architecture-grid {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hara-v2-fleet-field--architectural .fleet-architecture-wash {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--hara-v2-canvas-clean) 58%, transparent), transparent 43%, color-mix(in srgb, var(--hara-v2-canvas-clean) 20%, transparent)),
+    linear-gradient(180deg, color-mix(in srgb, var(--hara-v2-canvas-clean) 24%, transparent), transparent 38%, color-mix(in srgb, var(--hara-v2-canvas-clean) 52%, transparent));
+  opacity: .92;
+}
+
+.hara-v2-fleet-field--architectural .fleet-architecture-grid {
+  z-index: -1;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--hara-v2-ink) 14%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--hara-v2-ink) 14%, transparent) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(180deg, transparent, #000 20%, #000 76%, transparent);
+  opacity: .34;
+}
+
+.hara-v2-fleet-field--architectural .fleet-architecture-signal {
+  position: absolute;
+  z-index: 1;
+  width: 7px;
+  height: 7px;
+  border: 1px solid color-mix(in srgb, var(--hara-v2-signal) 82%, white);
+  border-radius: 50%;
+  background: var(--hara-v2-signal);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--hara-v2-signal) 15%, transparent), 0 0 18px color-mix(in srgb, var(--hara-v2-signal) 52%, transparent);
+}
+
+.hara-v2-fleet-field--architectural .fleet-architecture-signal::after {
+  position: absolute;
+  top: 50%;
+  width: 64px;
+  height: 1px;
+  content: "";
+  background: color-mix(in srgb, var(--hara-v2-signal) 72%, transparent);
+  opacity: .74;
+}
+
+.hara-v2-fleet-field--architectural .fleet-architecture-signal--left { top: 42%; left: 19%; }
+.hara-v2-fleet-field--architectural .fleet-architecture-signal--left::after { left: 11px; }
+.hara-v2-fleet-field--architectural .fleet-architecture-signal--center { top: 52%; left: 50%; transform: translate(-50%, -50%); }
+.hara-v2-fleet-field--architectural .fleet-architecture-signal--center::after { right: 11px; }
+.hara-v2-fleet-field--architectural .fleet-architecture-signal--right { top: 33%; right: 18%; }
+.hara-v2-fleet-field--architectural .fleet-architecture-signal--right::after { right: 11px; }
+
+.hara-v2-fleet-field--architectural .fleet-architecture-label {
+  position: absolute;
+  z-index: 2;
+  max-width: 44%;
+  color: color-mix(in srgb, var(--hara-v2-ink) 72%, transparent);
+  font: 600 .58rem/1.2 var(--hara-v2-font-code);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.hara-v2-fleet-field--architectural .fleet-architecture-label--top-left { top: 10%; left: 7%; }
+.hara-v2-fleet-field--architectural .fleet-architecture-label--top-right { top: 10%; right: 7%; text-align: right; }
+.hara-v2-fleet-field--architectural .fleet-architecture-label--bottom-left { bottom: 10%; left: 7%; }
+.hara-v2-fleet-field--architectural .fleet-architecture-label--bottom-right { right: 7%; bottom: 10%; text-align: right; }
+
+@media (max-width: 620px) {
+  .hara-v2-fleet-field--architectural .fleet-architecture-label--top-right,
+  .hara-v2-fleet-field--architectural .fleet-architecture-label--bottom-right { display: none; }
+}
+
 .hara-v2-breadcrumbs {
   display: flex;
   flex-wrap: wrap;
@@ -199,4 +293,3 @@
 .hara-v2-matrix > span { color: var(--hara-v2-muted); }
 .hara-v2-matrix > span[data-win="true"] { color: var(--hara-v2-signal); background: color-mix(in srgb, var(--hara-v2-signal) 8%, var(--hara-v2-panel)); }
 .hara-v2-matrix > span[data-warn="true"] { color: var(--hara-v2-warning); }
-

@@ -59,6 +59,12 @@ test("the shared shell exposes the complete mobile states from the Hara shell st
   assert.match(header, /hara-v2-mobile-navigation--fallback/);
   assert.match(header, /@hara-lang\/ui\/v2\/header\.js/);
   assert.match(header, /showSection = false/);
+  assert.match(header, /data-hara-sign-in-trigger/);
+  assert.match(header, /data-hara-sign-in-modal/);
+  assert.match(header, /data-hara-header-variant=\{variant\}/);
+  assert.match(header, /data-hara-compact-query=\{compactQuery\}/);
+  assert.match(header, /class:list=\{\["hara-v2-header", className\]\}/);
+  assert.match(header, /style=\{inlineStyle\}/);
 
   assert.match(foundation, /@import "\.\/v2\/header\.css";/);
   assert.match(headerCss, /grid-template-columns: minmax\(0, 130px\) minmax\(0, 1fr\) minmax\(0, 130px\)/);
@@ -67,6 +73,8 @@ test("the shared shell exposes the complete mobile states from the Hara shell st
   assert.match(headerCss, /height: 184px/);
   assert.match(headerCss, /background: var\(--hara-v2-panel\)/);
   assert.match(headerCss, /border-color: var\(--hara-v2-signal\)/);
+  assert.match(headerCss, /\.hara-v2-account-link \{[\s\S]*?color: var\(--hara-v2-ink\);[\s\S]*?font-size: 13px;[\s\S]*?font-weight: 400;/);
+  assert.match(headerCss, /\.hara-v2-sign-in-modal/);
   assert.match(headerCss, /data-navigation-open="true"[\s\S]*opacity: 1/);
   assert.doesNotMatch(headerCss, /--hara-v2-[a-z0-9-]+\s*:/i, "header CSS may consume but not redefine protected tokens");
 
@@ -76,4 +84,6 @@ test("the shared shell exposes the complete mobile states from the Hara shell st
   assert.match(controller, /event\.key (?:===|!==) "Escape"/);
   assert.match(controller, /compact\.addEventListener\("change"/);
   assert.match(controller, /navigation\.hidden = !open/);
+  assert.match(controller, /initialiseHaraSignIns/);
+  assert.match(controller, /data-hara-sign-in-close/);
 });

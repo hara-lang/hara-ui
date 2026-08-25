@@ -4,8 +4,10 @@ const {
   aside = false,
   embedded = false,
   density = "comfortable",
+  variant = "document",
   mainId = "content",
-  class: className = ""
+  class: className = "",
+  style: inlineStyle
 } = Astro.props;
 
 const hasContext = Astro.slots.has("context");
@@ -17,6 +19,8 @@ const hasContext = Astro.slots.has("context");
   data-context={hasContext ? "true" : "false"}
   data-embedded={embedded ? "true" : "false"}
   data-density={density}
+  data-variant={variant}
+  style={inlineStyle}
 >
   <slot name="header" />
   {hasContext && <slot name="context" />}

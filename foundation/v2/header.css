@@ -99,14 +99,120 @@
 }
 
 .hara-v2-header[data-account="logged-out"] .hara-v2-header-actions {
-  max-width: 82px;
+  max-width: 122px;
 }
 
 .hara-v2-account-link {
-  color: var(--hara-v2-signal);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 34px;
+  min-width: 80px;
+  min-height: 34px;
+  flex: 0 0 80px;
+  padding: 0;
+  color: var(--hara-v2-ink);
+  border: 1px solid var(--hara-v2-line-strong);
+  border-radius: var(--hara-v2-radius);
+  background: var(--hara-v2-panel);
   font-size: 13px;
-  font-weight: 650;
+  font-weight: 400;
   line-height: 1;
+  cursor: pointer;
+}
+
+.hara-v2-account-link:hover {
+  color: var(--hara-v2-ink);
+  border-color: var(--hara-v2-signal);
+  background: var(--hara-v2-panel-raised);
+}
+
+html[data-hara-sign-in-open="true"] { overflow: hidden; }
+
+.hara-v2-sign-in-modal {
+  position: fixed;
+  z-index: 120;
+  inset: 0;
+  display: none;
+  place-items: center;
+  padding: 16px;
+  background: color-mix(in srgb, var(--hara-v2-canvas-clean) 76%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+.hara-v2-sign-in-modal:not([hidden]) { display: grid; }
+
+.hara-v2-sign-in-dialog {
+  display: grid;
+  width: min(420px, calc(100vw - 32px));
+  max-width: 100%;
+  max-height: min(620px, calc(100svh - 32px));
+  overflow: auto;
+  color: var(--hara-v2-ink);
+  border: 1px solid var(--hara-v2-line-strong);
+  border-radius: 12px;
+  background: var(--hara-v2-panel-raised);
+  box-shadow: var(--hara-v2-shadow);
+}
+
+.hara-v2-sign-in-dialog-header {
+  display: grid;
+  gap: .55rem;
+  padding: 1.35rem 1.4rem 1.15rem;
+  border-bottom: 1px solid var(--hara-v2-line);
+}
+
+.hara-v2-sign-in-dialog-header .hara-v2-kicker { margin: 0; }
+
+.hara-v2-sign-in-dialog-header h2 {
+  margin: 0;
+  font: 760 1.45rem/1.05 var(--hara-v2-font-heading);
+  letter-spacing: -.04em;
+}
+
+.hara-v2-sign-in-dialog-header p:last-child {
+  margin: 0;
+  color: var(--hara-v2-muted);
+  font-size: .74rem;
+  line-height: 1.55;
+}
+
+.hara-v2-sign-in-dialog-actions {
+  display: grid;
+  gap: .55rem;
+  padding: 1rem 1.4rem 1.35rem;
+}
+
+.hara-v2-sign-in-dialog-actions .hara-v2-button,
+.hara-v2-sign-in-dialog-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: .55rem .75rem;
+  font: 650 .72rem/1 var(--hara-v2-font-body);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.hara-v2-sign-in-dialog-close {
+  color: var(--hara-v2-muted);
+  border: 1px solid var(--hara-v2-line);
+  border-radius: var(--hara-v2-radius);
+  background: transparent;
+}
+
+.hara-v2-sign-in-dialog-close:hover {
+  color: var(--hara-v2-ink);
+  border-color: var(--hara-v2-line-strong);
+  background: var(--hara-v2-hover);
+}
+
+.hara-v2-sign-in-dialog-actions .hara-v2-button:focus-visible,
+.hara-v2-sign-in-dialog-close:focus-visible {
+  outline: 2px solid var(--hara-v2-signal);
+  outline-offset: 3px;
 }
 
 .hara-v2-header .hara-v2-header-actions .hara-theme-toggle,
@@ -270,7 +376,7 @@
   }
 
   .hara-v2-header[data-account="logged-out"] .hara-v2-header-actions {
-    max-width: 82px;
+    max-width: 122px;
   }
 
   .hara-v2-mobile-navigation:not([hidden]),
