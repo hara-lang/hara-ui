@@ -179,3 +179,74 @@
     flex: 1 1 auto;
   }
 }
+
+/* Keep desktop workbench commands in a single Framer-like control row. The
+ * navigation may compress and scroll; the command rail must not collapse into
+ * a vertical strip when the inspector is hidden by the workbench container. */
+@container hara-environment (min-width: 761px) {
+  .hara-tool-environment-top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 48%);
+    align-items: center;
+  }
+
+  .hara-tool-environment-commands {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .hara-tool-environment-commands > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .hara-tool-environment-commands .hara-tool-toolbar {
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: nowrap;
+  }
+
+  .hara-tool-environment-commands .hara-tool-group {
+    min-width: 0;
+    flex: 0 1 auto;
+    flex-wrap: nowrap;
+    border-block-end: 0;
+    box-shadow: none;
+  }
+}
+
+/* Control surfaces share one quiet sans-serif voice. Code editors and source
+ * previews keep their code face; chrome around them does not. */
+.hara-v2-tool :where(
+  .hara-tool-button,
+  .hara-tool-toggle,
+  .hara-tool-tab,
+  .hara-tool-select,
+  .hara-tool-number-input,
+  .hara-tool-section-select,
+  .hara-tool-panel-eyebrow,
+  .hara-tool-panel-title,
+  .hara-tool-panel-metadata,
+  .hara-tool-panel-actions,
+  .hara-tool-inspector-section > summary,
+  .hara-tool-inspector-summary-meta,
+  .hara-tool-viewport-overlay,
+  .hara-tool-status-bar,
+  .hara-tool-status-primary,
+  .hara-tool-status-secondary,
+  .hara-tool-command-hint
+) {
+  font-family: var(--hara-v2-font-body);
+}
+
+.hara-v2-tool :where(.hara-tool-button, .hara-tool-toggle, .hara-tool-tab) {
+  font-size: 11px;
+  font-weight: 520;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.hara-v2-tool .hara-tool-command-hint {
+  display: none;
+}

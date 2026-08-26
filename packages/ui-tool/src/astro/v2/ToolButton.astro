@@ -26,7 +26,7 @@ const {
 <button
   class:list={["hara-tool-button", className]}
   type={type}
-  title={title}
+  title={title ?? (iconOnly ? label : undefined)}
   aria-label={iconOnly ? label : undefined}
   aria-keyshortcuts={command}
   disabled={disabled}

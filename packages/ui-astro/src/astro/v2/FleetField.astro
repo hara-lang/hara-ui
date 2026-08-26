@@ -1,9 +1,25 @@
 ---
 const {
   title = "Abstract Hara fleet command field",
-  class: className = ""
+  class: className = "",
+  image = null,
+  material = "MONOLITH"
 } = Astro.props;
 ---
+{image ? (
+  <div class:list={["hara-v2-fleet-field", "hara-v2-fleet-field--architectural", className]} role="img" aria-label={title}>
+    <img class="fleet-architecture-image" src={image} alt="" loading="lazy" decoding="async" />
+    <span class="fleet-architecture-wash" aria-hidden="true"></span>
+    <span class="fleet-architecture-grid" aria-hidden="true"></span>
+    <span class="fleet-architecture-signal fleet-architecture-signal--left" aria-hidden="true"></span>
+    <span class="fleet-architecture-signal fleet-architecture-signal--center" aria-hidden="true"></span>
+    <span class="fleet-architecture-signal fleet-architecture-signal--right" aria-hidden="true"></span>
+    <span class="fleet-architecture-label fleet-architecture-label--top-left" aria-hidden="true">HARA / ARCHITECTURAL SURFACE 01</span>
+    <span class="fleet-architecture-label fleet-architecture-label--top-right" aria-hidden="true">MATERIAL / {material}</span>
+    <span class="fleet-architecture-label fleet-architecture-label--bottom-left" aria-hidden="true">STRUCTURE LOCKED / A</span>
+    <span class="fleet-architecture-label fleet-architecture-label--bottom-right" aria-hidden="true">SIGNAL ONLINE</span>
+  </div>
+) : (
 <svg class:list={["hara-v2-fleet-field", className]} viewBox="0 0 1200 680" role="img" aria-label={title} preserveAspectRatio="xMidYMid slice">
   <rect class="fleet-fill" x="0" y="0" width="1200" height="680" />
 
@@ -77,3 +93,4 @@ const {
     <circle cx="1124" cy="39" r=".8" fill="currentColor" />
   </g>
 </svg>
+)}
