@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   afterCaretPlacement,
   cancelEvaluation,
+  detectCanvasCapabilities,
   print,
   waitForCanvasFirstFrame
 } from "../src/live-card.js";
@@ -59,6 +60,19 @@ test("cancellable HTA evaluations can be interrupted without closing the kernel"
   assert.equal(cancelEvaluation({ cancel() { calls += 1; return true; } }), true);
   assert.equal(calls, 1);
   assert.equal(cancelEvaluation(Promise.resolve()), false);
+});
+
+test("canvas capabilities include WebGL2 only when the browser can create it", () => {
+  const windowWith = (context) => ({
+    document: {
+      createElement: () => ({
+        getContext: (kind) => kind === "webgl2" ? context : null
+      })
+    }
+  });
+  assert.deepEqual(detectCanvasCapabilities(windowWith({})), ["canvas/2d", "canvas/webgl2"]);
+  assert.deepEqual(detectCanvasCapabilities(windowWith(null)), ["canvas/2d"]);
+  assert.deepEqual(detectCanvasCapabilities({}), ["canvas/2d"]);
 });
 
 test("mobile caret evaluation waits for the browser placement frame", () => {
