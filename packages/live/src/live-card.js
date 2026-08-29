@@ -81,6 +81,18 @@ export function cancelEvaluation(task) {
   }
 }
 
+/** Report only canvas backends that this browser can actually create. */
+export function detectCanvasCapabilities(windowObject = globalThis.window) {
+  const capabilities = ["canvas/2d"];
+  const probe = windowObject?.document?.createElement?.("canvas");
+  try {
+    if (probe?.getContext?.("webgl2")) capabilities.push("canvas/webgl2");
+  } catch (_) {
+    // Browsers may reject WebGL2 creation when the context is unavailable.
+  }
+  return capabilities;
+}
+
 /**
  * Run after a textarea's click/default action has committed its new caret.
  * Mobile browsers may expose the previous selection during pointerup.
@@ -235,7 +247,7 @@ function createCanvasController(card, { runtimeBase, onRunningChange = () => {} 
   panel.hidden = true;
   panel.innerHTML = `
     <div class="hara-live-card-canvas-meta">
-      <span>ISOLATED · CANVAS/2D</span>
+      <span>ISOLATED · CANVAS</span>
       <output aria-live="polite">Waiting to run</output>
     </div>`;
   panel.append(canvas);
@@ -281,7 +293,7 @@ function createCanvasController(card, { runtimeBase, onRunningChange = () => {} 
       ]);
       compileAnonymousDocument = broker.compileAnonymousDocument;
       runtime = new canvasModule.CanvasRuntime({
-        capabilities: ["canvas/2d"],
+        capabilities: detectCanvasCapabilities(),
         onDiagnostic: (error) => setStatus(errorMessage(error), "error")
       });
       runtime.register(canvasId, canvas);
@@ -334,9 +346,16 @@ function createCanvasController(card, { runtimeBase, onRunningChange = () => {} 
       const rendered = runtime.waitForFirstRender(nodeId, canvasId, 8000);
       const task = session.evalRaw(`(studio.node/run-task ${JSON.stringify(taskId)})`);
       activeTask = task;
+      let taskState = "pending";
+      let taskError = null;
       task.then(
         () => {
+          taskState = "fulfilled";
           if (task !== activeTask || currentGeneration !== generation) return;
+          // Keep a staged generation intact until the first-frame race has
+          // reported the task outcome. Releasing it here masks the actual
+          // program error as "canvas candidate released".
+          if (stagedNode === nodeId) return;
           activeTask = null;
           runtime.release(nodeId, canvasId);
           if (activeNode === nodeId) activeNode = null;
@@ -345,7 +364,12 @@ function createCanvasController(card, { runtimeBase, onRunningChange = () => {} 
           onRunningChange(false);
         },
         (error) => {
+          taskState = "rejected";
+          taskError = error;
           if (task !== activeTask || currentGeneration !== generation) return;
+          // The catch below owns cleanup while the generation is still a
+          // candidate, so the rejected task error reaches the user intact.
+          if (stagedNode === nodeId) return;
           activeTask = null;
           runtime.release(nodeId, canvasId);
           if (activeNode === nodeId) activeNode = null;
@@ -355,6 +379,10 @@ function createCanvasController(card, { runtimeBase, onRunningChange = () => {} 
         }
       );
       await waitForCanvasFirstFrame(rendered, task);
+      if (taskState !== "pending") {
+        if (taskError) throw taskError;
+        throw new Error("canvas task stopped before rendering its first frame");
+      }
       if (currentGeneration !== generation) {
         runtime.release(nodeId, canvasId);
         return { value: null, label: "Canvas interrupted" };
